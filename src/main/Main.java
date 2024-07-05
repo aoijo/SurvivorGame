@@ -1,25 +1,16 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 package main;
 
-import javax.swing.JFrame;
+import UI.GamePanel;
+
+import javax.swing.SwingUtilities;
 
 public class Main {
-
     public static void main(String[] args) {
-        JFrame window = new JFrame();
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(true);
-        window.setTitle("Survivor Game");
-
-        GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
-        window.pack();
-
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-        gamePanel.startGameThread();
-
-
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new GamePanel();
+            }
+        });
     }
 }
