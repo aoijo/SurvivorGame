@@ -8,20 +8,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TitleScreen extends JPanel {
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
 
     public TitleScreen(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         setLayout(new BorderLayout());
 
-        JPanel titlePanel = createTitlePanel();
-        JPanel buttonPanel = createButtonPanel();
+        JPanel titlePanel = titlePanel();
+        JPanel buttonPanel = buttonPanel();
 
         add(titlePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private JPanel createTitlePanel() {
+    private JPanel titlePanel() {
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setOpaque(false);
 
@@ -33,7 +33,7 @@ public class TitleScreen extends JPanel {
         return titlePanel;
     }
 
-    private JPanel createButtonPanel() {
+    private JPanel buttonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
         Font buttonFont = new Font("Courier New", Font.BOLD, 16);

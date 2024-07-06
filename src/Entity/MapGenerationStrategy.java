@@ -2,11 +2,26 @@ package Entity;
 
 import Enums.TileType;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public interface MapGenerationStrategy {
     void generateMap(Map map);
+
+    default void setTile(int x,int y, Map map, TileType[][] tileMap, TileType tileType) {
+        tileMap[x][y] = tileType;
+        map.setTile(x, y, new Tile(x, y, tileType));
+    }
+
+    default float distanceToPosition(int x, int y, float positionX, float positionY) {
+        float dx = x - positionX;
+        float dy = y - positionY;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    default int[] randomPosition(Random random) {
+        return new int[]{random.nextInt(32), random.nextInt(32)};
+    }
+
 }
 
 class IslandStrategy implements MapGenerationStrategy {
@@ -16,10 +31,11 @@ class IslandStrategy implements MapGenerationStrategy {
         Tile[][] tiles = map.getTiles();
         int width = map.getWidth();
         int height = map.getHeight();
-        //Random random = new Random(map.getSeed()); //set seed
-        Random random = new Random(); //for random seed test
+        Random random = new Random(map.getSeed()); //set seed
+        //Random random = new Random(); //for random seed test
         TileType[][] tileMap= new TileType[width][height];
 
+        generateLake(width,height,map,tileMap,random);
         generateForest(width,height,map,tileMap,random);
         generateDessert(width,height,map,tileMap,random);
         generateMountain(width,height,map,tileMap,random);
@@ -32,19 +48,19 @@ class IslandStrategy implements MapGenerationStrategy {
         generateAllSpecials(width,height,map,tileMap,random);
     }
 
-    private void setTile(int x,int y, Map map, TileType[][] tileMap, TileType tileType) {
-        tileMap[x][y] = tileType;
-        map.setTile(x, y, new Tile(x, y, tileType));
-    }
-
-    private float distanceToPosition(int x, int y, float positionX, float positionY) {
-        float dx = x - positionX;
-        float dy = y - positionY;
-        return (float) Math.sqrt(dx * dx + dy * dy);
-    }
-
-    private int[] randomPosition(Random random) {
-        return new int[]{random.nextInt(32), random.nextInt(32)};
+    private void generateLake(int width, int height, Map map, TileType[][] tileMap, Random random) {
+        int lakeNumber = 20;
+        for (int n = 0; n < lakeNumber; n++) {
+            int[] lakePosition = randomPosition(random);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    float distance = distanceToPosition(x, y, lakePosition[0], lakePosition[1]);
+                    if (distance < 2) {
+                        setTile(x, y, map, tileMap, TileType.LAKE);
+                    }
+                }
+            }
+        }
     }
 
     private void generateForest(int width, int height, Map map, TileType[][] tileMap, Random random) {
@@ -74,14 +90,16 @@ class IslandStrategy implements MapGenerationStrategy {
                 for (int y = 0; y < height; y++) {
                     float distance = distanceToPosition(x, y, (float) dessertPosition[0] / 2 + 5f, (float) dessertPosition[1] / 2 + 13f);
                     if (distance < 4) {
-                        if (random.nextFloat() > 0.1f){
+                        if (random.nextFloat() > 0.05f){
                             setTile(x, y, map, tileMap, TileType.DESERT);
-                        } else if (random.nextFloat() > 0.1f){
-                            setTile(x, y, map, tileMap, TileType.OASIS);
                         } else{
                             setTile(x, y, map, tileMap, TileType.RUIN);
                         }
-
+                    }
+                    if (distance < 2) {
+                        if (random.nextFloat() > 0.3f){
+                            setTile(x, y, map, tileMap, TileType.OASIS);
+                        }
                     }
                 }
             }
@@ -198,3 +216,53 @@ class IslandStrategy implements MapGenerationStrategy {
         generateSpecial(width, height, map, tileMap, random, TileType.HUNT_TEMPLE);
     }
 }
+
+class VolcanoStrategy implements MapGenerationStrategy{
+
+    @Override
+    public void generateMap(Map map) {
+
+    }
+}
+class OceanStrategy implements MapGenerationStrategy{
+
+    @Override
+    public void generateMap(Map map) {
+
+    }
+}
+class UnderGroundStrategy implements MapGenerationStrategy{
+
+    @Override
+    public void generateMap(Map map) {
+
+    }
+}
+class PeninsulaStrategy implements MapGenerationStrategy{
+
+    @Override
+    public void generateMap(Map map) {
+
+    }
+}
+class ContinentStrategy implements MapGenerationStrategy{
+
+    @Override
+    public void generateMap(Map map) {
+
+    }
+}
+class EmpireStrategy implements MapGenerationStrategy{
+
+    @Override
+    public void generateMap(Map map) {
+
+    }
+}
+ class CustomStrategy implements MapGenerationStrategy{
+
+     @Override
+     public void generateMap(Map map) {
+
+     }
+ }

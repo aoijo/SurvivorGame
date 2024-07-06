@@ -15,8 +15,8 @@ public class MapOutputData {
         this.tiles = new TileData[width][height];
     }
 
-    public void setTileData(int x, int y, String shortName, Color color) {
-        this.tiles[x][y] = new TileData(shortName, color);
+    public void setTileData(int x, int y, String shortName, Color color, boolean isSpecial) {
+        this.tiles[x][y] = new TileData(shortName, color,isSpecial);
     }
 
     public TileData[][] getTiles() {

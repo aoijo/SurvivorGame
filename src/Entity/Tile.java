@@ -12,6 +12,10 @@ public class Tile {
     private final int[] position;
     private final TileType type;
     private final String shortName;
+    private boolean isSpecial = false;
+    private boolean isBoss = false;
+    private boolean isTemple = false;
+    private boolean isSettlement = false;
 
     // Add more properties like terrain type, obstacles, etc.
 
@@ -27,6 +31,7 @@ public class Tile {
         this.position = new int[]{x, y};
         this.type = type;
         this.shortName = generateShortName(type.toString(), 4);
+        checkSpecial(type);
     }
 
     /**
@@ -89,6 +94,10 @@ public class Tile {
         };
     }
 
+    public boolean isSpecial() {
+        return isSpecial;
+    }
+
     /**
      * Returns a string representation of the tile, with the type in lowercase and underscores replaced with spaces.
      *
@@ -96,6 +105,10 @@ public class Tile {
      */
     public String toString() {
         return type.toString().toLowerCase().replace("_", " ");
+    }
+
+    public void setBoss(){
+        this.isBoss = true;
     }
 
     /**
@@ -114,5 +127,16 @@ public class Tile {
         }
     }
 
+    private void checkSpecial(TileType type) {
+        if (type == TileType.WATER_TEMPLE || type == TileType.FORGE_TEMPLE || type == TileType.HUNT_TEMPLE) {
+            this.isTemple = true;
+        } else if (type == TileType.VILLAGE || type == TileType.CITY) {
+            this.isSettlement = true;
+        }
+        if (this.isBoss || this.isTemple || this.isSettlement) {
+            this.isSpecial = true;
+        }
+    }
     // Additional methods for tile logic
+
 }

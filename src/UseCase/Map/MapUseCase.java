@@ -31,7 +31,7 @@ public class MapUseCase {
         MapOutputData outputData = new MapOutputData(map.getWidth(), map.getHeight());
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                outputData.setTileData(i, j, map.getTiles()[i][j].getShortName(), map.getTiles()[i][j].getTileColor());
+                outputData.setTileData(i, j, map.getTiles()[i][j].getShortName(), map.getTiles()[i][j].getTileColor(),map.getTiles()[i][j].isSpecial());
             }
         }
         presenter.presentMap(outputData); // Pass the generated map data to the presenter

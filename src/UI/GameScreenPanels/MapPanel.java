@@ -1,4 +1,4 @@
-package UI;
+package UI.GameScreenPanels;
 
 import InterfaceAdapter.MapPresenter;
 import UseCase.Map.MapUseCase;
@@ -19,6 +19,7 @@ public class MapPanel extends JPanel {
     public int tileDimension = 40; // Dimension of each tile
     public int tileNumber = 32;
     public int[] playerPosition = new int[]{0, 0}; // Player's position on the map grid
+    public Color playerColor = Color.BLACK;
 
     /**
      * Constructor initializes the MapPanel with map parameters and sets the preferred size.
@@ -60,6 +61,14 @@ public class MapPanel extends JPanel {
      */
     public void setTileFontSize(int fontSize) {
         this.fontSize = fontSize;
+    }
+
+    /**
+     * Sets the color of player's tile for the tile text.
+     * @param playerColor The player's color
+     */
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
     }
 
     /**
@@ -107,6 +116,10 @@ public class MapPanel extends JPanel {
 
                 // If the tile is the player's position, render it differently
                 if (x == playerPosition[0] && y == playerPosition[1]) {
+                    g.setColor(playerColor);
+                    g.fillRect(drawX, drawY, tileSize, tileSize);
+                    g.setColor(tiles[x][y].getTileColor());
+                }else if (tiles[x][y].isSpecial()){
                     g.setColor(tiles[x][y].getTileColor());
                     g.fillRect(drawX, drawY, tileSize, tileSize);
                     g.setColor(Color.WHITE);

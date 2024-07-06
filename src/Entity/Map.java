@@ -45,10 +45,10 @@ public class Map {
 
     /**
      * Sets the map type and corresponding base tile and generation strategy.
-     * @param maptype The type of the map
+     * @param mapType The type of the map
      */
-    private void setMapType(MapType maptype) {
-        switch (maptype) {
+    private void setMapType(MapType mapType) {
+        switch (mapType) {
             case ISLAND:
                 this.baseTile = TileType.PLAIN;
                 this.width = 32;
@@ -59,43 +59,43 @@ public class Map {
                 this.baseTile = TileType.LAVA;
                 this.width = 32;
                 this.height = 32;
-                this.strategy = new IslandStrategy();
+                this.strategy = new VolcanoStrategy();
                 break;
             case OCEAN:
                 this.baseTile = TileType.OCEAN;
                 this.width = 32;
                 this.height = 32;
-                this.strategy = new IslandStrategy();
+                this.strategy = new OceanStrategy();
                 break;
             case UNDERGROUND:
                 this.baseTile = TileType.CAVE;
                 this.width = 32;
                 this.height = 32;
-                this.strategy = new IslandStrategy();
+                this.strategy = new UnderGroundStrategy();
                 break;
             case PENINSULA:
                 this.baseTile = TileType.FOREST;
                 this.width = 32;
                 this.height = 32;
-                this.strategy = new IslandStrategy();
+                this.strategy = new PeninsulaStrategy();
                 break;
             case CONTINENT:
                 this.baseTile = TileType.HILL;
                 this.width = 32;
                 this.height = 32;
-                this.strategy = new IslandStrategy();
+                this.strategy = new ContinentStrategy();
                 break;
             case EMPIRE:
                 this.baseTile = TileType.RUIN;
                 this.width = 32;
                 this.height = 32;
-                this.strategy = new IslandStrategy();
+                this.strategy = new EmpireStrategy();
                 break;
             case CUSTOM:
                 this.baseTile = TileType.PLAIN;
                 this.width = 32;
                 this.height = 32;
-                this.strategy = new IslandStrategy();
+                this.strategy = new CustomStrategy();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid map type");
