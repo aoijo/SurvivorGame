@@ -1,18 +1,15 @@
 package main;
 
-import InterfaceAdapter.MapPresenter;
 import UI.MapPanel;
-import UseCase.MapUseCase;
-import Entity.MapType;
+import Enums.MapType;
 
 import javax.swing.*;
 
-public class Maptest {
+public class MapTest {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MapUseCase mapUseCase = new MapUseCase(50, 50, MapType.ISLAND, "MyMap", System.currentTimeMillis());
-            MapPresenter mapPresenter = new MapPresenter(mapUseCase);
-            MapPanel mapPanel = new MapPanel(mapPresenter);
+            long seed = 12345L;
+            MapPanel mapPanel = new MapPanel(32, 32, MapType.ISLAND, seed);
 
             JFrame frame = new JFrame("Map Viewer");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

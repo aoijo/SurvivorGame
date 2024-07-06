@@ -1,4 +1,4 @@
-package Entity;
+package Enums;
 
 public enum TileType {
     VILLAGE,

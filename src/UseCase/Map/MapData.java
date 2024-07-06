@@ -1,17 +1,19 @@
-package DataTransferObjects;
+package UseCase.Map;
 
-public class MapDTO {
-    private final TileDTO[][] tiles;
+import UseCase.TileData;
+
+public class MapData {
+    private final TileData[][] tiles;
     private final int width;
     private final int height;
 
-    public MapDTO(TileDTO[][] tiles, int width, int height) {
+    public MapData(TileData[][] tiles, int width, int height) {
         this.tiles = tiles;
         this.width = width;
         this.height = height;
     }
 
-    public TileDTO[][] getTiles() {
+    public TileData[][] getTiles() {
         return tiles;
     }
 
