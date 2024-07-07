@@ -1,5 +1,6 @@
 package UI;
 
+import UI.GameScreenPanels.GameScreen;
 import Utils.GraphicsUtils;
 
 import javax.swing.*;
@@ -28,11 +29,15 @@ public class GamePanel {
         // Add mainPanel to frame
         frame.add(mainPanel);
         frame.setVisible(true);
+
+        // Optionally, switch to GameScreen immediately to test
+        switchToScreen("GameScreen");
     }
 
     public void switchToScreen(String screenName) {
         cardLayout.show(mainPanel, screenName);
     }
 }
+
 
 

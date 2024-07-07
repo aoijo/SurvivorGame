@@ -16,7 +16,7 @@ public class MapOutputData {
     }
 
     public void setTileData(int x, int y, String shortName, Color color, boolean isSpecial) {
-        this.tiles[x][y] = new TileData(shortName, color,isSpecial);
+        this.tiles[x][y] = new TileData(shortName, color, isSpecial);
     }
 
     public TileData[][] getTiles() {
@@ -31,4 +31,3 @@ public class MapOutputData {
         return height;
     }
 }
-
