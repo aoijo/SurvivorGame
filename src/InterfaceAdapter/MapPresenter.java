@@ -1,48 +1,66 @@
 package InterfaceAdapter;
 
-import UseCase.Map.MapOutputBoundary;
-import UseCase.Map.MapOutputData;
-import UseCase.TileData;
+import Enums.MapType;
+import Enums.TileType;
+import UseCase.Map.MapUseCase;
 
-import java.awt.*;
+import java.awt.Color;
 
-public class MapPresenter implements MapOutputBoundary {
-    private MapOutputData mapData;
+public class MapPresenter{
+    private MapUseCase mapUseCase;
     private int[] playerPosition;
     private Color playerColor;
 
-    public TileData[][] getMapTiles() {
-        return mapData.getTiles();
+    public MapPresenter(MapUseCase mapUseCase) {
+        this.mapUseCase = mapUseCase;
     }
 
-    public int getMapWidth() {
-        return mapData.getWidth();
+    public MapUseCase getMapUseCase() {
+        return mapUseCase;
     }
 
-    public int getMapHeight() {
-        return mapData.getHeight();
+    public void setMapUseCase(MapUseCase mapUseCase) {
+        this.mapUseCase = mapUseCase;
     }
 
-    @Override
-    public void presentMap(MapOutputData outputData) {
-        this.mapData = outputData;
+    public TileType[][] getAllTiles(){
+        int width = mapUseCase.getMap().getWidth();
+        int height = mapUseCase.getMap().getHeight();
+        TileType[][] allTiles = new TileType[width][height];
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                allTiles[x][y] = mapUseCase.getMap().getAllTiles()[x][y].getType();
+            }
+        }
+        return allTiles;
     }
 
-    @Override
-    public void setPlayerPosition(int[] position) {
-        this.playerPosition = position;
+    public Color[][] getAllColors(){
+        int width = mapUseCase.getMap().getWidth();
+        int height = mapUseCase.getMap().getHeight();
+        Color[][] allColors = new Color[width][height];
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                allColors[x][y] = mapUseCase.getMap().getAllTiles()[x][y].getTileColor();
+            }
+        }
+        return allColors;
     }
 
-    @Override
-    public void setPlayerColor(Color playerColor) {
-        this.playerColor = playerColor;
+    public String[][] getAllShortName(){
+        int width = mapUseCase.getMap().getWidth();
+        int height = mapUseCase.getMap().getHeight();
+        String[][] allShortName = new String[width][height];
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                allShortName[x][y] = mapUseCase.getMap().getAllTiles()[x][y].getShortName();
+            }
+        }
+        return allShortName;
     }
-
-    public int[] getPlayerPosition() {
-        return playerPosition;
-    }
-
-    public Color getPlayerColor() {
-        return playerColor;
+    public int[][] getAllTemplePosition(){
+        return new int[][]{mapUseCase.getSpecialPosition(TileType.WATER_TEMPLE),
+                mapUseCase.getSpecialPosition(TileType.FORGE_TEMPLE),
+                mapUseCase.getSpecialPosition(TileType.HUNT_TEMPLE)};
     }
 }

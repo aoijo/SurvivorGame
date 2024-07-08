@@ -1,5 +1,7 @@
-package Entity;
+package UseCase.Map;
 
+import Entity.Map;
+import Entity.Tile;
 import Enums.TileType;
 
 import java.util.Random;
@@ -28,7 +30,7 @@ class IslandStrategy implements MapGenerationStrategy {
 
     @Override
     public void generateMap(Map map) {
-        Tile[][] tiles = map.getTiles();
+        Tile[][] tiles = map.getAllTiles();
         int width = map.getWidth();
         int height = map.getHeight();
         Random random = new Random(map.getSeed()); //set seed

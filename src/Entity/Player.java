@@ -12,89 +12,41 @@ public class Player {
     private int[] position;
     private Color color;
 
-    private int health = 0;
-    private int hunger = 0;
-    private int hydration = 0;
-    private int sanity = 0;
-    private int weight = 0;
-    private int maxHealth = 0;
-    private int maxHunger = 0;
-    private int maxHydration = 0;
-    private int maxSanity = 0;
-    private int maxWeight = 0;
-    private int levelUpHealth = 0;
-    private int levelUpHunger = 0;
-    private int levelUpHydration = 0;
-    private int levelUpWeight = 0;
+    private int health;
+    private int hunger;
+    private int hydration;
+    private int sanity;
+    private int weight;
+    private int maxHealth;
+    private int maxHunger;
+    private int maxHydration;
+    private int maxSanity;
+    private int maxWeight;
+    private int levelUpHealth;
+    private int levelUpHunger;
+    private int levelUpHydration;
+    private int levelUpWeight;
 
-    private int level = 1;
-    private int experience = 0;
-    private int maxExperience = 10;
-    private int levelUpPoints = 0;
-    private int attributePoint = 0;
+    private int level;
+    private int experience;
+    private int maxExperience;
+    private int levelUpPoints;
+    private int attributePoint;
 
-    private int baseAttack = 0;
-    private int baseDefense = 0;
-    private int attack = 0;
-    private int defense = 0;
+    private int baseAttack;
+    private int baseDefense;
 
-    private int lifeSteal = 0;
-    private int damageReduction = 0;
-    private boolean noHunger = false;
-    private boolean noSanity = false;
-    private boolean noHydration = false;
+    private int lifeSteal;
+    private int damageReduction;
+    private boolean noHunger;
+    private boolean noSanity;
+    private boolean noHydration;
 
-    private Armor armor = null;
-    private Weapon weapon = null;
-    private Amulet[] amulet = new Amulet[4];
-
-    public Player(String name, int[] position, Color color, Race race) {
+    public Player(String name, Color color, Race race) {
         this.name = name;
-        this.position = position;
         this.color = color;
         this.race = race;
-        Initialize(race);
-        this.health = this.maxHealth;
-        this.hunger = this.maxHunger;
-        this.hydration = this.maxHydration;
-        this.sanity = this.maxSanity;
-        this.attack = this.baseAttack;
-        this.defense = this.baseDefense;
     }
-
-    private void Initialize(Race race) {
-        switch (race) {
-            case HUMAN:
-                maxHealth = 200;
-                maxHunger = 100;
-                maxHydration = 100;
-                maxSanity = 100;
-                maxWeight = 100;
-                baseAttack = 3;
-                baseDefense = 0;
-                levelUpHealth = 10;
-                levelUpHunger = 2;
-                levelUpHydration = 2;
-                levelUpWeight = 5;
-                levelUpPoints = 1;
-                break;
-            case SLIME:
-                maxHealth = 250;
-                maxHunger = 120;
-                maxHydration = 120;
-                maxSanity = 100;
-                maxWeight = 20;
-                baseAttack = 2;
-                baseDefense = 0;
-                levelUpHealth = 10;
-                levelUpHunger = 2;
-                levelUpHydration = 2;
-                levelUpWeight = 5;
-                levelUpPoints = 1;
-                break;
-        }
-    }
-
     // Getters and Setters
 
     public String getName() {
@@ -297,22 +249,6 @@ public class Player {
         this.baseDefense = baseDefense;
     }
 
-    public int getAttack() {
-        return attack;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-        this.defense = defense;
-    }
-
     public int getLifeSteal() {
         return lifeSteal;
     }
@@ -351,79 +287,6 @@ public class Player {
 
     public void setNoHydration(boolean noHydration) {
         this.noHydration = noHydration;
-    }
-
-    public Armor getArmor() {
-        return armor;
-    }
-
-    public void setArmor(Armor armor) {
-        this.armor = armor;
-    }
-
-    public Weapon getWeapon() {
-        return weapon;
-    }
-
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-    }
-
-    public Amulet[] getAmulet() {
-        return amulet;
-    }
-
-    public void setAmulet(Amulet[] amulet) {
-        this.amulet = amulet;
-    }
-
-    public void move(int dx, int dy) {
-        this.position[0] += dx;
-        this.position[1] += dy;
-    }
-
-    public void healthChange(int dh) {
-        this.health += dh;
-    }
-
-    public void hungerChange(int dh) {
-        this.hunger += dh;
-    }
-
-    public void hydrationChange(int dh) {
-        this.hydration += dh;
-    }
-
-    public void sanityChange(int ds) {
-        this.sanity += ds;
-    }
-
-    public void experienceChange(int de) {
-        this.experience += de;
-        if (this.experience >= this.maxExperience){
-            levelUp();
-        }
-    }
-
-    public void baseAttackChange(int da){
-        this.baseAttack += da;
-    }
-    public void baseDefenseChange(int dd){
-        this.baseDefense += dd;
-    }
-
-    public void levelUp() {
-        this.health += this.levelUpHealth;
-        this.maxHealth += this.levelUpHealth;
-        this.hunger += this.levelUpHunger;
-        this.maxHunger += this.levelUpHunger;
-        this.hydration += this.levelUpHydration;
-        this.maxHydration += this.levelUpHydration;
-
-        this.experience -= this.maxExperience;
-        this.level += 1;
-        this.maxExperience = 10 * this.level * this.level;
-        this.attributePoint += this.levelUpPoints;
     }
 
 }
