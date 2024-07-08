@@ -1,6 +1,6 @@
 package UI.GameScreenPanels;
 
-import InterfaceAdapter.PlayerPresenter;
+import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +12,12 @@ public class StatusPanel extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 10, 5, 10);
         Font textFont = new Font("Courier New", Font.BOLD, 12);
+        Font Time = new Font("Arial", Font.BOLD, 12);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
+
+
         // Row 1
         add(createLabel("Health", textFont), constraints);
         constraints.gridy++;

@@ -4,6 +4,7 @@ import Entity.Map;
 import Entity.Tile;
 import Enums.MapType;
 import Enums.TileType;
+import UseCase.TileUseCase;
 
 public class MapUseCase {
     private Map map;
@@ -76,7 +77,7 @@ public class MapUseCase {
     private void initializeMap() {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
-                map.setTile(x, y, new Tile(x, y, map.getBaseTile())); // Set each tile to the base tile type
+                map.setTile(x, y, new TileUseCase(x, y, map.getBaseTile()).getTile()); // Set each tile to the base tile type
             }
         }
         generateMap(); // Generate the map using the strategy

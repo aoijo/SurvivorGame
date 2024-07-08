@@ -1,6 +1,6 @@
-package InterfaceAdapter;
+package InterfaceAdapter.PlayerAdapter;
 
-import UseCase.PlayerUseCase;
+import UseCase.Players.PlayerUseCase;
 
 import java.awt.Color;
 

@@ -1,8 +1,8 @@
-package InterfaceAdapter;
+package InterfaceAdapter.MapAdapter;
 
 import Enums.MapType;
 import UseCase.Map.MapUseCase;
-import UseCase.PlayerUseCase;
+import UseCase.Players.PlayerUseCase;
 
 public class MapController {
     private MapUseCase mapUseCase;

@@ -23,7 +23,7 @@ public class GamePanel {
         // Add different screens to mainPanel
         mainPanel.add(new TitleScreen(this), "TitleScreen");
         mainPanel.add(new GameScreen(this), "GameScreen");
-        mainPanel.add(new MenuScreen(this), "MenuScreen");
+        mainPanel.add(new SettingScreen(this), "SettingScreen");
         mainPanel.add(new CreateCharScreen(this), "CreateCharScreen");
 
         // Add mainPanel to frame

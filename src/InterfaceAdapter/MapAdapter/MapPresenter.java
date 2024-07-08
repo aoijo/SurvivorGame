@@ -1,6 +1,5 @@
-package InterfaceAdapter;
+package InterfaceAdapter.MapAdapter;
 
-import Enums.MapType;
 import Enums.TileType;
 import UseCase.Map.MapUseCase;
 

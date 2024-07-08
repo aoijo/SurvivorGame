@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuScreen extends JPanel {
+public class SettingScreen extends JPanel {
     private GamePanel gamePanel;
 
-    public MenuScreen(GamePanel gamePanel) {
+    public SettingScreen(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

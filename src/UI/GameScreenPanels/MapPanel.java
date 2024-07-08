@@ -1,10 +1,9 @@
 package UI.GameScreenPanels;
 
-import InterfaceAdapter.MapController;
-import InterfaceAdapter.MapPresenter;
-import InterfaceAdapter.PlayerController;
-import InterfaceAdapter.PlayerPresenter;
-import Enums.MapType;
+import InterfaceAdapter.MapAdapter.MapController;
+import InterfaceAdapter.MapAdapter.MapPresenter;
+import InterfaceAdapter.PlayerAdapter.PlayerController;
+import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +18,7 @@ public class MapPanel extends JPanel {
     private PlayerController playerController;
     private Font tileFont;
     private int fontSize = 12;
-    private int tileDimension = 40;
+    private int tileDimension = 50;
     private int tileNumber = 10;
 
     public MapPanel(MapPresenter mapPresenter, MapController mapController, PlayerPresenter playerPresenter, PlayerController playerController) {

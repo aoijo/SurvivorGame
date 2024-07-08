@@ -1,8 +1,7 @@
-package UseCase;
+package UseCase.Players;
 
 import Entity.Player;
 import Enums.Race;
-
 import java.awt.*;
 
 public class PlayerUseCase {
@@ -11,10 +10,10 @@ public class PlayerUseCase {
     public PlayerUseCase(Player player) {
         if (player == null) {
             throw new IllegalArgumentException("Player cannot be null");
-        } else{
+        } else {
             this.player = player;
         }
-        initialize(player.getRace());
+        PlayerPresets.initialize(player, player.getRace());
         this.player.setHealth(this.player.getMaxHealth());
         this.player.setHunger(this.player.getMaxHunger());
         this.player.setHydration(this.player.getMaxHydration());
@@ -27,52 +26,12 @@ public class PlayerUseCase {
         } else {
             this.player = new Player(name, color, race);
         }
-        initialize(player.getRace());
+        PlayerPresets.initialize(player, race);
         this.player.setHealth(this.player.getMaxHealth());
         this.player.setHunger(this.player.getMaxHunger());
         this.player.setHydration(this.player.getMaxHydration());
         this.player.setSanity(this.player.getMaxSanity());
         this.player.setPosition(new int[]{0,0});
-    }
-
-    private void initialize(Race race) {
-        switch (race) {
-            case HUMAN:
-                player.setMaxHealth(200);
-                player.setMaxHunger(100);
-                player.setMaxHydration(100);
-                player.setMaxSanity(100);
-                player.setMaxWeight(100);
-                player.setBaseAttack(3);
-                player.setBaseDefense(0);
-                player.setLevelUpHealth(10);
-                player.setLevelUpHunger(2);
-                player.setLevelUpHydration(2);
-                player.setLevelUpWeight(5);
-                player.setLevelUpPoints(1);
-                player.setLevel(1);
-                player.setMaxExperience(10);
-                break;
-            case SLIME:
-                player.setMaxHealth(250);
-                player.setMaxHunger(120);
-                player.setMaxHydration(120);
-                player.setMaxSanity(100);
-                player.setMaxWeight(20);
-                player.setBaseAttack(2);
-                player.setBaseDefense(0);
-                player.setLevelUpHealth(10);
-                player.setLevelUpHunger(2);
-                player.setLevelUpHydration(2);
-                player.setLevelUpWeight(5);
-                player.setLevelUpPoints(1);
-                player.setLevel(1);
-                player.setMaxExperience(10);
-                break;
-            // Add other race initializations as needed
-            default:
-                throw new IllegalArgumentException("Unknown race: " + race);
-        }
     }
 
     public Player getPlayer() {
@@ -140,4 +99,3 @@ public class PlayerUseCase {
         player.setAttributePoint(player.getAttributePoint() + player.getLevelUpPoints());
     }
 }
-

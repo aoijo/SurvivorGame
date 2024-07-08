@@ -1,10 +1,10 @@
 package UI.GameScreenPanels;
 
 import Enums.Race;
-import InterfaceAdapter.MapController;
-import InterfaceAdapter.MapPresenter;
-import InterfaceAdapter.PlayerController;
-import InterfaceAdapter.PlayerPresenter;
+import InterfaceAdapter.MapAdapter.MapController;
+import InterfaceAdapter.MapAdapter.MapPresenter;
+import InterfaceAdapter.PlayerAdapter.PlayerController;
+import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 import Enums.MapType;
 import UI.GamePanel;
 

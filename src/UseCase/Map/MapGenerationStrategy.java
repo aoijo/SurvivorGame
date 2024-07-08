@@ -3,6 +3,7 @@ package UseCase.Map;
 import Entity.Map;
 import Entity.Tile;
 import Enums.TileType;
+import UseCase.TileUseCase;
 
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public interface MapGenerationStrategy {
 
     default void setTile(int x,int y, Map map, TileType[][] tileMap, TileType tileType) {
         tileMap[x][y] = tileType;
-        map.setTile(x, y, new Tile(x, y, tileType));
+        map.setTile(x, y, new TileUseCase(x, y, tileType).getTile());
     }
 
     default float distanceToPosition(int x, int y, float positionX, float positionY) {
