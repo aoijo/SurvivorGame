@@ -1,9 +1,8 @@
 package UseCase.Map;
 
 import Entity.Map;
-import Entity.Tile;
-import Enums.MapType;
-import Enums.TileType;
+import Enums.MapTile.MapType;
+import Enums.MapTile.TileType;
 import UseCase.TileUseCase;
 
 public class MapUseCase {

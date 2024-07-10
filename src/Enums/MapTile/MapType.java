@@ -1,4 +1,4 @@
-package Enums;
+package Enums.MapTile;
 
 public enum MapType {
     ISLAND,
@@ -8,5 +8,5 @@ public enum MapType {
     PENINSULA,
     CONTINENT,
     EMPIRE,
-    CUSTOM;
+    CUSTOM,
 }

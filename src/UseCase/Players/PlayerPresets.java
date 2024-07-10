@@ -1,11 +1,11 @@
 package UseCase.Players;
 
-import Enums.Race;
+import Enums.RaceType;
 import Entity.Player;
 
 public class PlayerPresets {
 
-    public static void initialize(Player player, Race race) {
+    public static void initialize(Player player, RaceType race) {
         switch (race) {
             case HUMAN:
                 player.setMaxHealth(200);
@@ -13,8 +13,8 @@ public class PlayerPresets {
                 player.setMaxHydration(100);
                 player.setMaxSanity(100);
                 player.setMaxWeight(100);
-                player.setBaseAttack(3);
-                player.setBaseDefense(0);
+                player.setAttack(3);
+                player.setDefense(0);
                 player.setLevelUpHealth(10);
                 player.setLevelUpHunger(2);
                 player.setLevelUpHydration(2);
@@ -29,8 +29,8 @@ public class PlayerPresets {
                 player.setMaxHydration(120);
                 player.setMaxSanity(100);
                 player.setMaxWeight(20);
-                player.setBaseAttack(2);
-                player.setBaseDefense(0);
+                player.setAttack(2);
+                player.setDefense(0);
                 player.setLevelUpHealth(10);
                 player.setLevelUpHunger(2);
                 player.setLevelUpHydration(2);

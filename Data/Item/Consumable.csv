@@ -1,0 +1,26 @@
+id,name,description,single price,single weight,single dust,level requirement,race requirement,rarity
+2001,Dirt,"Can be eaten in desprate time, reduce max health.",1,1,1,0,0,1
+2002,Water,It's WATERRRRRRRRRRRRR,1,1,1,0,0,1
+2003,Berry,Edible fruit that restores a small amount of hunger and hydration.,5,1,1,0,0,1
+2004,Herb,Edible plant that restores a small amount of health.,5,1,1,0,0,1
+2005,Mushroom, Edible fungus used in cooking and potion making.,5,1,1,0,0,1
+2006,Crab,A sea creature that can be cooked for food.,15,1,3,0,0,1
+2007,Raw Meat,Uncooked meat that can be cooked for better nourishment.,5,2,1,0,0,1
+2008,Raw Fish,Uncooked fish that can be prepared into a meal.,10,2,1,0,0,1
+2009,Cooked Meat,Meat that has been cooked to restore more health.,10,1,2,0,0,1
+2010,Cooked Fish,Fish that has been cooked to provide better nourishment.,10,1,2,0,0,1
+2011,Health Postion,Potion that restores health when consumed.,50,1,10,0,0,1
+2012,Blueprint: Stone Spear,A detailed plan to craft a Stone Spear.,1,1,1,0,0,2
+2013,Blueprint: Fibre Armor,A detailed plan to craft Fibre Armor.,1,1,1,0,0,2
+2014,Skill Stone: Restore,A magical stone that grants the ability to restore health.,50,1,20,0,0,2
+2015,Skill Stone: Heavy Slam,A magical stone that grants the ability to perform a powerful attack.,50,1,20,0,0,2
+2016,Blueprint: Fang Dagger,A detailed plan to craft Fang Dagger.,1,1,1,0,0,2
+2017,Blueprint: Beast Claw,A detailed plan to craft Beast Claw.,1,1,1,0,0,2
+2018,Blueprint: Feather Blade,A detailed plan to craft Feather Blade.,1,1,1,0,0,2
+2019,Blueprint: Goblin Killer,A detailed plan to craft Goblin Killer.,1,1,1,0,0,4
+2020,Blueprint: Soft Armor,A detailed plan to craft Soft Armor.,1,1,1,0,0,2
+2021,Blueprint: Leather Armor,A detailed plan to craft Leather Armor.,1,1,1,0,0,2
+2022,Blueprint: Shell Armor,A detailed plan to craft Shell Armor.,1,1,1,0,0,2
+2023,Blueprint: Common Unite,A detailed plan to craft Common Unite.,1,1,1,0,0,5
+2024,Heart of Goblin,"Heart of Gobin Giant, can be used for various potions.",250,1,20,0,0,2
+2025,Devine Liquid,Slime emdued with devine power.,2500,1,500,0,0,4

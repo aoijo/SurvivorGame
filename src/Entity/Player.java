@@ -1,14 +1,13 @@
 package Entity;
 
 import java.awt.Color;
-import Enums.Amulet;
-import Enums.Armor;
-import Enums.Weapon;
-import Enums.Race;
 
-public class Player {
-    private String name;
-    private Race race;
+import Entity.Item.Equipment;
+import Entity.Item.Item;
+import Enums.RaceType;
+
+public class Player extends Character{
+    private RaceType race;
     private int[] position;
     private Color color;
 
@@ -27,41 +26,33 @@ public class Player {
     private int levelUpHydration;
     private int levelUpWeight;
 
-    private int level;
     private int experience;
     private int maxExperience;
     private int levelUpPoints;
     private int attributePoint;
+    private int money;
 
-    private int baseAttack;
-    private int baseDefense;
-
-    private int lifeSteal;
-    private int damageReduction;
     private boolean noHunger;
     private boolean noSanity;
     private boolean noHydration;
 
-    public Player(String name, Color color, Race race) {
-        this.name = name;
+    private Item[] itemInBag;
+    private Equipment[] equipments;
+    private Skill[] skills;
+    private Buff[] Buffs;
+
+    public Player(Color color, RaceType race) {
+        super(1);
         this.color = color;
         this.race = race;
     }
     // Getters and Setters
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Race getRace() {
+    public RaceType getRace() {
         return race;
     }
 
-    public void setRace(Race race) {
+    public void setRace(RaceType race) {
         this.race = race;
     }
 
@@ -193,14 +184,6 @@ public class Player {
         this.levelUpWeight = levelUpWeight;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public int getExperience() {
         return experience;
     }
@@ -233,38 +216,6 @@ public class Player {
         this.attributePoint = attributePoint;
     }
 
-    public int getBaseAttack() {
-        return baseAttack;
-    }
-
-    public void setBaseAttack(int baseAttack) {
-        this.baseAttack = baseAttack;
-    }
-
-    public int getBaseDefense() {
-        return baseDefense;
-    }
-
-    public void setBaseDefense(int baseDefense) {
-        this.baseDefense = baseDefense;
-    }
-
-    public int getLifeSteal() {
-        return lifeSteal;
-    }
-
-    public void setLifeSteal(int lifeSteal) {
-        this.lifeSteal = lifeSteal;
-    }
-
-    public int getDamageReduction() {
-        return damageReduction;
-    }
-
-    public void setDamageReduction(int damageReduction) {
-        this.damageReduction = damageReduction;
-    }
-
     public boolean isNoHunger() {
         return noHunger;
     }
@@ -289,4 +240,43 @@ public class Player {
         this.noHydration = noHydration;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public Item[] getItemInBag() {
+        return itemInBag;
+    }
+
+    public void setItemInBag(Item[] itemInBag) {
+        this.itemInBag = itemInBag;
+    }
+
+    public Equipment[] getEquipments() {
+        return equipments;
+    }
+
+    public void setEquipments(Equipment[] equipments) {
+        this.equipments = equipments;
+    }
+
+    public Skill[] getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Skill[] skills) {
+        this.skills = skills;
+    }
+
+    public Buff[] getBuffs() {
+        return Buffs;
+    }
+
+    public void setBuffs(Buff[] buffs) {
+        Buffs = buffs;
+    }
 }

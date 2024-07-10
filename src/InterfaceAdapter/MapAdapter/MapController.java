@@ -1,6 +1,6 @@
 package InterfaceAdapter.MapAdapter;
 
-import Enums.MapType;
+import Enums.MapTile.MapType;
 import UseCase.Map.MapUseCase;
 import UseCase.Players.PlayerUseCase;
 

@@ -1,7 +1,7 @@
 package UseCase;
 
 import Entity.Tile;
-import Enums.TileType;
+import Enums.MapTile.TileType;
 
 import java.awt.*;
 
@@ -13,8 +13,9 @@ public class TileUseCase {
     }
     public TileUseCase(int x, int y,TileType tileType){
         this.tile = new Tile(x,y,tileType);
-        tile.setTileColor(InitializeTileColor());
-        tile.setShortName(InitializeShortName(4));
+        tile.setTileColor(initializeTileColor());
+        tile.setName(initializeName());
+        tile.setShortName(generateShortName(tile.getName(),4));
         checkSpecial(tileType);
     }
 
@@ -27,7 +28,7 @@ public class TileUseCase {
     }
 
 
-    public Color InitializeTileColor() {
+    public Color initializeTileColor() {
         return switch (tile.getType()) {
             case VILLAGE -> new Color(190, 90, 0);
             case CITY, RUIN -> new Color(0, 120, 110);
@@ -55,25 +56,25 @@ public class TileUseCase {
         };
     }
 
-    public String InitializeShortName(int maxLength) {
-        return generateShortName(tile.getType().toString(), maxLength);
+    private String initializeName(){
+        return tile.getType().toString().toLowerCase().replace("_","");
     }
 
-    public String generateShortName(String typeName, int length) {
+    private String generateShortName(String typeName, int length) {
         if (typeName.length() > length + 1) {
-            return typeName.substring(0, length) + ".";
+            return typeName.substring(0, length).toUpperCase() + ".";
         } else {
-            return typeName;
+            return typeName.toUpperCase();
         }
     }
 
-    public void checkSpecial(TileType type) {
+    private void checkSpecial(TileType type) {
         if (type == TileType.WATER_TEMPLE || type == TileType.FORGE_TEMPLE || type == TileType.HUNT_TEMPLE) {
             tile.setTemple(true);
         } else if (type == TileType.VILLAGE || type == TileType.CITY) {
             tile.setSettlement(true);
         }
-        if (tile.isBoss() || tile.isTemple() || tile.isSettlement()) {
+        if (tile.isPassage() || tile.isTemple() || tile.isSettlement()) {
             tile.setUnique(true);
         }
     }

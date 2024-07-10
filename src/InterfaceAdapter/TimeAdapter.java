@@ -1,6 +1,7 @@
 package InterfaceAdapter;
 
-import Enums.Season;
+import Enums.Month.Month;
+import Enums.Month.Season;
 import UseCase.TimeUseCase;
 
 public class TimeAdapter {
@@ -22,16 +23,6 @@ public class TimeAdapter {
         this.timeUseCase = timeUseCase;
     }
 
-    public int[] getTime(){
-        int[] time = new int[5];
-        time[0] = timeUseCase.getTime().getYear();
-        time[1] = timeUseCase.getTime().getMonth();
-        time[2] = timeUseCase.getTime().getDay();
-        time[3] = timeUseCase.getTime().getHour();
-        time[4] = timeUseCase.getTime().getMinute();
-        return time;
-    }
-
     public void setTime(int year, int month, int day, int hour, int minute){
         timeUseCase.setTimeValue(year, month, day, hour, minute);
     }
@@ -40,8 +31,24 @@ public class TimeAdapter {
         timeUseCase.timePass(minute);
     }
 
-    public void getMonth(){
-        timeUseCase.getMonth();
+    public int getYear(){
+        return timeUseCase.getTime().getYear();
+    }
+
+    public Month getMonth(){
+        return timeUseCase.getMonth();
+    }
+
+    public int getDay(){
+        return timeUseCase.getTime().getDay();
+    }
+
+    public int getHour(){
+        return timeUseCase.getTime().getHour();
+    }
+
+    public int getMinute(){
+        return timeUseCase.getTime().getMinute();
     }
 
     public Season getSeason(){
@@ -51,5 +58,23 @@ public class TimeAdapter {
     public String getSeasonName(){
         String lowerCaseSeason = getSeason().toString().toLowerCase();
         return lowerCaseSeason.substring(0, 1).toUpperCase() + lowerCaseSeason.substring(1);
+    }
+
+    public String getMonthName(){
+        String lowerCaseMonth = getMonth().toString().toLowerCase();
+        return lowerCaseMonth.substring(0, 1).toUpperCase() + lowerCaseMonth.substring(1);
+    }
+
+    public int getMonthValue(){
+        return timeUseCase.getTime().getMonth();
+    }
+
+    public boolean isNight(){
+        int hour = timeUseCase.getTime().getHour();
+        if (hour >= 8 && hour <= 22 ){
+            return false;
+        }else {
+            return true;
+        }
     }
 }

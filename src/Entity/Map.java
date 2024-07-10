@@ -1,7 +1,7 @@
 package Entity;
 
-import Enums.MapType;
-import Enums.TileType;
+import Enums.MapTile.MapType;
+import Enums.MapTile.TileType;
 import java.util.HashMap;
 
 /**
@@ -97,6 +97,14 @@ public class Map {
         }
         tiles[x][y] = tile;
         tileLocations.put(tile.getType(), new int[]{x, y}); // Update the HashMap
+    }
+
+    public TileType getTileType(int x, int y){
+        return getTile(x,y).getType();
+    }
+
+    public void setTileType(int x, int y, TileType tileType){
+        getTile(x,y).setType(tileType);
     }
 
     public int[] findTileLocation(TileType targetTileType) {

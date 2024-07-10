@@ -1,0 +1,9 @@
+id,name ,description,durability,isGeneral,isCombat
+1,Wait,Do nothing this turn,-1,0,1
+2,Attack,"Basic attack, deal damage equal to 100% of current attack",-1,0,1
+3,Restore,Restore 2X attack health,1,1,1
+4,Slow Restore,Restore health to full,1,1,0
+5,Heavy Slam,Deal 1.5X attack damage,1,0,1
+6,Blood Slash,"Deal 1X attack attack damage, For every 10 max health, deal 1 extra damage",-1,0,1
+7,Gobin Slam,"Deal 1.5X attack damage, 10% chance of applying ""Skip turn"" to enemy",-1,0,1
+8,Corrupt,Deal 2X attack damage to uncorrupted character,-1,0,1

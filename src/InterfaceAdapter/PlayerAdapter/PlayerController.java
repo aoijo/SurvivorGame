@@ -1,6 +1,6 @@
 package InterfaceAdapter.PlayerAdapter;
 
-import Enums.Race;
+import Enums.RaceType;
 import UseCase.Players.PlayerUseCase;
 
 import java.awt.*;
@@ -13,7 +13,7 @@ public class PlayerController {
         this.playerUseCase = playerUseCase;
         this.playerPosition = this.playerUseCase.getPlayer().getPosition();
     }
-    public PlayerController(String name, Color color, Race race) {
+    public PlayerController(String name, Color color, RaceType race) {
         this.playerUseCase = new PlayerUseCase(name, color, race);
         this.playerPosition = this.playerUseCase.getPlayer().getPosition();
     }

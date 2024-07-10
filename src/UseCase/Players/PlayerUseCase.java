@@ -1,7 +1,8 @@
 package UseCase.Players;
 
 import Entity.Player;
-import Enums.Race;
+import Enums.RaceType;
+
 import java.awt.*;
 
 public class PlayerUseCase {
@@ -20,13 +21,14 @@ public class PlayerUseCase {
         this.player.setSanity(this.player.getMaxSanity());
     }
 
-    public PlayerUseCase(String name, Color color, Race race) {
+    public PlayerUseCase(String name, Color color, RaceType race) {
         if (name == null || color == null || race == null) {
             throw new IllegalArgumentException("None of the parameters can be null");
         } else {
-            this.player = new Player(name, color, race);
+            this.player = new Player(color, race);
         }
         PlayerPresets.initialize(player, race);
+        this.player.setName(name);
         this.player.setHealth(this.player.getMaxHealth());
         this.player.setHunger(this.player.getMaxHunger());
         this.player.setHydration(this.player.getMaxHydration());
@@ -77,12 +79,12 @@ public class PlayerUseCase {
         player.setExperience(experience);
     }
 
-    public void changeBaseAttack(int da) {
-        player.setBaseAttack(player.getBaseAttack() + da);
+    public void increaseAttack(int da) {
+        player.setAttack(player.getAttack() + da);
     }
 
-    public void changeBaseDefense(int dd) {
-        player.setBaseDefense(player.getBaseDefense() + dd);
+    public void increaseDefense(int dd) {
+        player.setDefense(player.getDefense() + dd);
     }
 
     private void levelUp() {

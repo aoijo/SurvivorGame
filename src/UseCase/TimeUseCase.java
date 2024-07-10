@@ -1,8 +1,8 @@
 package UseCase;
 
 import Entity.Time;
-import Enums.Season;
-import Enums.Month;
+import Enums.Month.Season;
+import Enums.Month.Month;
 
 public class TimeUseCase {
     private Time time;
@@ -25,7 +25,7 @@ public class TimeUseCase {
     }
 
     private void initialize(Time time) {
-        time.setYear(0);
+        time.setYear(1000);
         time.setMonth(3); // Assuming March is month 3
         time.setDay(1);
         time.setHour(9);

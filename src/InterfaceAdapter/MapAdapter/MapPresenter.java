@@ -1,14 +1,12 @@
 package InterfaceAdapter.MapAdapter;
 
-import Enums.TileType;
+import Enums.MapTile.TileType;
 import UseCase.Map.MapUseCase;
 
 import java.awt.Color;
 
 public class MapPresenter{
     private MapUseCase mapUseCase;
-    private int[] playerPosition;
-    private Color playerColor;
 
     public MapPresenter(MapUseCase mapUseCase) {
         this.mapUseCase = mapUseCase;
@@ -22,13 +20,32 @@ public class MapPresenter{
         this.mapUseCase = mapUseCase;
     }
 
-    public TileType[][] getAllTiles(){
+    public TileType getTileType(int x, int y){
+        return mapUseCase.getMap().getTileType(x,y);
+    }
+    public void setTileType(int x, int y, TileType tileType){
+        mapUseCase.getMap().setTileType(x,y,tileType);
+    }
+
+    public Color getTileColor(int x, int y){
+        return mapUseCase.getMap().getTile(x,y).getTileColor();
+    }
+    public void setTileColor(int x, int y, Color color){
+        mapUseCase.getMap().getTile(x,y).setTileColor(color);
+    }
+
+    public String getTileName(int x, int y){
+        return mapUseCase.getMap().getTile(x,y).getName();
+    }
+
+
+    public TileType[][] getAllTileTypes(){
         int width = mapUseCase.getMap().getWidth();
         int height = mapUseCase.getMap().getHeight();
         TileType[][] allTiles = new TileType[width][height];
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                allTiles[x][y] = mapUseCase.getMap().getAllTiles()[x][y].getType();
+                allTiles[x][y] = mapUseCase.getMap().getTile(x,y).getType();
             }
         }
         return allTiles;
@@ -40,7 +57,7 @@ public class MapPresenter{
         Color[][] allColors = new Color[width][height];
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                allColors[x][y] = mapUseCase.getMap().getAllTiles()[x][y].getTileColor();
+                allColors[x][y] = mapUseCase.getMap().getTile(x,y).getTileColor();
             }
         }
         return allColors;
@@ -52,7 +69,7 @@ public class MapPresenter{
         String[][] allShortName = new String[width][height];
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                allShortName[x][y] = mapUseCase.getMap().getAllTiles()[x][y].getShortName();
+                allShortName[x][y] = mapUseCase.getMap().getTile(x,y).getShortName();
             }
         }
         return allShortName;
@@ -62,4 +79,5 @@ public class MapPresenter{
                 mapUseCase.getSpecialPosition(TileType.FORGE_TEMPLE),
                 mapUseCase.getSpecialPosition(TileType.HUNT_TEMPLE)};
     }
+
 }

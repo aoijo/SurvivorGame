@@ -17,47 +17,78 @@ public class MapPanel extends JPanel {
     private PlayerPresenter playerPresenter;
     private PlayerController playerController;
     private Font tileFont;
-    private int fontSize = 12;
-    private int tileDimension = 50;
-    private int tileNumber = 10;
+    private int fontSize;
+    private int tileDimension;
+    private int tileNumber;
 
-    public MapPanel(MapPresenter mapPresenter, MapController mapController, PlayerPresenter playerPresenter, PlayerController playerController) {
+    public MapPanel(MapPresenter mapPresenter, MapController mapController, PlayerPresenter playerPresenter,
+                    PlayerController playerController, int tileNumber, int tileDimension, int fontSize) {
         this.mapPresenter = mapPresenter;
         this.mapController = mapController;
         this.playerPresenter = playerPresenter;
         this.playerController = playerController;
+        this.tileNumber = tileNumber;
+        this.tileDimension = tileDimension;
+        this.fontSize = fontSize;
         this.tileFont = new Font("Arial", Font.BOLD, fontSize);
-        setPreferredSize(new Dimension(tileNumber * tileDimension, tileNumber * tileDimension));
-
-        // Set up key listener for player movement
-        setFocusable(true);
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode();
-                switch (key) {
-                    case KeyEvent.VK_UP -> mapController.move(0, -1);
-                    case KeyEvent.VK_DOWN -> mapController.move(0, 1);
-                    case KeyEvent.VK_LEFT -> mapController.move(-1, 0);
-                    case KeyEvent.VK_RIGHT -> mapController.move(1, 0);
-                }
-                repaint();
-            }
-        });
+        setPreferredSize(new Dimension((int)tileNumber * tileDimension, (int)tileNumber * tileDimension));
     }
 
+    public int getTileNumber() {
+        return tileNumber;
+    }
     public void setTileNumber(int tileNumber) {
         this.tileNumber = tileNumber;
     }
 
+    public int getTileDimension() {
+        return tileDimension;
+    }
+    public void setTileDimension(int tileDimension) {
+        this.tileDimension = tileDimension;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
     public void setTileFontSize(int fontSize) {
         this.fontSize = fontSize;
     }
 
+    public Color getPlayerColor() {
+        return playerPresenter.getPlayerColor();
+    }
     public void setPlayerColor(Color playerColor) {
         playerPresenter.setPlayerColor(playerColor);
     }
 
+    public MapPresenter getMapPresenter() {
+        return mapPresenter;
+    }
+    public void setMapPresenter(MapPresenter mapPresenter) {
+        this.mapPresenter = mapPresenter;
+    }
+
+    public MapController getMapController() {
+        return mapController;
+    }
+    public void setMapController(MapController mapController) {
+        this.mapController = mapController;
+    }
+
+    public PlayerPresenter getPlayerPresenter() {
+        return playerPresenter;
+    }
+    public void setPlayerPresenter(PlayerPresenter playerPresenter) {
+        this.playerPresenter = playerPresenter;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -78,13 +109,13 @@ public class MapPanel extends JPanel {
 
         for (int x = 0; x < tileColors.length; x++) {
             for (int y = 0; y < tileColors[x].length; y++) {
-                int[] tilePosition = new int[]{x,y};
+                int[] tilePosition = new int[]{x, y};
                 int drawX = offsetX + x * tileSize;
                 int drawY = offsetY + y * tileSize;
 
                 if (Arrays.equals(tilePosition, playerPosition)) {
                     drawPlayerTile(g, drawX, drawY, tileSize, tileColors[x][y]);
-                }else if(contains(allTempleTiles, tilePosition)){
+                } else if (contains(allTempleTiles, tilePosition)) {
                     drawSpecialTile(g, drawX, drawY, tileSize, tileColors[x][y]);
                 } else {
                     drawTile(g, drawX, drawY, tileSize, tileColors[x][y]);
