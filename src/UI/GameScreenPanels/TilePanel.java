@@ -2,6 +2,7 @@ package UI.GameScreenPanels;
 
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.TileAdapter;
+import UI.AdapterManager;
 import Utils.DefaultButton;
 
 import javax.swing.*;
@@ -12,26 +13,24 @@ import java.awt.event.ActionListener;
 public class TilePanel extends JPanel {
     private TileAdapter tileAdapter;
     private PlayerController playerController;
+    private StatusPanel statusPanel;
     private int[] playerPosition;
 
-    public TilePanel(TileAdapter tileAdapter, PlayerController playerController) {
-        this.tileAdapter = tileAdapter;
-        this.playerController = playerController;
+    public TilePanel(AdapterManager adapterManager, StatusPanel statusPanel) {
+        this.statusPanel = statusPanel;
+        this.tileAdapter = adapterManager.getTileAdapter();
+        this.playerController = adapterManager.getPlayerController();
         this.playerPosition = playerController.getPlayerPosition();
         setLayout(new FlowLayout());
+        //setPreferredSize(new Dimension(300,600));
         updateTilePanel();
     }
 
     public void updateTilePanel() {
-        if (tileAdapter.getResourceNames(playerPosition).length == 0){
-            setVisible(false);
-        } else{
-            setVisible(true);
-
-        }
         removeResourceButtons();
         addResourceButtons();
         repaint();
+        statusPanel.updateStatusPanel();
     }
 
     private JButton createResourceButton(String resourceName, int resourceCount) {

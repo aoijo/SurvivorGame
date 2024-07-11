@@ -11,7 +11,9 @@ public class BuffUseCase {
 
     private String[][] buffData;
 
-    public BuffUseCase() {}
+    public BuffUseCase() {
+        loadBuffData();
+    }
 
     public Buff newBuff(int id, Character source, Character target){
         Buff buff = new Buff(id, source, target);
@@ -25,6 +27,7 @@ public class BuffUseCase {
 
     private void initializeBuff(Buff buff, int buffId){
         String[] buffData = this.buffData[buffId];
+
         buff.setName(buffData[1]);
         buff.setDescription(buffData[2]);
         buff.setType(determinBuffType(Integer.parseInt(buffData[3])));

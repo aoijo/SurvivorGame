@@ -1,7 +1,7 @@
 package InterfaceAdapter.PlayerAdapter;
 
 import InterfaceAdapter.UseCaseManager;
-import UseCase.Players.PlayerUseCase;
+import UseCase.PlayerUseCase;
 
 import java.awt.Color;
 
@@ -86,10 +86,10 @@ public class PlayerPresenter {
     public int getLevel(){
         return this.playerUseCase.getPlayer().getLevel();
     }
-    public int getWeight(){
+    public float getWeight(){
         return this.playerUseCase.getPlayer().getWeight();
     }
-    public int getMaxWeight(){
+    public float getMaxWeight(){
         return this.playerUseCase.getPlayer().getMaxWeight();
     }
     public int getExperience(){
@@ -98,8 +98,10 @@ public class PlayerPresenter {
     public int getMaxExperience(){
         return this.playerUseCase.getPlayer().getMaxExperience();
     }
-
     public PlayerUseCase getPlayerUseCase() {
         return playerUseCase;
+    }
+    public String getPlayerName(){
+        return this.playerUseCase.getPlayer().getName();
     }
 }

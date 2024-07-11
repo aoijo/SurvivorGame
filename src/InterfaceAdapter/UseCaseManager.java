@@ -1,12 +1,8 @@
 package InterfaceAdapter;
 
-import UseCase.BuffUseCase;
+import UseCase.*;
 import UseCase.Item.ItemUseCase;
 import UseCase.Map.MapUseCase;
-import UseCase.Players.PlayerUseCase;
-import UseCase.ResourceUseCase;
-import UseCase.TileUseCase;
-import UseCase.TimeUseCase;
 
 import java.awt.*;
 
@@ -18,6 +14,7 @@ public class UseCaseManager {
     private PlayerUseCase playerUseCase;
     private TileUseCase tileUseCase;
     private TimeUseCase timeUseCase;
+    private EnemyUseCase enemyUseCase;
 
     public UseCaseManager() {
         itemUseCase = new ItemUseCase();
@@ -26,6 +23,7 @@ public class UseCaseManager {
         resourceUseCase = new ResourceUseCase();
         tileUseCase = new TileUseCase(resourceUseCase);
         timeUseCase = new TimeUseCase();
+        enemyUseCase = new EnemyUseCase();
         playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase,"Player 1", Color.GREEN, 1);
     }
 
@@ -52,9 +50,11 @@ public class UseCaseManager {
     public void setBuffUseCase(BuffUseCase buffUseCase) {
         this.buffUseCase = buffUseCase;
     }
+
     public ResourceUseCase getResourceUseCase() {
         return resourceUseCase;
     }
+
     public void setResourceUseCase(ResourceUseCase resourceUseCase) {
         this.resourceUseCase = resourceUseCase;
     }
@@ -81,5 +81,13 @@ public class UseCaseManager {
 
     public void setTimeUseCase(TimeUseCase timeUseCase) {
         this.timeUseCase = timeUseCase;
+    }
+
+    public EnemyUseCase getEnemyUseCase() {
+        return enemyUseCase;
+    }
+
+    public void setEnemyUseCase(EnemyUseCase enemyUseCase) {
+        this.enemyUseCase = enemyUseCase;
     }
 }

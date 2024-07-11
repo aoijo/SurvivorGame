@@ -1,13 +1,10 @@
-package UseCase.Players;
+package UseCase;
 
 import Entity.Item.Item;
 import Entity.Player;
 import Entity.Resource;
 import Entity.Tile;
-import InterfaceAdapter.UseCaseManager;
 import UseCase.Item.ItemUseCase;
-import UseCase.TileUseCase;
-import UseCase.TimeUseCase;
 import Utils.ReadCSV;
 
 import java.awt.*;
@@ -147,25 +144,13 @@ public class PlayerUseCase {
             items = new ArrayList<>();
             player.setItemInBag(items); // Make sure the player's bag is updated with the new list
         }
-
-        if (number < 0) {
-            // Handle removal or decrement of item quantity
-            for (int i = 0; i < items.size(); i++) {
-                Item item = items.get(i);
-                if (item.getId() == itemId) {
-                    if (item.getQuantity() <= -1 * number) {
-                        items.remove(i);
-                    } else {
-                        item.setQuantity(item.getQuantity() + number);
-                    }
-                    return; // Exit after processing the item
-                }
-            }
-        } else if (number > 0) {
+        if (number > 0) {
             // Handle addition or increment of item quantity
             for (Item item : items) {
                 if (item.getId() == itemId) {
                     item.setQuantity(item.getQuantity() + number);
+                    updateItemWeight(item);
+                    updateWeight();
                     return; // Exit after processing the item
                 }
             }
@@ -173,12 +158,40 @@ public class PlayerUseCase {
             Item newItem = itemUseCase.newItem(itemId);
             newItem.setQuantity(number);
             items.add(newItem);
+            updateItemWeight(newItem);
+        }
+        updateWeight();
+    }
+
+    public void removeItem(int itemId, int number) {
+        ArrayList<Item> items = player.getItemInBag();
+
+        if (items == null) {
+            items = new ArrayList<>();
+            player.setItemInBag(items);
+        }
+
+        for (Item item : items) {
+            if (item.getId() == itemId) {
+                if (item.getQuantity() <= number) {
+                    items.remove(item);
+                } else{
+                    item.setQuantity(item.getQuantity() - number);
+                    updateItemWeight(item);
+                }
+            }
         }
     }
 
     public void gainItems(int[] itemIds, int[] numbers) {
         for(int i = 0; i < itemIds.length; i++) {
             gainItem(itemIds[i], numbers[i]);
+        }
+    }
+
+    public void removeItems(int[] itemIds, int[] numbers) {
+        for(int i = 0; i < itemIds.length; i++) {
+            removeItem(itemIds[i], numbers[i]);
         }
     }
 
@@ -199,12 +212,13 @@ public class PlayerUseCase {
         // Display the item count and details for debugging
         if (items != null && !items.isEmpty()) {
             for (Item item : items) {
-                System.out.println("ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription() +
+                System.out.println("ID: " + item.getId() + ", Name: " + item.getName() + ", Weight: " + item.getWeight() +
                         ", Quantity: " + item.getQuantity());
             }
         } else {
             System.out.println("No items in the bag.");
         }
+        System.out.println("Total items: " + items.size());
     }
 
     private int[] determineHarvestItem(int[] min, int[] max){
@@ -214,5 +228,17 @@ public class PlayerUseCase {
             items[i] = random.nextInt(max[i] - min[i]) + min[i];
         }
         return items;
+    }
+
+    private void updateItemWeight(Item item){
+        item.setWeight(item.getQuantity() * item.getSingleWeight());
+    }
+
+    private void updateWeight(){
+        float Weight = 0;
+        for (Item item : player.getItemInBag()) {
+            Weight += item.getWeight();
+        }
+        player.setWeight(Weight);
     }
 }

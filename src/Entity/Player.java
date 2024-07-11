@@ -17,12 +17,12 @@ public class Player extends Character{
     private int hunger;
     private int hydration;
     private int sanity;
-    private int weight;
+    private float weight;
     private int maxHealth;
     private int maxHunger;
     private int maxHydration;
     private int maxSanity;
-    private int maxWeight;
+    private float maxWeight;
     private int levelUpHealth;
     private int levelUpHunger;
     private int levelUpHydration;
@@ -104,11 +104,11 @@ public class Player extends Character{
         this.sanity = sanity;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -144,11 +144,11 @@ public class Player extends Character{
         this.maxSanity = maxSanity;
     }
 
-    public int getMaxWeight() {
+    public float getMaxWeight() {
         return maxWeight;
     }
 
-    public void setMaxWeight(int maxWeight) {
+    public void setMaxWeight(float maxWeight) {
         this.maxWeight = maxWeight;
     }
 

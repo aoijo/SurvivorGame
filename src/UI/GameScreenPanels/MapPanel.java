@@ -4,6 +4,7 @@ import InterfaceAdapter.MapAdapter.MapController;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
+import UI.AdapterManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,12 +22,11 @@ public class MapPanel extends JPanel {
     private int tileDimension;
     private int tileNumber;
 
-    public MapPanel(MapPresenter mapPresenter, MapController mapController, PlayerPresenter playerPresenter,
-                    PlayerController playerController, int tileNumber, int tileDimension, int fontSize) {
-        this.mapPresenter = mapPresenter;
-        this.mapController = mapController;
-        this.playerPresenter = playerPresenter;
-        this.playerController = playerController;
+    public MapPanel(AdapterManager adapterManager, int tileNumber, int tileDimension, int fontSize) {
+        this.mapPresenter = adapterManager.getMapPresenter();
+        this.mapController = adapterManager.getMapController();
+        this.playerPresenter = adapterManager.getPlayerPresenter();
+        this.playerController = adapterManager.getPlayerController();
         this.tileNumber = tileNumber;
         this.tileDimension = tileDimension;
         this.fontSize = fontSize;

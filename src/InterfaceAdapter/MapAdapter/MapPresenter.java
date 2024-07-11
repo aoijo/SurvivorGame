@@ -81,4 +81,10 @@ public class MapPresenter{
                 mapUseCase.getSpecialPosition(TileType.HUNT_TEMPLE)};
     }
 
+    public int getMapWidth(){
+        return mapUseCase.getMap().getWidth();
+    }
+    public int getMapHeight(){
+        return mapUseCase.getMap().getHeight();
+    }
 }

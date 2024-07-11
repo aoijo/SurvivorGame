@@ -3,6 +3,7 @@ package UI.GameScreenPanels;
 import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.TimeAdapter;
+import UI.AdapterManager;
 import UI.GameScreenPanels.MapPanel;
 import Utils.DefaultButton;
 
@@ -19,6 +20,7 @@ public class StatusPanel extends JPanel {
     private JLabel timeLabel;
     private JLabel locationLabel;
     private JLabel seasonLabel;
+    private JLabel nameLabel;
     private JPanel dayPanel;
     private MapPanel miniMap;
 
@@ -30,10 +32,10 @@ public class StatusPanel extends JPanel {
     private JPanel expPanel;
     private JPanel sanityPanel;
 
-    public StatusPanel(PlayerPresenter playerPresenter, MapPresenter mapPresenter, TimeAdapter timeAdapter, MapPanel miniMap) {
-        this.playerPresenter = playerPresenter;
-        this.mapPresenter = mapPresenter;
-        this.timeAdapter = timeAdapter;
+    public StatusPanel(AdapterManager adapterManager, MapPanel miniMap) {
+        this.playerPresenter = adapterManager.getPlayerPresenter();
+        this.mapPresenter = adapterManager.getMapPresenter();
+        this.timeAdapter = adapterManager.getTimeAdapter();
         this.miniMap = miniMap;
 
         setLayout(new GridBagLayout());
@@ -43,6 +45,7 @@ public class StatusPanel extends JPanel {
         Font timeFont = new Font("Arial", Font.PLAIN, 12);
         Font locationFont = new Font("Arial", Font.BOLD, 12);
         Font seasonAndDayFont = new Font("Arial", Font.BOLD, 14);
+        Font nameFont = new Font("Arial", Font.ITALIC, 14);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -56,6 +59,11 @@ public class StatusPanel extends JPanel {
         constraints.gridy++;
         locationLabel = createLocationLabel(locationFont);
         add(locationLabel, constraints);
+
+        // Row 2
+        constraints.gridy++;
+        nameLabel = createNameLabel(nameFont);
+        add(nameLabel, constraints);
 
         // Row 3
         constraints.gridy++;
@@ -121,14 +129,16 @@ public class StatusPanel extends JPanel {
         sanityPanel = createValueLabel(textFont, Color.BLACK);
         add(sanityPanel, constraints);
 
-        constraints.gridy++;
-        add(bagButton(timeFont));
-
-
         // Middle Space filler
         constraints.gridy++;
         constraints.weighty = 1;
         add(new JLabel(""), constraints);
+
+        // Add bag button at the bottom just above the miniMap
+        constraints.gridy++;
+        constraints.weighty = 0;
+        constraints.gridwidth = 2;
+        add(bagButton(timeFont), constraints);
 
         // Last Row
         constraints.gridy++;
@@ -191,6 +201,11 @@ public class StatusPanel extends JPanel {
         locationLabel.setFont(locationFont);
         return locationLabel;
     }
+    private JLabel createNameLabel(Font nameFont) {
+        JLabel nameLabel = new JLabel();
+        nameLabel.setFont(nameFont);
+        return nameLabel;
+    }
 
     private JLabel createSeasonLabel(Font seasonFont) {
         JLabel seasonLabel = new JLabel();
@@ -210,10 +225,12 @@ public class StatusPanel extends JPanel {
         timeLabel.setText(getTimeString());
         locationLabel.setText(getLocationString());
         seasonLabel.setText(getSeasonString());
+        nameLabel.setText(playerPresenter.getPlayerName());
+        nameLabel.setForeground(playerPresenter.getPlayerColor());
         updateDayPanel();
 
         updateValuePanel(healthPanel, playerPresenter.getHealth(), playerPresenter.getMaxHealth());
-        updateValuePanel(weightPanel, playerPresenter.getWeight(), playerPresenter.getMaxWeight());
+        updateValuePanel(weightPanel, (int)playerPresenter.getWeight(), (int)playerPresenter.getMaxWeight());
         updateValuePanel(hydrationPanel, playerPresenter.getHydration(), playerPresenter.getMaxHydration());
         updateValuePanel(hungerPanel, playerPresenter.getHunger(), playerPresenter.getMaxHunger());
         levelLabel.setText("" + playerPresenter.getLevel());

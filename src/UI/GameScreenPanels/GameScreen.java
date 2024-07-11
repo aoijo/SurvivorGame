@@ -8,6 +8,7 @@ import InterfaceAdapter.TileAdapter;
 import InterfaceAdapter.TimeAdapter;
 import Enums.MapTile.MapType;
 import InterfaceAdapter.UseCaseManager;
+import UI.AdapterManager;
 import UI.GamePanel;
 
 import javax.swing.*;
@@ -20,66 +21,95 @@ public class GameScreen extends JPanel {
     private MapPanel mapPanel;
     private StatusPanel statusPanel;
     private TilePanel tilePanel;
-    private MapPresenter mapPresenter;
-    private PlayerPresenter playerPresenter;
-    private MapController mapController;
-    private PlayerController playerController;
-    private TimeAdapter timeAdapter;
-    private TileAdapter tileAdapter;
+
     private UseCaseManager useCaseManager;
-    private long mapSeed = 12345L;
+    private AdapterManager adapterManager;
 
     public GameScreen(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.useCaseManager = new UseCaseManager();
-        this.playerController = new PlayerController(useCaseManager);
-        this.playerPresenter = new PlayerPresenter(useCaseManager);
-        this.mapController = new MapController(32, 32, MapType.ISLAND, mapSeed, useCaseManager);
-        this.mapPresenter = new MapPresenter(useCaseManager);
-        this.timeAdapter = new TimeAdapter(useCaseManager);
-        this.tileAdapter = new TileAdapter(useCaseManager);
-        this.mapPanel = new MapPanel(mapPresenter, mapController, playerPresenter, playerController,10,50, 12);
-        MapPanel miniMap = new MapPanel(mapPresenter, mapController, playerPresenter, playerController,4,40, 9);
-        this.statusPanel = new StatusPanel(playerPresenter, mapPresenter, timeAdapter, miniMap);
-        this.tilePanel = new TilePanel(tileAdapter, playerController);
+        this.adapterManager = new AdapterManager(useCaseManager);
+        this.mapPanel = new MapPanel(adapterManager, 10, 50, 12);
+        MapPanel miniMap = new MapPanel(adapterManager, 4, 40, 9);
+        this.statusPanel = new StatusPanel(adapterManager, miniMap);
+        this.tilePanel = new TilePanel(adapterManager, statusPanel);
 
         setLayout(new BorderLayout());
         JPanel logPanel = logPanel();
 
-
         add(statusPanel, BorderLayout.WEST);
-        add(tilePanel, BorderLayout.EAST);
         add(mapPanel, BorderLayout.CENTER);
         add(logPanel, BorderLayout.SOUTH);
+
+        updateTilePanel(); // Initial check to add the tile panel if necessary
 
         // Set up key listener for player movement
         setFocusable(true);
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                int[] originalPosition = playerPresenter.getPlayerPosition();
+                int[] originalPosition = adapterManager.getPlayerPresenter().getPlayerPosition();
+                int width = adapterManager.getMapPresenter().getMapWidth();
+                int height = adapterManager.getMapPresenter().getMapHeight();
+                int x = originalPosition[0];
+                int y = originalPosition[1];
                 int key = e.getKeyCode();
-                switch (key) {
-                    case KeyEvent.VK_UP -> mapController.move(0, -1);
-                    case KeyEvent.VK_DOWN -> mapController.move(0, 1);
-                    case KeyEvent.VK_LEFT -> mapController.move(-1, 0);
-                    case KeyEvent.VK_RIGHT -> mapController.move(1, 0);
+
+                if (adapterManager.getPlayerPresenter().getPlayerUseCase().getPlayer().getWeight() <=
+                        adapterManager.getPlayerPresenter().getPlayerUseCase().getPlayer().getMaxWeight()){
+                    switch (key) {
+                        case KeyEvent.VK_UP -> {
+                            if (y > 0) {
+                                adapterManager.getMapController().move(0, -1);
+                                moveActions(originalPosition);
+                            }
+                        }
+                        case KeyEvent.VK_DOWN -> {
+                            if (y < height - 1) {
+                                adapterManager.getMapController().move(0, 1);
+                                moveActions(originalPosition);
+                            }
+                        }
+                        case KeyEvent.VK_LEFT -> {
+                            if (x > 0) {
+                                adapterManager.getMapController().move(-1, 0);
+                                moveActions(originalPosition);
+                            }
+                        }
+                        case KeyEvent.VK_RIGHT -> {
+                            if (x < width - 1) {
+                                adapterManager.getMapController().move(1, 0);
+                                moveActions(originalPosition);
+                            }
+                        }
+                    }
                 }
-                moveActions(originalPosition);
             }
         });
-
         // Request focus for key listener
         requestFocusInWindow();
     }
-    public void moveActions(int[] originalPosition){
-        int[] newPosition = playerPresenter.getPlayerPosition();
+
+    public void moveActions(int[] originalPosition) {
+        int[] newPosition = adapterManager.getPlayerPresenter().getPlayerPosition();
         if (originalPosition[0] == newPosition[0] && originalPosition[1] == newPosition[1]) {
-            timeAdapter.timePass(15);
+            adapterManager.getTimeAdapter().timePass(15);
         }
         mapPanel.repaint();
-        tilePanel.updateTilePanel();
+        updateTilePanel();
         statusPanel.updateStatusPanel();
+    }
+
+    public void updateTilePanel() {
+        if (tilePanel != null) {
+            remove(tilePanel);
+        }
+        tilePanel.updateTilePanel();
+        if (adapterManager.getTileAdapter().getResourceNames(adapterManager.getPlayerController().getPlayerPosition()).length != 0) {
+            add(tilePanel, BorderLayout.EAST);
+        }
+        revalidate();
+        repaint();
     }
 
     public JPanel logPanel() {

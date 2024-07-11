@@ -1,12 +1,7 @@
 package InterfaceAdapter.PlayerAdapter;
 
-import Enums.RaceType;
 import InterfaceAdapter.UseCaseManager;
-import UseCase.Item.ItemUseCase;
-import UseCase.Players.PlayerUseCase;
-import UseCase.TileUseCase;
-
-import java.awt.*;
+import UseCase.PlayerUseCase;
 
 public class PlayerController {
     private PlayerUseCase playerUseCase;
