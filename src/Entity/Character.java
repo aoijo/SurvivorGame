@@ -1,5 +1,7 @@
 package Entity;
 
+import java.util.ArrayList;
+
 public class Character {
     private int id;
     private String name;
@@ -17,6 +19,9 @@ public class Character {
     private int damageReduction;
     private int currentDamageReduction;
     private int speed;
+
+    private ArrayList<Skill> skills;
+    private ArrayList<Buff>  Buffs;
 
     public Character(int id) {
         this.id = id;
@@ -140,5 +145,21 @@ public class Character {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public ArrayList<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(ArrayList<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public ArrayList<Buff> getBuffs() {
+        return Buffs;
+    }
+
+    public void setBuffs(ArrayList<Buff> buffs) {
+        Buffs = buffs;
     }
 }

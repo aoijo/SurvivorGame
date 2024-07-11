@@ -1,7 +1,11 @@
 package Entity.Item;
 
+import Entity.Character;
 import Enums.Item.ItemType;
+import Enums.RaceType;
 import Enums.Rarity;
+
+import java.awt.*;
 
 public class Item {
     private int id;
@@ -16,10 +20,12 @@ public class Item {
     private int singleDust;
     private int dust;
     private int quantity;
+    private Character target;
+    private Character source;
 
     private Rarity rarity;
     private int levelRequirement;
-    private int[] raceRequirementId;
+    private RaceType[] raceRequirementId;
 
     public Item(int id) {
         this.id = id;
@@ -122,11 +128,11 @@ public class Item {
         this.levelRequirement = levelRequirement;
     }
 
-    public int[] getRaceRequirementId() {
+    public RaceType[] getRaceRequirementId() {
         return raceRequirementId;
     }
 
-    public void setRaceRequirementId(int[] raceRequirementId) {
+    public void setRaceRequirementId(RaceType[] raceRequirementId) {
         this.raceRequirementId = raceRequirementId;
     }
 
@@ -136,5 +142,21 @@ public class Item {
 
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
+    }
+
+    public Character getTarget() {
+        return target;
+    }
+
+    public void setTarget(Character target) {
+        this.target = target;
+    }
+
+    public Character getSource() {
+        return source;
+    }
+
+    public void setSource(Character source) {
+        this.source = source;
     }
 }

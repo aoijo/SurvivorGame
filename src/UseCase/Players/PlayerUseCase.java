@@ -1,33 +1,33 @@
 package UseCase.Players;
 
+import Entity.Item.Item;
 import Entity.Player;
-import Enums.RaceType;
+import UseCase.Item.ItemUseCase;
+import Utils.ReadCSV;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 
 public class PlayerUseCase {
     private Player player;
+    private String[][] RaceData;
+    private ItemUseCase itemUseCase;
 
     public PlayerUseCase(Player player) {
-        if (player == null) {
-            throw new IllegalArgumentException("Player cannot be null");
-        } else {
-            this.player = player;
-        }
-        PlayerPresets.initialize(player, player.getRace());
-        this.player.setHealth(this.player.getMaxHealth());
-        this.player.setHunger(this.player.getMaxHunger());
-        this.player.setHydration(this.player.getMaxHydration());
-        this.player.setSanity(this.player.getMaxSanity());
+        this.player = player;
     }
 
-    public PlayerUseCase(String name, Color color, RaceType race) {
-        if (name == null || color == null || race == null) {
+    public PlayerUseCase(String name, Color color, int raceId, ItemUseCase itemUseCase) {
+        this.itemUseCase = itemUseCase;
+
+        if (name == null || color == null) {
             throw new IllegalArgumentException("None of the parameters can be null");
         } else {
-            this.player = new Player(color, race);
+            this.player = new Player(color, raceId);
         }
-        PlayerPresets.initialize(player, race);
+        loadRaceData();
+        initialize(player, raceId);
         this.player.setName(name);
         this.player.setHealth(this.player.getMaxHealth());
         this.player.setHunger(this.player.getMaxHunger());
@@ -99,5 +99,89 @@ public class PlayerUseCase {
         player.setLevel(player.getLevel() + 1);
         player.setMaxExperience(10 * player.getLevel() * player.getLevel());
         player.setAttributePoint(player.getAttributePoint() + player.getLevelUpPoints());
+    }
+
+    private void loadRaceData(){
+        this.RaceData = ReadCSV.read("Data/Race.csv");
+    }
+
+    private void initialize(Player player, int raceId) {
+        String[] raceData = this.RaceData[raceId];
+        player.setDescription(raceData[2]);
+        player.setMaxHealth(Integer.parseInt(raceData[3]));
+        player.setMaxHunger(Integer.parseInt(raceData[4]));
+        player.setMaxHydration(Integer.parseInt(raceData[5]));
+        player.setMaxSanity(Integer.parseInt(raceData[6]));
+        player.setMaxWeight(Integer.parseInt(raceData[7]));
+        player.setAttack(Integer.parseInt(raceData[8]));
+        player.setDefense(Integer.parseInt(raceData[9]));
+        player.setSpeed(Integer.parseInt(raceData[10]));
+        player.setLevelUpHealth(Integer.parseInt(raceData[11]));
+        player.setLevelUpHunger(Integer.parseInt(raceData[12]));
+        player.setLevelUpHydration(Integer.parseInt(raceData[13]));
+        player.setLevelUpWeight(Integer.parseInt(raceData[14]));
+        player.setLevelUpPoints(Integer.parseInt(raceData[15]));
+        player.setLevel(Integer.parseInt(raceData[16]));
+        player.setMaxExperience(Integer.parseInt(raceData[17]));
+        gainItems(ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
+        //bagTest();
+    }
+
+    public void gainItem(int itemId, int number) {
+        // Retrieve the player's item bag
+        ArrayList<Item> items = player.getItemInBag();
+
+        // Initialize the items list if it is null
+        if (items == null) {
+            items = new ArrayList<>();
+            player.setItemInBag(items); // Make sure the player's bag is updated with the new list
+        }
+
+        if (number < 0) {
+            // Handle removal or decrement of item quantity
+            for (int i = 0; i < items.size(); i++) {
+                Item item = items.get(i);
+                if (item.getId() == itemId) {
+                    if (item.getQuantity() <= -1 * number) {
+                        items.remove(i);
+                    } else {
+                        item.setQuantity(item.getQuantity() + number);
+                    }
+                    return; // Exit after processing the item
+                }
+            }
+        } else if (number > 0) {
+            // Handle addition or increment of item quantity
+            for (Item item : items) {
+                if (item.getId() == itemId) {
+                    item.setQuantity(item.getQuantity() + number);
+                    return; // Exit after processing the item
+                }
+            }
+            // If the item does not exist in the bag, add a new one
+            Item newItem = itemUseCase.newItem(itemId);
+            newItem.setQuantity(number);
+            items.add(newItem);
+        }
+    }
+
+    public void gainItems(int[] itemIds, int[] numbers) {
+        for(int i = 0; i < itemIds.length; i++) {
+            gainItem(itemIds[i], numbers[i]);
+        }
+    }
+
+    private void bagTest() {
+        ArrayList<Item> items = player.getItemInBag();
+
+        // Display the item count and details for debugging
+        if (items != null && !items.isEmpty()) {
+            for (Item item : items) {
+                System.out.println("ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription() +
+                        ", Quantity: " + item.getQuantity());
+            }
+        } else {
+            System.out.println("No items in the bag.");
+        }
     }
 }

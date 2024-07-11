@@ -16,7 +16,7 @@ public class Buff {
     private boolean isCombat; // Check if the buff works in combat
     private boolean isActive;
 
-    public Buff(int id){
+    public Buff(int id, Character source, Character target){
         this.id = id;
     }
 

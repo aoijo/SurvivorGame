@@ -27,7 +27,7 @@ public class GameScreen extends JPanel {
 
     public GameScreen(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.playerController = new PlayerController("Player1", Color.GREEN, RaceType.HUMAN);
+        this.playerController = new PlayerController("Player1", Color.GREEN, 1);
         this.playerPresenter = new PlayerPresenter(playerController.getPlayerUseCase());
         this.mapController = new MapController(32, 32, MapType.ISLAND, mapSeed, playerController.getPlayerUseCase());
         this.mapPresenter = new MapPresenter(mapController.getMapUseCase());

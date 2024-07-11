@@ -1,0 +1,30 @@
+id,name,description,tile color,possible resouce,max resource,possible enemy,enemy spawn chance,tool required
+1,City,A bustling urban environment with towering buildings and busy streets.,#00786E,0,0,0,0,0
+2,Village,A quaint settlement with small houses and friendly villagers.,#BE5A00,0,0,0,0,0
+3,Ash Pit,A desolate area covered in ash and debris.,#323232,0,0,0,0,0
+4,Forge Temple,An ancient temple filled with the heat and smoke of a working forge.,#960000,0,0,0,0,0
+5,Hunt Temple,A sacred place use to have hunters gather and train.,#009600,0,0,0,0,0
+6,Water Temple,A serene temple surrounded by flowing water and aquatic life.,#000096,0,0,0,0,0
+7,Jelly,A whimsical landscape filled with gelatinous structures and creatures.,#6600CC,0,0,0,0,0
+8,Backyard,"A familiar suburban backyard with grass, a fence, and garden features.",#00BA00,0,0,0,0,0
+9,Abyss,A dark and mysterious chasm that seems bottomless.,#000000,0,0,0,0,0
+10,Plain,"A vast, open expanse of flat land with few trees or landmarks.",#00BA00,1 2 3 4 5,5 3 3 4 2,2 3 4 14,80 30 10 5,0
+11,Forest,"A dense area filled with tall trees, wildlife, and underbrush.",#006600,1 2 3 4 5,5 3 5 8 1,2 3 5 6 14,50 80 30 10 5,0
+12,Swamp,"A wetland area with murky waters, tall grasses, and hidden dangers.",#6600CC,1 2 3 4 6 7,3 2 2 3 5 2 ,1 2 3 5 6 10 14,30 20 10 50 50 5 5,0
+13,Hill,Rolling elevations offering wide views of the surrounding area.,#FF9933,1 2 3 4 5,5 3 3 4 2,2 3 4 14,80 30 10 5,0
+14,Cave,"A dark, underground network of tunnels and chambers",#994C00,2 3 8 9 10 11,2 5 3 3 3 3,1 2 4 5 6 14,50 80 20 50 10 5,0
+15,Mine,A resource-rich area with tunnels and mining equipment.,#636300,0,0,0,0,0
+16,Lake,A large body of freshwater surrounded by land.,#00CCCC,1 3 4 5 6 7,5 3 2 1 8 3,1 2 3 6 10 13 14,50 80 30 50 80 50 5,0
+17,Beach,"A sandy shoreline next to a large body of water, perfect for relaxation.",#FF9933,6 7 12,8 3 5,10 12 13 14,80 30 80 5,0
+18,Ocean,A vast and deep body of saltwater teeming with marine life.,#0000FF,0,0,0,0,0
+19,Deep sea,"The darkest depths of the ocean, home to strange and mysterious creatures.",#000066,0,0,0,0,0
+20,Heat Vent,An area with natural hot springs and steam vents.,#FF0000,0,0,0,0,0
+21,Island,"A piece of land surrounded by water, often isolated and tranquil.",#FF8000,0,0,0,0,0
+22,Vortex,"A swirling, powerful whirlpool or energy field.",#0099CC,0,0,0,0,0
+23,Corpse,A grim area littered with remains and signs of past battles.,#660033,0,0,0,0,0
+24,Ruin,"The remnants of an ancient civilization, now overgrown and decayed.",#00786E,0,0,0,0,0
+25,Temple,A sacred or historical building dedicated to worship or ritual in the past.,#3C3C3C,0,0,0,0,0
+26,Mountain,"A high, rocky terrain offering breathtaking views and challenging climbs.",#4A2800,1 2 3 4 5 8 9 10 11,4 3 3 5 3 2 2 1 1,1 3 11 14,50 20 30 5,0
+27,Desert,"A dry, arid landscape with sand dunes and sparse vegetation.",#994C00,4,2,7 8 9,50 80 10,0
+28,Oasis,"A lush, green area in the middle of a desert, providing water and shade.",#006600,1 4 6,3 3 6,1 2 6 9 14,80 50 30 70 5,0
+29,Lava,"A molten, fiery landscape with rivers of flowing lava and volcanic activity.",#FF0000,0,0,0,0,0

@@ -7,16 +7,17 @@ import UseCase.TileUseCase;
 
 public class MapUseCase {
     private Map map;
-    private MapGenerationStrategy strategy;
+    private TileUseCase tileUseCase;
 
-    public MapUseCase(Map map) {
-        this.map = map;
+    public MapUseCase() {
     }
 
-    public MapUseCase(int width, int height, MapType mapType, long seed) {
+
+    public Map newMap (int width, int height, MapType mapType, long seed, TileUseCase tileUseCase){
+        this.tileUseCase = tileUseCase;
         this.map = new Map(mapType, width, height, seed);
         setMapType(mapType); // Set the map type and corresponding properties
-        initializeMap(); // Initialize the map with default tiles
+        return map;
     }
 
     private void setMapType(MapType mapType) {
@@ -25,48 +26,57 @@ public class MapUseCase {
                 map.setBaseTile(TileType.PLAIN);
                 map.setWidth(32);
                 map.setHeight(32);
-                this.strategy = new IslandStrategy();
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             case VOLCANO:
                 map.setBaseTile(TileType.LAVA);
-                map.setWidth(32);                map.setHeight(32);
-                this.strategy = new VolcanoStrategy();
+                map.setWidth(32);
+                map.setHeight(32);
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             case OCEAN:
                 map.setBaseTile(TileType.OCEAN);
                 map.setWidth(32);
                 map.setHeight(32);
-                this.strategy = new OceanStrategy();
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             case UNDERGROUND:
                 map.setBaseTile(TileType.CAVE);
                 map.setWidth(32);
                 map.setHeight(32);
-                this.strategy = new UnderGroundStrategy();
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             case PENINSULA:
                 map.setBaseTile(TileType.FOREST);
                 map.setWidth(32);
                 map.setHeight(32);
-                this.strategy = new PeninsulaStrategy();
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             case CONTINENT:
                 map.setBaseTile(TileType.HILL);
                 map.setWidth(32);
                 map.setHeight(32);
-                this.strategy = new ContinentStrategy();
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             case EMPIRE:
                 map.setBaseTile(TileType.RUIN);
                 map.setWidth(32);
                 map.setHeight(32);
-                this.strategy = new EmpireStrategy();
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             case CUSTOM:
                 map.setBaseTile(TileType.PLAIN);
                 map.setWidth(32);
                 map.setHeight(32);
-                this.strategy = new CustomStrategy();
+                initializeMap();
+                new IslandStrategy().generateMap(map,tileUseCase);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid map type");
@@ -76,15 +86,10 @@ public class MapUseCase {
     private void initializeMap() {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
-                map.setTile(x, y, new TileUseCase(x, y, map.getBaseTile()).getTile()); // Set each tile to the base tile type
+                map.setTile(x, y, tileUseCase.newTile(x,y,map.getBaseTile())); // Set each tile to the base tile type
             }
         }
-        generateMap(); // Generate the map using the strategy
-    }
-
-    private void generateMap() {
-        strategy.generateMap(map);
-    }
+   }
 
     public Map getMap(){
         return map;

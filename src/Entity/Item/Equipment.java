@@ -1,5 +1,8 @@
 package Entity.Item;
 
+import java.util.ArrayList;
+
+import Entity.Buff;
 import Entity.Skill;
 import Enums.Item.EquipmentType;
 
@@ -12,9 +15,9 @@ public class Equipment extends Item {
     private int damageReduction;
 
     private int durability;
-    private int[] skillId;
-    private int[] buffId;
-    private int [] buffStack;
+    private int[] skills;
+    private int[] buffsId;
+    private int[] buffStack;
 
     private EquipmentType equipmentType;
 
@@ -38,12 +41,12 @@ public class Equipment extends Item {
         this.defense = defense;
     }
 
-    public int[] getSkillId() {
-        return skillId;
+    public int[] getSkills() {
+        return skills;
     }
 
-    public void setSkillId(int[] skillId) {
-        this.skillId = skillId;
+    public void setSkills(int[] skills) {
+        this.skills = skills;
     }
 
     public int getDurability() {
@@ -62,12 +65,12 @@ public class Equipment extends Item {
         this.equipmentType = equipmentType;
     }
 
-    public int[] getBuffId() {
-        return buffId;
+    public int[] getBuffsId() {
+        return buffsId;
     }
 
-    public void setBuffId(int[] buffId) {
-        this.buffId = buffId;
+    public void setBuffsId(int[] buffsId) {
+        this.buffsId = buffsId;
     }
 
     public int getLifeSteal() {

@@ -1,6 +1,7 @@
 package Entity;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import Entity.Item.Equipment;
 import Entity.Item.Item;
@@ -8,6 +9,7 @@ import Enums.RaceType;
 
 public class Player extends Character{
     private RaceType race;
+    private int raceId;
     private int[] position;
     private Color color;
 
@@ -36,15 +38,13 @@ public class Player extends Character{
     private boolean noSanity;
     private boolean noHydration;
 
-    private Item[] itemInBag;
+    private ArrayList<Item> itemInBag;
     private Equipment[] equipments;
-    private Skill[] skills;
-    private Buff[] Buffs;
 
-    public Player(Color color, RaceType race) {
+    public Player(Color color, int raceId) {
         super(1);
         this.color = color;
-        this.race = race;
+        this.raceId = raceId;
     }
     // Getters and Setters
 
@@ -248,11 +248,11 @@ public class Player extends Character{
         this.money = money;
     }
 
-    public Item[] getItemInBag() {
+    public ArrayList<Item> getItemInBag() {
         return itemInBag;
     }
 
-    public void setItemInBag(Item[] itemInBag) {
+    public void setItemInBag(ArrayList<Item> itemInBag) {
         this.itemInBag = itemInBag;
     }
 
@@ -264,19 +264,11 @@ public class Player extends Character{
         this.equipments = equipments;
     }
 
-    public Skill[] getSkills() {
-        return skills;
+    public int getRaceId() {
+        return raceId;
     }
 
-    public void setSkills(Skill[] skills) {
-        this.skills = skills;
-    }
-
-    public Buff[] getBuffs() {
-        return Buffs;
-    }
-
-    public void setBuffs(Buff[] buffs) {
-        Buffs = buffs;
+    public void setRaceId(int raceId) {
+        this.raceId = raceId;
     }
 }

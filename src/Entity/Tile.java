@@ -8,25 +8,27 @@ import java.awt.*;
  */
 public class Tile {
     private int id;
-    private int[] position;
     private TileType type;
     private String shortName;
     private String Name;
+    private String description;
     private Color tileColor;
     private int[] possibleResourceId;
+    private int[] maxResource;
     private int[] possibleEnemiesId;
     private int[] enemySpawnChance;
-    private int toolRequired;
+    private int[] toolRequired;
 
+    private int[] position;
     private boolean isUnique;
     private boolean isPassage;
     private boolean isTemple;
     private boolean isSettlement;
     private boolean isHome;
 
-    public Tile(int x, int y, TileType type) {
+    public Tile(int x, int y, int tileId) {
         this.position = new int[]{x, y};
-        this.type = type;
+        this.id = tileId;
     }
 
     public int[] getPosition() {
@@ -122,11 +124,11 @@ public class Tile {
         isHome = home;
     }
 
-    public int getToolRequired() {
+    public int[] getToolRequired() {
         return toolRequired;
     }
 
-    public void setToolRequired(int toolRequired) {
+    public void setToolRequired(int[] toolRequired) {
         this.toolRequired = toolRequired;
     }
 
@@ -144,5 +146,21 @@ public class Tile {
 
     public void setPossibleEnemiesId(int[] possibleEnemiesId) {
         this.possibleEnemiesId = possibleEnemiesId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int[] getMaxResource() {
+        return maxResource;
+    }
+
+    public void setMaxResource(int[] maxResource) {
+        this.maxResource = maxResource;
     }
 }
