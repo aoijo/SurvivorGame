@@ -16,7 +16,7 @@ public class Tile {
     private int[] possibleResourceId;
     private int[] maxResource;
     private int[] possibleEnemiesId;
-    private int[] enemySpawnChance;
+    private float[] enemySpawnChance;
     private int[] toolRequired;
 
     private int[] position;
@@ -25,6 +25,9 @@ public class Tile {
     private boolean isTemple;
     private boolean isSettlement;
     private boolean isHome;
+
+    private Resource[] currentResource;
+    private Enemy[] currentEnemy;
 
     public Tile(int x, int y, int tileId) {
         this.position = new int[]{x, y};
@@ -108,11 +111,11 @@ public class Tile {
         this.id = id;
     }
 
-    public int[] getEnemySpawnChance() {
+    public float[] getEnemySpawnChance() {
         return enemySpawnChance;
     }
 
-    public void setEnemySpawnChance(int[] enemySpawnChance) {
+    public void setEnemySpawnChance(float[] enemySpawnChance) {
         this.enemySpawnChance = enemySpawnChance;
     }
 
@@ -162,5 +165,37 @@ public class Tile {
 
     public void setMaxResource(int[] maxResource) {
         this.maxResource = maxResource;
+    }
+
+    public Resource[] getCurrentResource() {
+        return currentResource;
+    }
+
+    public void setCurrentResource(Resource[] currentResource) {
+        this.currentResource = currentResource;
+    }
+
+    public Enemy[] getCurrentEnemy() {
+        return currentEnemy;
+    }
+
+    public void setCurrentEnemy(Enemy[] currentEnemy) {
+        this.currentEnemy = currentEnemy;
+    }
+
+    public String[] getCurrentResourceName() {
+        String[] currentResourceName = new String[currentResource.length];
+        for (int i = 0; i < currentResource.length; i++) {
+            currentResourceName[i] = currentResource[i].getName();
+        }
+        return currentResourceName;
+    }
+
+    public int[] getCurrentResourceCount(){
+        int[] currentResourceCount = new int[currentResource.length];
+        for (int i = 0; i < currentResource.length; i++) {
+            currentResourceCount[i] = currentResource[i].getHarvestCount();
+        }
+        return currentResourceCount;
     }
 }

@@ -1,5 +1,6 @@
 package InterfaceAdapter.PlayerAdapter;
 
+import InterfaceAdapter.UseCaseManager;
 import UseCase.Players.PlayerUseCase;
 
 import java.awt.Color;
@@ -11,15 +12,8 @@ public class PlayerPresenter {
     private Color hydrationColor = new Color(0, 0, 255);
     private Color sanityColor = new Color(255, 0, 255, 128);
 
-    public PlayerPresenter(PlayerUseCase playerUseCase) {
-        this.playerUseCase = playerUseCase;
-    }
-
-    public PlayerUseCase getPlayerUseCase() {
-        return playerUseCase;
-    }
-    public void setPlayerUseCase(PlayerUseCase playerUseCase) {
-        this.playerUseCase = playerUseCase;
+    public PlayerPresenter(UseCaseManager useCaseManager) {
+        this.playerUseCase = useCaseManager.getPlayerUseCase();
     }
 
     public Color getHealthColor() {
@@ -103,5 +97,9 @@ public class PlayerPresenter {
     }
     public int getMaxExperience(){
         return this.playerUseCase.getPlayer().getMaxExperience();
+    }
+
+    public PlayerUseCase getPlayerUseCase() {
+        return playerUseCase;
     }
 }

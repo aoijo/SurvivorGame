@@ -1,16 +1,19 @@
 package UseCase;
 
+import Entity.Resource;
 import Entity.Tile;
 import Enums.MapTile.TileType;
 import Utils.GraphicsUtils;
 import Utils.ReadCSV;
 
-import java.awt.*;
+import java.util.Random;
 
 public class TileUseCase {
     private String[][] TileData;
+    private ResourceUseCase resourceUseCase;
 
-    public TileUseCase() {
+    public TileUseCase(ResourceUseCase resourceUseCase) {
+        this.resourceUseCase = resourceUseCase;
         loadTileData();
     }
 
@@ -41,9 +44,31 @@ public class TileUseCase {
         tile.setPossibleResourceId(ReadCSV.readIntList(tileData[4]));
         tile.setMaxResource(ReadCSV.readIntList(tileData[5]));
         tile.setPossibleEnemiesId(ReadCSV.readIntList(tileData[6]));
-        tile.setEnemySpawnChance(ReadCSV.readIntList(tileData[7]));
+        tile.setEnemySpawnChance(ReadCSV.readFloatList(tileData[7]));
         tile.setToolRequired(ReadCSV.readIntList(tileData[8]));
         tile.setShortName(generateShortName(tile.getName(),4));
+        initializeResource(tile);
+    }
+
+    private void initializeResource(Tile tile){
+        Resource[] currentResource = new Resource[tile.getPossibleResourceId().length];
+        int[] maxResource = tile.getMaxResource();
+        for (int i = 0; i < currentResource.length; i++) {
+            currentResource[i] = resourceUseCase.newResource(tile.getPossibleResourceId()[i]);
+            int maxResourceCount = maxResource[i];
+            currentResource[i].setMaxHarvestCount(maxResourceCount);
+            currentResource[i].setHarvestCount(initialResourceCount(maxResourceCount));
+        }
+        tile.setCurrentResource(currentResource);
+    }
+
+    public void changeResourceCount(Resource resource, int number){
+        int newCount = resource.getHarvestCount() + number;
+        if (number >0){
+            resource.setHarvestCount(Math.min(resource.getMaxHarvestCount(), newCount));
+        } else {
+            resource.setHarvestCount(Math.max(newCount, 0));
+        }
     }
 
     private TileType determineTileType(int tileId) {
@@ -116,7 +141,6 @@ public class TileUseCase {
         };
     }
 
-
     private String generateShortName(String typeName, int length) {
         if (typeName.length() > length + 1) {
             return typeName.substring(0, length).toUpperCase() + ".";
@@ -134,5 +158,11 @@ public class TileUseCase {
         if (tile.isPassage() || tile.isTemple() || tile.isSettlement()) {
             tile.setUnique(true);
         }
+    }
+
+    private int initialResourceCount(int maxCount){
+        Random rand = new Random();
+        float halfCount = ((float) maxCount) / 2;
+        return rand.nextBoolean() ? (int)halfCount : (int) Math.ceil(halfCount);
     }
 }

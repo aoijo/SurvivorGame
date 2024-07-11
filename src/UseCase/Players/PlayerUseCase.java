@@ -2,24 +2,34 @@ package UseCase.Players;
 
 import Entity.Item.Item;
 import Entity.Player;
+import Entity.Resource;
+import Entity.Tile;
+import InterfaceAdapter.UseCaseManager;
 import UseCase.Item.ItemUseCase;
+import UseCase.TileUseCase;
+import UseCase.TimeUseCase;
 import Utils.ReadCSV;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class PlayerUseCase {
     private Player player;
     private String[][] RaceData;
     private ItemUseCase itemUseCase;
+    private TileUseCase tileUseCase;
+    private TimeUseCase timeUseCase;
 
-    public PlayerUseCase(Player player) {
-        this.player = player;
+    public PlayerUseCase(TileUseCase tileUseCase, ItemUseCase itemUseCase, TimeUseCase timeUseCase, String name, Color color, int raceId) {
+        this.tileUseCase = tileUseCase;
+        this.itemUseCase = itemUseCase;
+        this.timeUseCase = timeUseCase;
+        initializePlayer(name, color, raceId);
     }
 
-    public PlayerUseCase(String name, Color color, int raceId, ItemUseCase itemUseCase) {
-        this.itemUseCase = itemUseCase;
+    public void initializePlayer(String name, Color color, int raceId) {
 
         if (name == null || color == null) {
             throw new IllegalArgumentException("None of the parameters can be null");
@@ -71,19 +81,20 @@ public class PlayerUseCase {
 
     public void changeExperience(int de) {
         int experience = player.getExperience() + de;
-        if (experience >= player.getMaxExperience()) {
+        while (experience >= player.getMaxExperience()) {
             levelUp();
-        } else if (experience < 0) {
+        }
+        if (experience < 0) {
             experience = 0;
         }
         player.setExperience(experience);
     }
 
-    public void increaseAttack(int da) {
+    public void changeAttack(int da) {
         player.setAttack(player.getAttack() + da);
     }
 
-    public void increaseDefense(int dd) {
+    public void changeDefense(int dd) {
         player.setDefense(player.getDefense() + dd);
     }
 
@@ -171,7 +182,18 @@ public class PlayerUseCase {
         }
     }
 
-    private void bagTest() {
+    public void harvestResource(Tile tile, String resourceName) {
+        Resource[] resources = tile.getCurrentResource();
+        for (Resource resource : resources) {
+            if (resource.getName().equals(resourceName)) {
+                tileUseCase.changeResourceCount(resource, -1);
+                timeUseCase.timePass(resource.getHarvestTime());
+                gainItems(resource.getItemDropId(),determineHarvestItem(resource.getItemDropMin(), resource.getItemDropMax()));
+            }
+        }
+    }
+
+    public void bagTest() {
         ArrayList<Item> items = player.getItemInBag();
 
         // Display the item count and details for debugging
@@ -183,5 +205,14 @@ public class PlayerUseCase {
         } else {
             System.out.println("No items in the bag.");
         }
+    }
+
+    private int[] determineHarvestItem(int[] min, int[] max){
+        int[] items = new int[min.length];
+        for(int i = 0; i < min.length; i++) {
+            Random random = new Random();
+            items[i] = random.nextInt(max[i] - min[i]) + min[i];
+        }
+        return items;
     }
 }

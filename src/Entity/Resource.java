@@ -1,6 +1,6 @@
 package Entity;
 
-public class Resources {
+public class Resource {
     private int id;
     private String name;
     private String description;
@@ -8,7 +8,7 @@ public class Resources {
     private int harvestTime; // Time required to do one Harvest (Minutes)
     private int respawnTime; // Time required to grow back one resource (Days)
     private int harvestCount; // Current number of this resource in the tile
-    private int maxHarvestCount; // Max number of this resource can exist in one tile
+    private int maxHarvestCount; //Max number of this resource in tile
     private int[] HarvestToolId;
     private int[] itemDropId;
     private int[] itemDropMin; // Lower boundary of item drop per harvest
@@ -17,7 +17,7 @@ public class Resources {
     private boolean canRespawn;
     private boolean canHarvest;
 
-    public Resources(int id) {
+    public Resource(int id) {
         this.id = id;
     }
 
@@ -69,14 +69,6 @@ public class Resources {
         this.harvestCount = harvestCount;
     }
 
-    public int getMaxHarvestCount() {
-        return maxHarvestCount;
-    }
-
-    public void setMaxHarvestCount(int maxHarvestCount) {
-        this.maxHarvestCount = maxHarvestCount;
-    }
-
     public int[] getItemDropMin() {
         return itemDropMin;
     }
@@ -123,5 +115,13 @@ public class Resources {
 
     public void setItemDropMax(int[] itemDropMax) {
         this.itemDropMax = itemDropMax;
+    }
+
+    public int getMaxHarvestCount() {
+        return maxHarvestCount;
+    }
+
+    public void setMaxHarvestCount(int maxHarvestCount) {
+        this.maxHarvestCount = maxHarvestCount;
     }
 }

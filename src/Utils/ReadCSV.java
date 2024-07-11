@@ -84,4 +84,19 @@ public class ReadCSV {
 
         return intArray;
     }
+
+    public static float[] readFloatList(String input) {
+        // Split the input string by spaces
+        String[] stringNumbers = input.split(" ");
+
+        // Create an int array with the same length as the string array
+        float[] intArray = new float[stringNumbers.length];
+
+        // Convert each string number to an int and store it in the int array
+        for (int i = 0; i < stringNumbers.length; i++) {
+            intArray[i] = Float.parseFloat(stringNumbers[i]);
+        }
+
+        return intArray;
+    }
 }

@@ -7,12 +7,8 @@ import UseCase.TimeUseCase;
 public class TimeAdapter {
     private TimeUseCase timeUseCase;
 
-    public TimeAdapter(TimeUseCase timeUseCase) {
-        this.timeUseCase = timeUseCase;
-    }
-
-    public TimeAdapter() {
-        this.timeUseCase = new TimeUseCase();
+    public TimeAdapter(UseCaseManager useCaseManager) {
+        this.timeUseCase = useCaseManager.getTimeUseCase();
     }
 
     public TimeUseCase getTimeUseCase() {

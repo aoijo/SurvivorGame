@@ -1,12 +1,13 @@
 package UI.GameScreenPanels;
 
-import Enums.RaceType;
 import InterfaceAdapter.MapAdapter.MapController;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
+import InterfaceAdapter.TileAdapter;
 import InterfaceAdapter.TimeAdapter;
 import Enums.MapTile.MapType;
+import InterfaceAdapter.UseCaseManager;
 import UI.GamePanel;
 
 import javax.swing.*;
@@ -18,31 +19,36 @@ public class GameScreen extends JPanel {
     private GamePanel gamePanel;
     private MapPanel mapPanel;
     private StatusPanel statusPanel;
+    private TilePanel tilePanel;
     private MapPresenter mapPresenter;
     private PlayerPresenter playerPresenter;
     private MapController mapController;
     private PlayerController playerController;
     private TimeAdapter timeAdapter;
+    private TileAdapter tileAdapter;
+    private UseCaseManager useCaseManager;
     private long mapSeed = 12345L;
 
     public GameScreen(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.playerController = new PlayerController("Player1", Color.GREEN, 1);
-        this.playerPresenter = new PlayerPresenter(playerController.getPlayerUseCase());
-        this.mapController = new MapController(32, 32, MapType.ISLAND, mapSeed, playerController.getPlayerUseCase());
-        this.mapPresenter = new MapPresenter(mapController.getMapUseCase());
-        this.timeAdapter = new TimeAdapter();
+        this.useCaseManager = new UseCaseManager();
+        this.playerController = new PlayerController(useCaseManager);
+        this.playerPresenter = new PlayerPresenter(useCaseManager);
+        this.mapController = new MapController(32, 32, MapType.ISLAND, mapSeed, useCaseManager);
+        this.mapPresenter = new MapPresenter(useCaseManager);
+        this.timeAdapter = new TimeAdapter(useCaseManager);
+        this.tileAdapter = new TileAdapter(useCaseManager);
         this.mapPanel = new MapPanel(mapPresenter, mapController, playerPresenter, playerController,10,50, 12);
         MapPanel miniMap = new MapPanel(mapPresenter, mapController, playerPresenter, playerController,4,40, 9);
         this.statusPanel = new StatusPanel(playerPresenter, mapPresenter, timeAdapter, miniMap);
+        this.tilePanel = new TilePanel(tileAdapter, playerController);
 
         setLayout(new BorderLayout());
         JPanel logPanel = logPanel();
 
-        ControlPanel controlPanel = new ControlPanel();
 
         add(statusPanel, BorderLayout.WEST);
-        add(controlPanel, BorderLayout.EAST);
+        add(tilePanel, BorderLayout.EAST);
         add(mapPanel, BorderLayout.CENTER);
         add(logPanel, BorderLayout.SOUTH);
 
@@ -72,6 +78,7 @@ public class GameScreen extends JPanel {
             timeAdapter.timePass(15);
         }
         mapPanel.repaint();
+        tilePanel.updateTilePanel();
         statusPanel.updateStatusPanel();
     }
 

@@ -31,7 +31,28 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\Data\Item\Key.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Data\Item\Quest.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\Data\Race.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Data\Resource.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -46,6 +67,62 @@
           </value>
         </entry>
         <entry key="\Data\Tile.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSV-141\csv-141.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSV-213\999751170.patch.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSV-290\psql.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSVFileParser\bom.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSVFileParser\test.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSVFileParser\testCSV246.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSVFileParser\testCSV85.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\csv-167\sample1.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

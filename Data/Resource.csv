@@ -1,14 +1,14 @@
-id ,name ,description,harvest time,respawn time,max harvest count,harvest tool,item drop,item drop min,item drop max
-1,Grass Bush,A bush providing basic grasses used in crafting and building.,2,2,100,0,1001,1,3
-2,Herb Bush,A bush containing useful herbs for potions and medicine.,2,3,50,0,2004,1,3
-3,Berry Bush,A bush that produces berries for food and potions.,5,2,50,0,2003,1,3
-4,Tree,Source of wood used in crafting and building.,20,5,200,45 46 47,1003 1004,2 1,3 3
-5,Stone Plie,A collection of stones used for various crafting recipes.,20,-1,100,0,1002 1005,1 1,3 2
-6,Water Source,A natural source of water for drinking and crafting.,3,2,200,0,2002,2,4
-7,Fishes,A group of fish providing food and crafting materials.,10,3,100,51,2008,0,1
-8,Iron Mine,A mine where iron ore is extracted.,30,-1,100,49 49 50,1002 1005 1006,0 1 1,1 2 2
-9,Copper Mine,A mine where copper ore is extracted,30,-1,100,50 49 50,1003 1005 1007,1 1 1,2 2 2
-10,Gold Mine,A mine where gold ore is extracted.,30,-1,100,51 49 50,1004 1005 1008,2 1 1,3 2 2
-11,Mana Crystal Mine,"A mine rich in mana crystals, used for magical purposes.",60,30,100,52 49 50,1009,1,2
-12,Sand Pit,A pit filled with sand.,10,1,20,0,1010 2006,-1 0,0 1
-13,Mushrooms,A cluster of mushrooms used for food and potion making.,2,2,100,0,2005,1,3
+id ,name ,description,harvest time,respawn time,harvest tool,item drop,item drop min,item drop max
+1,Grass Bush,A bush providing basic grasses used in crafting and building.,2,2,0,1001,1,3
+2,Herb Bush,A bush containing useful herbs for potions and medicine.,2,3,0,2004,1,3
+3,Berry Bush,A bush that produces berries for food and potions.,5,2,0,2003,1,3
+4,Tree,Source of wood used in crafting and building.,20,5,45 46 47,1003 1004,2 1,3 3
+5,Stone Plie,A collection of stones used for various crafting recipes.,20,-1,0,1002 1005,1 1,3 2
+6,Water Source,A natural source of water for drinking and crafting.,3,2,0,2002,2,4
+7,Fishes,A group of fish providing food and crafting materials.,10,3,51,2008,0,1
+8,Iron Mine,A mine where iron ore is extracted.,30,-1,49 49 50,1002 1005 1006,0 1 1,1 2 2
+9,Copper Mine,A mine where copper ore is extracted,30,-1,50 49 50,1003 1005 1007,1 1 1,2 2 2
+10,Gold Mine,A mine where gold ore is extracted.,30,-1,51 49 50,1004 1005 1008,2 1 1,3 2 2
+11,Mana Crystal Mine,"A mine rich in mana crystals, used for magical purposes.",60,30,52 49 50,1009,1,2
+12,Sand Pit,A pit filled with sand.,10,1,0,1010 2006,-1 0,0 1
+13,Mushrooms,A cluster of mushrooms used for food and potion making.,2,2,0,2005,1,3

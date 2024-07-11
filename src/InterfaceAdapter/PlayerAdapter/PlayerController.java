@@ -1,32 +1,20 @@
 package InterfaceAdapter.PlayerAdapter;
 
 import Enums.RaceType;
+import InterfaceAdapter.UseCaseManager;
 import UseCase.Item.ItemUseCase;
 import UseCase.Players.PlayerUseCase;
+import UseCase.TileUseCase;
 
 import java.awt.*;
 
 public class PlayerController {
     private PlayerUseCase playerUseCase;
-    private ItemUseCase itemUseCase;
     private int[] playerPosition;
 
-    public PlayerController(PlayerUseCase playerUseCase) {
-        this.playerUseCase = playerUseCase;
+    public PlayerController(UseCaseManager useCaseManager) {
+        this.playerUseCase = useCaseManager.getPlayerUseCase();
         this.playerPosition = this.playerUseCase.getPlayer().getPosition();
-    }
-    public PlayerController(String name, Color color, int raceId) {
-        this.itemUseCase = new ItemUseCase();
-        this.playerUseCase = new PlayerUseCase(name, color, raceId, itemUseCase);
-        this.playerPosition = this.playerUseCase.getPlayer().getPosition();
-    }
-
-    public PlayerUseCase getPlayerUseCase() {
-        return playerUseCase;
-    }
-
-    public void setPlayerUseCase(PlayerUseCase playerUseCase) {
-        this.playerUseCase = playerUseCase;
     }
 
     public int[] getPlayerPosition() {
@@ -35,6 +23,10 @@ public class PlayerController {
 
     public void setPlayerPosition(int[] playerPosition) {
         this.playerPosition = playerPosition;
+    }
+
+    public PlayerUseCase getPlayerUseCase(){
+        return playerUseCase;
     }
 
 }

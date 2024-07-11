@@ -4,9 +4,12 @@ import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.TimeAdapter;
 import UI.GameScreenPanels.MapPanel;
+import Utils.DefaultButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StatusPanel extends JPanel {
     private PlayerPresenter playerPresenter;
@@ -118,6 +121,10 @@ public class StatusPanel extends JPanel {
         sanityPanel = createValueLabel(textFont, Color.BLACK);
         add(sanityPanel, constraints);
 
+        constraints.gridy++;
+        add(bagButton(timeFont));
+
+
         // Middle Space filler
         constraints.gridy++;
         constraints.weighty = 1;
@@ -131,6 +138,18 @@ public class StatusPanel extends JPanel {
 
         // Initialize values
         updateStatusPanel();
+    }
+
+    private JButton bagButton(Font font){
+        JButton button = new DefaultButton("Bag", font);
+        button.setPreferredSize(new Dimension(100,50));
+        button.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playerPresenter.getPlayerUseCase().bagTest();
+            }
+        });
+        return button;
     }
 
     private JLabel createLabel(String attribute, Font font) {

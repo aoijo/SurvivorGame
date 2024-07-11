@@ -15,7 +15,7 @@ public class BuffUseCase {
 
     public Buff newBuff(int id, Character source, Character target){
         Buff buff = new Buff(id, source, target);
-        initializeBuff(buff);
+        initializeBuff(buff, id);
         return buff;
     }
 
@@ -23,8 +23,7 @@ public class BuffUseCase {
         this.buffData = ReadCSV.read("Data/Buff.csv");
     }
 
-    private void initializeBuff(Buff buff){
-        int buffId = buff.getId();
+    private void initializeBuff(Buff buff, int buffId){
         String[] buffData = this.buffData[buffId];
         buff.setName(buffData[1]);
         buff.setDescription(buffData[2]);

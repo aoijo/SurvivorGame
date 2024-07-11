@@ -122,6 +122,8 @@ public class ItemUseCase {
     }
 
     private Equipment initializeEquipment(int itemId){
+        if (itemId == 0){return null;}
+
         Equipment item = new Equipment(itemId);
         String[] equipData = this.equipmentData[itemId];
 

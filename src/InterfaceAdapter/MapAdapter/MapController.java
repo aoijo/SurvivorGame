@@ -1,6 +1,7 @@
 package InterfaceAdapter.MapAdapter;
 
 import Enums.MapTile.MapType;
+import InterfaceAdapter.UseCaseManager;
 import UseCase.Map.MapUseCase;
 import UseCase.Players.PlayerUseCase;
 import UseCase.TileUseCase;
@@ -10,11 +11,11 @@ public class MapController {
     private PlayerUseCase playerUseCase;
     private TileUseCase tileUseCase;
 
-    public MapController(int width, int height, MapType mapType, long seed, PlayerUseCase playerUseCase){
-        this.tileUseCase = new TileUseCase();
-        this.mapUseCase = new MapUseCase();
+    public MapController(int width, int height, MapType mapType, long seed, UseCaseManager useCaseManager){
+        this.tileUseCase = useCaseManager.getTileUseCase();
+        this.mapUseCase = useCaseManager.getMapUseCase();
+        this.playerUseCase = useCaseManager.getPlayerUseCase();
         mapUseCase.setMap(mapUseCase.newMap(width,height,mapType,seed, tileUseCase));
-        this.playerUseCase = playerUseCase;
     }
 
     public MapUseCase getMapUseCase() {

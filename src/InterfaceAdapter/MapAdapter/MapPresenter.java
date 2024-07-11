@@ -1,6 +1,7 @@
 package InterfaceAdapter.MapAdapter;
 
 import Enums.MapTile.TileType;
+import InterfaceAdapter.UseCaseManager;
 import UseCase.Map.MapUseCase;
 
 import java.awt.Color;
@@ -8,8 +9,8 @@ import java.awt.Color;
 public class MapPresenter{
     private MapUseCase mapUseCase;
 
-    public MapPresenter(MapUseCase mapUseCase) {
-        this.mapUseCase = mapUseCase;
+    public MapPresenter(UseCaseManager useCaseManager) {
+        this.mapUseCase = useCaseManager.getMapUseCase();
     }
 
     public MapUseCase getMapUseCase() {

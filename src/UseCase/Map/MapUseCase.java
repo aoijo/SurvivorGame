@@ -1,6 +1,7 @@
 package UseCase.Map;
 
 import Entity.Map;
+import Entity.Tile;
 import Enums.MapTile.MapType;
 import Enums.MapTile.TileType;
 import UseCase.TileUseCase;
@@ -112,5 +113,9 @@ public class MapUseCase {
             default -> {throw new IllegalArgumentException("Invalid tile type: " + tileType);}
         }
 
+    }
+
+    public Tile getTile(int x, int y){
+        return map.getTile(x, y);
     }
 }
