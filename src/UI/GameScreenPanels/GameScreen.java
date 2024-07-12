@@ -21,6 +21,7 @@ public class GameScreen extends JPanel {
     private MapPanel mapPanel;
     private StatusPanel statusPanel;
     private TilePanel tilePanel;
+    private LogPanel logPanel;
 
     private UseCaseManager useCaseManager;
     private AdapterManager adapterManager;
@@ -32,10 +33,10 @@ public class GameScreen extends JPanel {
         this.mapPanel = new MapPanel(adapterManager, 10, 50, 12);
         MapPanel miniMap = new MapPanel(adapterManager, 4, 40, 9);
         this.statusPanel = new StatusPanel(adapterManager, miniMap);
-        this.tilePanel = new TilePanel(adapterManager, statusPanel);
+        this.logPanel = new LogPanel(adapterManager);
+        this.tilePanel = new TilePanel(adapterManager, statusPanel, logPanel);
 
         setLayout(new BorderLayout());
-        JPanel logPanel = logPanel();
 
         add(statusPanel, BorderLayout.WEST);
         add(mapPanel, BorderLayout.CENTER);
@@ -98,6 +99,7 @@ public class GameScreen extends JPanel {
         mapPanel.repaint();
         updateTilePanel();
         statusPanel.updateStatusPanel();
+        logPanel.addMoveLog();
     }
 
     public void updateTilePanel() {

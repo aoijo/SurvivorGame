@@ -1,38 +1,38 @@
 id,name,description,type,maxStack,is combat
-1,Health Up,Increse max health by  1%,1,-1,1
+1,Health Up,Increase max health by  1%,1,-1,1
 2,Health Down,Decrease max health by 1%,2,99,1
-3,Hydration Up,Increse max hydration by  1%,1,-1,1
+3,Hydration Up,Increase max hydration by  1%,1,-1,1
 4,Hydration Down,Decrease max hydration by 1%,2,99,1
-5,Hunger Up,Increse max hunger by  1%,1,-1,1
-6,Hunder Down,decrease max hunger by 1%,2,99,1
-7,Weight Up,Increse max weight by  1%,1,-1,1
+5,Hunger Up,Increase max hunger by  1%,1,-1,1
+6,Hunger Down,decrease max hunger by 1%,2,99,1
+7,Weight Up,Increase max weight by  1%,1,-1,1
 8,Weight Down,Decrease max weight by 1%,2,99,1
-9,Attack Up,Increse attack by  1%,1,-1,1
+9,Attack Up,Increase attack by  1%,1,-1,1
 10,Attack Down,Decrease attack by 1%,2,99,1
-11,Defense UP,Increse defense by  1%,1,-1,1
+11,Defense UP,Increase defense by  1%,1,-1,1
 12,Defense Down,Decrease defense by 1%,2,99,1
 13,Life Steal Up,Increase life steal by 1%,1,-1,1
-14,Damage Reduction Up,Increse damage reduction by  1%,1,-1,1
+14,Damage Reduction Up,Increase damage reduction by  1%,1,-1,1
 15,Damage Reduction Down,Decrease damage reduction by 1%,2,-1,1
-16,Exp Up,Increse experience gain by  1%,1,-1,1
+16,Exp Up,Increase experience gain by  1%,1,-1,1
 17,Exp Down,Decrease experience gain by 1%,2,-1,1
-18,Luck Up,Increse Item drop range by 1,1,-1,1
+18,Luck Up,Increase Item drop range by 1,1,-1,1
 19,Luck Down,Decrease Item drop range by 1,2,-1,1
-20,Health Increase,Increse max health by  1,1,-1,1
+20,Health Increase,Increase max health by  1,1,-1,1
 21,Health Decrease,Decrease max health by 1,2,-1,1
-22,Hydration Increase,Increse max hydration by  1,1,-1,1
+22,Hydration Increase,Increase max hydration by  1,1,-1,1
 23,Hydration Decrease,Decrease max hydration by 1,2,-1,1
-24,Hunger  Increase,Increse max hunger by  1,1,-1,1
-25,Hunder Decrease,decrease max hunger by 1,2,-1,1
-26,Weight Increase,Increse max weight by  1,1,-1,1
+24,Hunger  Increase,Increase max hunger by  1,1,-1,1
+25,Hunger Decrease,decrease max hunger by 1,2,-1,1
+26,Weight Increase,Increase max weight by  1,1,-1,1
 27,Weight Decrease,Decrease max weight by 1,2,-1,1
-28,Attack Increase,Increse attack by  1,1,-1,1
+28,Attack Increase,Increase attack by  1,1,-1,1
 29,Attack Decrease,Decrease attack by 1,2,-1,1
-30,Defense Increase,Increse defense by  1,1,-1,1
+30,Defense Increase,Increase defense by  1,1,-1,1
 31,Defense Decrease,Decrease defense by 1,2,-1,1
-32,Faster,"After reaches 100 stack, apply 1 Skip yurn to your opponent, then reset to 0",1,100,1
+32,Faster,"After reaches 100 stack, apply 1 Skip turn to your opponent, then reset to 0",1,100,1
 33,Skip turn,Skip next turn,2,-1,1
 34,Negate,"If health would drop below 1, set health to one",1,1,1
 35,Goblin Killer,Increase damage to goblin by 100%,1,1,1
-36,Thorn,Deal 1 damage to oppoent when attacked,1,-1,1
+36,Thorn,Deal 1 damage to opponent when attacked,1,-1,1
 37,Accuracy down,Decrease the chance of hitting an attack by 1%,2,99,1

@@ -12,7 +12,7 @@ id,name,description,single price,single weight,single dust,level requirement,att
 11,Soft Armor,Comfortable and flexible armor offering basic protection.,50,5,10,1,0,3,0,0,0,0,50,0,0,0,1
 12,Leather Armor,Durable armor crafted from toughened leather.,100,15,20,4,0,7,0,0,0,0,100,0,0,0,1
 13,Shell Armor,Protective armor made from hardened shells.,150,20,50,7,0,12,0,0,0,0,150,0,0,0,1
-14,Common Unite,Made by the essense of common creatures.,5000,10,500,20,15,40,200,0,0,0,1000,0,0,0,1
+14,Common Unite,Made by the essence of common creatures.,5000,10,500,20,15,40,200,0,0,0,1000,0,0,0,1
 15,Commando Armor,Elite armor designed for special operations units.,200,10,100,10,0,15,0,0,0,0,200,0,0,0,1
 16,Dwarf Armor,Sturdy armor crafted to fit the robust build of dwarves.,300,10,150,13,0,20,0,0,0,0,300,0,0,0,1
 17,Ember Armor,Armor imbued with the power of smoldering embers.,500,20,200,17,0,25,0,0,0,0,400,0,0,0,1
@@ -27,9 +27,9 @@ id,name,description,single price,single weight,single dust,level requirement,att
 26,Heart of Dwarf,Make the user take less damage.,500,1,100,1,0,0,0,0,5,0,-1,0,0,0,3
 27,Sword Ring,"A ring with a sword on it, increases attack.",500,1,100,1,5,0,0,0,0,0,-1,0,9,20,3
 28,Shield Ring,"A ring with a shield on it, increases defense.",500,1,100,1,0,5,0,0,0,0,-1,0,11,20,3
-29,Thorn Ring,"A ring with thorn on it, deal damage to attacker when acttacked",500,1,100,1,0,0,0,0,0,0,-1,0,36,1,3
-30,Ring of Negation,"Health cannot drop below 1, destoryed after trigger.",500,1,100,1,0,0,0,0,0,0,1,0,34,1,3
-31,Sandworm's Crown,"Mouthpart of sandworm, gain all stats while in dessert.",500,1,100,1,0,0,0,0,0,0,-1,0,1 3 5 7 9 11,5 5 5 5 5 5,3
+29,Thorn Ring,"A ring with thorn on it, deal damage to attacker when attacked",500,1,100,1,0,0,0,0,0,0,-1,0,36,1,3
+30,Ring of Negation,"Health cannot drop below 1, destroyed after trigger.",500,1,100,1,0,0,0,0,0,0,1,0,34,1,3
+31,Sandworm's Crown,"Mouth part of sand worm, gain all stats while in dessert.",500,1,100,1,0,0,0,0,0,0,-1,0,1 3 5 7 9 11,5 5 5 5 5 5,3
 32,Bloody Sword Ring,"A sword ring covered in blood, increases attack greatly while health is low.",500,1,100,1,0,0,0,0,0,0,-1,0,9,50,3
 33,Bloody Shield Ring,"A shield ring covered in blood, increases defence greatly while health is low.",500,1,100,1,0,0,0,0,0,0,-1,0,11,50,3
 34,Shiny Charm,"A charm that is shiny at every angle, increases luck.",500,1,100,1,0,0,0,0,0,0,-1,0,18,1,3

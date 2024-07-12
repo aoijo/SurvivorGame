@@ -1,4 +1,4 @@
-id,name,description,tile color,possible resouce,max resource,possible enemy,enemy spawn chance,tool required
+id,name,description,tile color,possible resource,max resource,possible enemy,enemy spawn chance,tool required
 1,City,A bustling urban environment with towering buildings and busy streets.,#00786E,0,0,0,0,0
 2,Village,A quaint settlement with small houses and friendly villagers.,#BE5A00,0,0,0,0,0
 3,Ash Pit,A desolate area covered in ash and debris.,#323232,0,0,0,0,0

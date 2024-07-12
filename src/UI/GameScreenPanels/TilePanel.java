@@ -14,15 +14,17 @@ public class TilePanel extends JPanel {
     private TileAdapter tileAdapter;
     private PlayerController playerController;
     private StatusPanel statusPanel;
+    private LogPanel logPanel;
     private int[] playerPosition;
 
-    public TilePanel(AdapterManager adapterManager, StatusPanel statusPanel) {
+    public TilePanel(AdapterManager adapterManager, StatusPanel statusPanel, LogPanel logPanel) {
         this.statusPanel = statusPanel;
+        this.logPanel = logPanel;
         this.tileAdapter = adapterManager.getTileAdapter();
         this.playerController = adapterManager.getPlayerController();
         this.playerPosition = playerController.getPlayerPosition();
         setLayout(new FlowLayout());
-        //setPreferredSize(new Dimension(300,600));
+        //setPreferredSize(new Dimension(150,600));
         updateTilePanel();
     }
 
@@ -44,6 +46,7 @@ public class TilePanel extends JPanel {
                 playerController.getPlayerUseCase().harvestResource(
                         tileAdapter.getMapUseCase().getTile(playerPosition[0], playerPosition[1]), resourceName);
                 updateTilePanel();
+                logPanel.addHarvestLog(resourceName);
             }
         });
         return resourceButton;
@@ -56,6 +59,9 @@ public class TilePanel extends JPanel {
             if (resourceCount[i] > 0) {
                 add(createResourceButton(resourceNames[i], resourceCount[i]));
             }
+        }
+        if (resourceNames.length == 0){
+            add(new JLabel("There is no resource left!"));
         }
     }
 
