@@ -1,19 +1,17 @@
-package Entity;
+package Entity.Character;
 
 import Enums.EnemyType;
 import Enums.Rarity;
 
-public class Enemy extends Character{
+public class Enemy extends Character {
     private Rarity rarity;
-    private int experience;
 
     private EnemyType[] enemyTypes;
     private int attackTimeRange; // 0 if attack all day, 1 if attack only at day, 2 if attack only at night
     private int attackChance;
 
-    private int attackUncertainty;
-    private int defenseUncertainty;
-    private Skill[] skillId;
+    private int[] skillId;
+    private float[] skillTriggerHealth;
 
     private boolean isBoss;
     private boolean isCursed;
@@ -33,23 +31,6 @@ public class Enemy extends Character{
         this.rarity = rarity;
     }
 
-    public int getAttackUncertainty() {
-        return attackUncertainty;
-    }
-
-    public void setAttackUncertainty(int attackUncertainty) {
-        this.attackUncertainty = attackUncertainty;
-    }
-
-
-    public int getDefenseUncertainty() {
-        return defenseUncertainty;
-    }
-
-    public void setDefenseUncertainty(int defenseUncertainty) {
-        this.defenseUncertainty = defenseUncertainty;
-    }
-
     public boolean isBoss() {
         return isBoss;
     }
@@ -58,11 +39,11 @@ public class Enemy extends Character{
         isBoss = boss;
     }
 
-    public Skill[] getSkillId() {
+    public int[] getSkillId() {
         return skillId;
     }
 
-    public void setSkillId(Skill[] skillId) {
+    public void setSkillId(int[] skillId) {
         this.skillId = skillId;
     }
 
@@ -80,14 +61,6 @@ public class Enemy extends Character{
 
     public void setItemDropMin(int[] itemDropMin) {
         this.itemDropMin = itemDropMin;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
     }
 
     public int getAttackTimeRange() {
@@ -120,5 +93,21 @@ public class Enemy extends Character{
 
     public void setItemDropMax(int[] itemDropMax) {
         this.itemDropMax = itemDropMax;
+    }
+
+    public EnemyType[] getEnemyTypes() {
+        return enemyTypes;
+    }
+
+    public void setEnemyTypes(EnemyType[] enemyTypes) {
+        this.enemyTypes = enemyTypes;
+    }
+
+    public float[] getSkillTriggerHealth() {
+        return skillTriggerHealth;
+    }
+
+    public void setSkillTriggerHealth(float[] skillTriggerHealth) {
+        this.skillTriggerHealth = skillTriggerHealth;
     }
 }

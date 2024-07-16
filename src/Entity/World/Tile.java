@@ -1,7 +1,9 @@
-package Entity;
+package Entity.World;
 
+import Entity.Character.Enemy;
 import Enums.MapTile.TileType;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Represents a tile on a map, with properties such as position, type, and a short name.
@@ -27,7 +29,7 @@ public class Tile {
     private boolean isHome;
 
     private Resource[] currentResource;
-    private Enemy[] currentEnemy;
+    private ArrayList<Enemy> currentEnemy;
 
     public Tile(int x, int y, int tileId) {
         this.position = new int[]{x, y};
@@ -175,11 +177,11 @@ public class Tile {
         this.currentResource = currentResource;
     }
 
-    public Enemy[] getCurrentEnemy() {
+    public ArrayList<Enemy> getCurrentEnemy() {
         return currentEnemy;
     }
 
-    public void setCurrentEnemy(Enemy[] currentEnemy) {
+    public void setCurrentEnemy(ArrayList<Enemy> currentEnemy) {
         this.currentEnemy = currentEnemy;
     }
 
@@ -197,5 +199,13 @@ public class Tile {
             currentResourceCount[i] = currentResource[i].getHarvestCount();
         }
         return currentResourceCount;
+    }
+
+    public String[] getCurrenEnemyName(){
+        String[] currentEnemyName = new String[currentEnemy.size()];
+        for (int i = 0; i < currentEnemy.size(); i++){
+            currentEnemyName[i] = currentEnemy.get(i).getName();
+        }
+        return currentEnemyName;
     }
 }

@@ -1,18 +1,23 @@
 package UseCase;
 
-import Entity.Resource;
-import Entity.Tile;
+import Entity.Character.Enemy;
+import Entity.World.Resource;
+import Entity.World.Tile;
 import Enums.MapTile.TileType;
 import Utils.GraphicsUtils;
 import Utils.ReadCSV;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class TileUseCase {
     private String[][] TileData;
     private ResourceUseCase resourceUseCase;
+    private EnemyUseCase enemyUseCase;
+    private Random random = new Random();
 
-    public TileUseCase(ResourceUseCase resourceUseCase) {
+    public TileUseCase(ResourceUseCase resourceUseCase, EnemyUseCase enemyUseCase) {
+        this.enemyUseCase = enemyUseCase;
         this.resourceUseCase = resourceUseCase;
         loadTileData();
     }
@@ -48,18 +53,49 @@ public class TileUseCase {
         tile.setToolRequired(ReadCSV.readIntList(tileData[8]));
         tile.setShortName(generateShortName(tile.getName(),4));
         initializeResource(tile);
+        respawnNormalEnemy(tile);
     }
 
     private void initializeResource(Tile tile){
         Resource[] currentResource = new Resource[tile.getPossibleResourceId().length];
         int[] maxResource = tile.getMaxResource();
+        int[] possibleResourceId = tile.getPossibleResourceId();
+
         for (int i = 0; i < currentResource.length; i++) {
-            currentResource[i] = resourceUseCase.newResource(tile.getPossibleResourceId()[i]);
+            currentResource[i] = resourceUseCase.newResource(possibleResourceId[i]);
             int maxResourceCount = maxResource[i];
             currentResource[i].setMaxHarvestCount(maxResourceCount);
             currentResource[i].setHarvestCount(initialResourceCount(maxResourceCount));
         }
         tile.setCurrentResource(currentResource);
+    }
+
+    public void respawnNormalEnemy(Tile tile){
+        ArrayList<Enemy> currentEnemy = new ArrayList<>();
+        int[] possibleEnemyId = tile.getPossibleEnemiesId();
+        float[] enemySpawnChance = tile.getEnemySpawnChance();
+        for (int i = 0; i < possibleEnemyId.length; i++){
+            if (random.nextFloat() < enemySpawnChance[i]){
+                currentEnemy.add(enemyUseCase.newEnemy(possibleEnemyId[i], false, false));
+            }
+        }
+        tile.setCurrentEnemy(currentEnemy);
+    }
+
+    public void addEnemy(Tile tile, int Id, boolean isBoss, Boolean isCursed){
+        ArrayList<Enemy> currentEnemy = tile.getCurrentEnemy();
+        currentEnemy.add(enemyUseCase.newEnemy(Id, isBoss, isCursed));
+        tile.setCurrentEnemy(currentEnemy);
+    }
+
+    public void removeEnemy(Tile tile, int Id){
+        ArrayList<Enemy> currentEnemy = tile.getCurrentEnemy();
+        for (Enemy enemy : currentEnemy){
+            if (enemy.getId() == Id){
+                currentEnemy.remove(enemy);
+            }
+        }
+        tile.setCurrentEnemy(currentEnemy);
     }
 
     public void changeResourceCount(Resource resource, int number){
@@ -161,8 +197,7 @@ public class TileUseCase {
     }
 
     private int initialResourceCount(int maxCount){
-        Random rand = new Random();
         float halfCount = ((float) maxCount) / 2;
-        return rand.nextBoolean() ? (int)halfCount : (int) Math.ceil(halfCount);
+        return random.nextBoolean() ? (int)halfCount : (int) Math.ceil(halfCount);
     }
 }

@@ -16,13 +16,14 @@ public class StatusPanel extends JPanel {
     private PlayerPresenter playerPresenter;
     private MapPresenter mapPresenter;
     private TimeAdapter timeAdapter;
+    private GridBagConstraints constraints;
 
     private JLabel timeLabel;
     private JLabel locationLabel;
     private JLabel seasonLabel;
     private JLabel nameLabel;
     private JPanel dayPanel;
-    private MapPanel miniMap;
+    //private MapPanel miniMap;
 
     private JPanel healthPanel;
     private JPanel weightPanel;
@@ -36,10 +37,11 @@ public class StatusPanel extends JPanel {
         this.playerPresenter = adapterManager.getPlayerPresenter();
         this.mapPresenter = adapterManager.getMapPresenter();
         this.timeAdapter = adapterManager.getTimeAdapter();
-        this.miniMap = miniMap;
+        //this.miniMap = miniMap;
 
         setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
+        setPreferredSize(new Dimension(200, 600));
+        constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 10, 5, 10);
         Font textFont = new Font("Courier New", Font.BOLD, 12);
         Font timeFont = new Font("Arial", Font.PLAIN, 12);
@@ -144,10 +146,14 @@ public class StatusPanel extends JPanel {
         constraints.gridy++;
         constraints.gridwidth = 2;
         constraints.weighty = 0;
-        add(miniMap, constraints);
+        //add(miniMap, constraints);
 
         // Initialize values
         updateStatusPanel();
+    }
+
+    public GridBagConstraints getConstraints() {
+        return constraints;
     }
 
     private JButton bagButton(Font font){
@@ -236,7 +242,7 @@ public class StatusPanel extends JPanel {
         levelLabel.setText("" + playerPresenter.getLevel());
         updateValuePanel(expPanel, playerPresenter.getExperience(), playerPresenter.getMaxExperience());
         updateValuePanel(sanityPanel, playerPresenter.getSanity(), playerPresenter.getMaxSanity());
-        miniMap.repaint();
+        //miniMap.repaint();
     }
 
     private String getTimeString() {

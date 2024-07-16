@@ -1,11 +1,9 @@
 package Entity.Item;
 
-import Entity.Character;
+import Entity.Character.Character;
 import Enums.Item.ItemType;
 import Enums.RaceType;
 import Enums.Rarity;
-
-import java.awt.*;
 
 public class Item {
     private int id;

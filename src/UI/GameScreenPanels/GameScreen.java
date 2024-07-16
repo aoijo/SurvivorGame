@@ -29,6 +29,10 @@ public class GameScreen extends JPanel {
     public GameScreen(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.useCaseManager = new UseCaseManager();
+
+        //For Testing
+        useCaseManager.getPlayerUseCase().setPlayer(useCaseManager.getPlayerUseCase().newPlayer("Player 1", Color.GREEN,1));
+
         this.adapterManager = new AdapterManager(useCaseManager);
         this.mapPanel = new MapPanel(adapterManager, 10, 50, 12);
         MapPanel miniMap = new MapPanel(adapterManager, 4, 40, 9);
@@ -36,13 +40,15 @@ public class GameScreen extends JPanel {
         this.logPanel = new LogPanel(adapterManager);
         this.tilePanel = new TilePanel(adapterManager, statusPanel, logPanel);
 
+        //Testing Ends
+
         setLayout(new BorderLayout());
 
         add(statusPanel, BorderLayout.WEST);
         add(mapPanel, BorderLayout.CENTER);
         add(logPanel, BorderLayout.SOUTH);
-
-        updateTilePanel(); // Initial check to add the tile panel if necessary
+        tilePanel.updateTilePanel();
+        add(tilePanel, BorderLayout.EAST);
 
         // Set up key listener for player movement
         setFocusable(true);
@@ -97,25 +103,20 @@ public class GameScreen extends JPanel {
             adapterManager.getTimeAdapter().timePass(15);
         }
         mapPanel.repaint();
-        updateTilePanel();
+        tilePanel.updateTilePanel();
         statusPanel.updateStatusPanel();
         logPanel.addMoveLog();
-    }
-
-    public void updateTilePanel() {
-        if (tilePanel != null) {
-            remove(tilePanel);
-        }
-        tilePanel.updateTilePanel();
-        if (adapterManager.getTileAdapter().getResourceNames(adapterManager.getPlayerController().getPlayerPosition()).length != 0) {
-            add(tilePanel, BorderLayout.EAST);
-        }
-        revalidate();
-        repaint();
     }
 
     public JPanel logPanel() {
         JPanel logPanel = new JPanel();
         return logPanel;
+    }
+
+    public UseCaseManager getUseCaseManager() {
+        return useCaseManager;
+    }
+    public AdapterManager getAdapterManager() {
+        return adapterManager;
     }
 }

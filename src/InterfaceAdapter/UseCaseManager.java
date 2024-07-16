@@ -14,6 +14,7 @@ public class UseCaseManager {
     private PlayerUseCase playerUseCase;
     private TileUseCase tileUseCase;
     private TimeUseCase timeUseCase;
+    private SkillUseCase skillUseCase;
     private EnemyUseCase enemyUseCase;
 
     public UseCaseManager() {
@@ -21,10 +22,11 @@ public class UseCaseManager {
         mapUseCase = new MapUseCase();
         buffUseCase = new BuffUseCase();
         resourceUseCase = new ResourceUseCase();
-        tileUseCase = new TileUseCase(resourceUseCase);
         timeUseCase = new TimeUseCase();
-        enemyUseCase = new EnemyUseCase();
-        playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase,"Player 1", Color.GREEN, 1);
+        skillUseCase = new SkillUseCase();
+        enemyUseCase = new EnemyUseCase(skillUseCase);
+        tileUseCase = new TileUseCase(resourceUseCase, enemyUseCase);
+        playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase);
     }
 
     public ItemUseCase getItemUseCase() {

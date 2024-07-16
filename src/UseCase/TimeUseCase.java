@@ -1,6 +1,6 @@
 package UseCase;
 
-import Entity.Time;
+import Entity.World.Time;
 import Enums.Month.Season;
 import Enums.Month.Month;
 

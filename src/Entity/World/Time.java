@@ -1,4 +1,4 @@
-package Entity;
+package Entity.World;
 
 public class Time {
     private int Year;

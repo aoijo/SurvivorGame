@@ -1,5 +1,6 @@
 package Entity;
 
+import Entity.Character.Character;
 import Enums.BuffType;
 
 public class Buff {

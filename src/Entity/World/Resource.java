@@ -1,4 +1,4 @@
-package Entity;
+package Entity.World;
 
 public class Resource {
     private int id;

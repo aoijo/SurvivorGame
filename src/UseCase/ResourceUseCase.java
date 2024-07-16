@@ -1,6 +1,6 @@
 package UseCase;
 
-import Entity.Resource;
+import Entity.World.Resource;
 import Utils.ReadCSV;
 
 public class ResourceUseCase {

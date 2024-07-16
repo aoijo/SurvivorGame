@@ -1,9 +1,9 @@
 package UseCase;
 
 import Entity.Item.Item;
-import Entity.Player;
-import Entity.Resource;
-import Entity.Tile;
+import Entity.Character.Player;
+import Entity.World.Resource;
+import Entity.World.Tile;
 import UseCase.Item.ItemUseCase;
 import Utils.ReadCSV;
 
@@ -19,28 +19,26 @@ public class PlayerUseCase {
     private TileUseCase tileUseCase;
     private TimeUseCase timeUseCase;
 
-    public PlayerUseCase(TileUseCase tileUseCase, ItemUseCase itemUseCase, TimeUseCase timeUseCase, String name, Color color, int raceId) {
+    public PlayerUseCase(TileUseCase tileUseCase, ItemUseCase itemUseCase, TimeUseCase timeUseCase) {
         this.tileUseCase = tileUseCase;
         this.itemUseCase = itemUseCase;
         this.timeUseCase = timeUseCase;
-        initializePlayer(name, color, raceId);
+        loadRaceData();
     }
 
-    public void initializePlayer(String name, Color color, int raceId) {
-
-        if (name == null || color == null) {
-            throw new IllegalArgumentException("None of the parameters can be null");
-        } else {
-            this.player = new Player(color, raceId);
-        }
-        loadRaceData();
-        initialize(player, raceId);
-        this.player.setName(name);
-        this.player.setHealth(this.player.getMaxHealth());
-        this.player.setHunger(this.player.getMaxHunger());
-        this.player.setHydration(this.player.getMaxHydration());
-        this.player.setSanity(this.player.getMaxSanity());
-        this.player.setPosition(new int[]{0,0});
+    public Player newPlayer(String name, Color color, int raceId) {
+        Player newPlayer = new Player(color, raceId);
+        initialize(newPlayer, raceId);
+        newPlayer.setName(name);
+        newPlayer.setHealth(newPlayer.getMaxHealth());
+        newPlayer.setHunger(newPlayer.getMaxHunger());
+        newPlayer.setHydration(newPlayer.getMaxHydration());
+        newPlayer.setSanity(newPlayer.getMaxSanity());
+        newPlayer.setPosition(new int[]{0,0});
+        return newPlayer;
+    }
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Player getPlayer() {
@@ -131,11 +129,11 @@ public class PlayerUseCase {
         player.setLevelUpPoints(Integer.parseInt(raceData[15]));
         player.setLevel(Integer.parseInt(raceData[16]));
         player.setMaxExperience(Integer.parseInt(raceData[17]));
-        gainItems(ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
+        gainItems(player,ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
         //bagTest();
     }
 
-    public void gainItem(int itemId, int number) {
+    public void gainItem(Player player, int itemId, int number) {
         // Retrieve the player's item bag
         ArrayList<Item> items = player.getItemInBag();
 
@@ -150,7 +148,7 @@ public class PlayerUseCase {
                 if (item.getId() == itemId) {
                     item.setQuantity(item.getQuantity() + number);
                     updateItemWeight(item);
-                    updateWeight();
+                    updateWeight(player);
                     return; // Exit after processing the item
                 }
             }
@@ -160,7 +158,7 @@ public class PlayerUseCase {
             items.add(newItem);
             updateItemWeight(newItem);
         }
-        updateWeight();
+        updateWeight(player);
     }
 
     public void removeItem(int itemId, int number) {
@@ -183,9 +181,9 @@ public class PlayerUseCase {
         }
     }
 
-    public void gainItems(int[] itemIds, int[] numbers) {
+    public void gainItems(Player player,int[] itemIds, int[] numbers) {
         for(int i = 0; i < itemIds.length; i++) {
-            gainItem(itemIds[i], numbers[i]);
+            gainItem(player,itemIds[i], numbers[i]);
         }
     }
 
@@ -201,7 +199,7 @@ public class PlayerUseCase {
             if (resource.getName().equals(resourceName)) {
                 tileUseCase.changeResourceCount(resource, -1);
                 timeUseCase.timePass(resource.getHarvestTime());
-                gainItems(resource.getItemDropId(),determineHarvestItem(resource.getItemDropMin(), resource.getItemDropMax()));
+                gainItems(this.player,resource.getItemDropId(),determineHarvestItem(resource.getItemDropMin(), resource.getItemDropMax()));
             }
         }
     }
@@ -234,7 +232,7 @@ public class PlayerUseCase {
         item.setWeight(item.getQuantity() * item.getSingleWeight());
     }
 
-    private void updateWeight(){
+    private void updateWeight(Player player){
         float Weight = 0;
         for (Item item : player.getItemInBag()) {
             Weight += item.getWeight();

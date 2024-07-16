@@ -1,4 +1,4 @@
-id,name,description,single price,single weight,single dust,level requirement,attack,defense,max health,life steal,damage reduction,max weight,durability,skill id,buff id,buff stack,equipment type
+id,name,description,single price,single weight,single dust,level requirement,attack,defense,max health,life steal,damage reduction,max weight,powerLevel,skill id,buff id,buff stack,equipment type
 1,Stone Spear,A sturdy spear crafted from sharpened stone.,5,2,5,1,2,0,0,0,0,0,30,0,0,0,2
 2,Fang Dagger,A lethal dagger with a blade fashioned from a beast's fang.,50,3,10,1,5,0,0,0,0,0,50,0,0,0,2
 3,Beast Claw,A fierce weapon made from the claw of a wild beast.,100,3,20,4,8,0,0,0,0,0,100,0,0,0,2

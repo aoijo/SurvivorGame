@@ -1,4 +1,4 @@
-package Entity;
+package Entity.World;
 
 import Enums.MapTile.MapType;
 import Enums.MapTile.TileType;

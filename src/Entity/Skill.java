@@ -1,17 +1,26 @@
 package Entity;
 
+import Entity.Character.Character;
+
 public class Skill {
     private int id;
     private String name;
     private String description;
 
-    private int durability;
+    private float powerLevel;
+    private int cooldown;
+    private Character source;
+    private Character target;
 
     private boolean isGeneral; // Check if the skill be used outside of combat
     private boolean isCombat; // Check if the skill can be used in combat
 
     public Skill(int id){
         this.id = id;
+    }
+
+    public void activate(){
+        System.out.println("Activating Skill " + id);
     }
 
     public int getId() {
@@ -38,12 +47,12 @@ public class Skill {
         this.description = description;
     }
 
-    public int getDurability() {
-        return durability;
+    public float getPowerLevel() {
+        return powerLevel;
     }
 
-    public void setDurability(int durability) {
-        this.durability = durability;
+    public void setPowerLevel(float powerLevel) {
+        this.powerLevel = powerLevel;
     }
 
     public boolean isGeneral() {
@@ -60,5 +69,29 @@ public class Skill {
 
     public void setCombat(boolean combat) {
         isCombat = combat;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    public Character getSource() {
+        return source;
+    }
+
+    public void setSource(Character source) {
+        this.source = source;
+    }
+
+    public Character getTarget() {
+        return target;
+    }
+
+    public void setTarget(Character target) {
+        this.target = target;
     }
 }

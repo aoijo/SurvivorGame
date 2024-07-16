@@ -1,4 +1,4 @@
-package Entity;
+package Entity.Character;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -7,18 +7,16 @@ import Entity.Item.Equipment;
 import Entity.Item.Item;
 import Enums.RaceType;
 
-public class Player extends Character{
+public class Player extends Character {
     private RaceType race;
     private int raceId;
     private int[] position;
     private Color color;
 
-    private int health;
     private int hunger;
     private int hydration;
     private int sanity;
     private float weight;
-    private int maxHealth;
     private int maxHunger;
     private int maxHydration;
     private int maxSanity;
@@ -27,8 +25,6 @@ public class Player extends Character{
     private int levelUpHunger;
     private int levelUpHydration;
     private int levelUpWeight;
-
-    private int experience;
     private int maxExperience;
     private int levelUpPoints;
     private int attributePoint;
@@ -72,14 +68,6 @@ public class Player extends Character{
         this.color = color;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
     public int getHunger() {
         return hunger;
     }
@@ -110,14 +98,6 @@ public class Player extends Character{
 
     public void setWeight(float weight) {
         this.weight = weight;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
     }
 
     public int getMaxHunger() {
@@ -182,14 +162,6 @@ public class Player extends Character{
 
     public void setLevelUpWeight(int levelUpWeight) {
         this.levelUpWeight = levelUpWeight;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
     }
 
     public int getMaxExperience() {

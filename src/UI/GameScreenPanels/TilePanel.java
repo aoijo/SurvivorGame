@@ -16,6 +16,9 @@ public class TilePanel extends JPanel {
     private StatusPanel statusPanel;
     private LogPanel logPanel;
     private int[] playerPosition;
+    private Font titleFont = new Font("Arial", Font.BOLD, 15);
+    private Font buttonFont = new Font("Arial", Font.BOLD, 10);
+    private GridBagConstraints constraints;
 
     public TilePanel(AdapterManager adapterManager, StatusPanel statusPanel, LogPanel logPanel) {
         this.statusPanel = statusPanel;
@@ -23,22 +26,43 @@ public class TilePanel extends JPanel {
         this.tileAdapter = adapterManager.getTileAdapter();
         this.playerController = adapterManager.getPlayerController();
         this.playerPosition = playerController.getPlayerPosition();
-        setLayout(new FlowLayout());
-        //setPreferredSize(new Dimension(150,600));
+
+        setLayout(new GridBagLayout());
+        constraints = new GridBagConstraints();
+        constraints.insets = new Insets(5, 10, 5, 10);
+
+        setPreferredSize(new Dimension(150,600));
         updateTilePanel();
     }
 
     public void updateTilePanel() {
-        removeResourceButtons();
+        removeButtons();
+        addTitle("Resources");
         addResourceButtons();
-        repaint();
+        addTitle("Enemies");
+        addEnemyButtons();
+        pushToTop(); // Remove this line
         statusPanel.updateStatusPanel();
+        repaint();
+    }
+
+
+    private void addTitle(String title){
+        constraints.gridy ++;
+        constraints.gridheight = 1;
+        JPanel resourceTitle = new JPanel();
+        resourceTitle.setLayout(new FlowLayout());
+        JLabel resourceTitleLabel = new JLabel(title + ": ");
+        resourceTitleLabel.setFont(titleFont);
+        resourceTitle.add(resourceTitleLabel);
+        resourceTitle.setPreferredSize(new Dimension(140, 30));
+        add(resourceTitle, constraints);
     }
 
     private JButton createResourceButton(String resourceName, int resourceCount) {
-        Font resourceButtonFont = new Font("Arial", Font.BOLD, 10);
         String buttonText = resourceName + String.format("(%d)", resourceCount);
-        JButton resourceButton = new DefaultButton(buttonText, resourceButtonFont);
+        JButton resourceButton = new DefaultButton(buttonText, buttonFont);
+
         resourceButton.setPreferredSize(new Dimension(140, 30));
         resourceButton.addActionListener(new ActionListener() {
             @Override
@@ -55,20 +79,72 @@ public class TilePanel extends JPanel {
     private void addResourceButtons() {
         String[] resourceNames = tileAdapter.getResourceNames(playerPosition);
         int[] resourceCount = tileAdapter.getResourcesCount(playerPosition);
+
         for (int i = 0; i < resourceNames.length; i++) {
             if (resourceCount[i] > 0) {
-                add(createResourceButton(resourceNames[i], resourceCount[i]));
+                constraints.gridy++;
+                add(createResourceButton(resourceNames[i], resourceCount[i]), constraints);
             }
         }
-        if (resourceNames.length == 0){
-            add(new JLabel("There is no resource left!"));
+        if (isAllZeros(resourceCount)) {
+            constraints.gridy++;
+            JLabel noResources = new JLabel("No more resources left!");
+            noResources.setFont(new Font("Arial", Font.ITALIC, 15));
+            noResources.setForeground(Color.LIGHT_GRAY);
+            add(noResources, constraints);
         }
     }
 
-    private void removeResourceButtons() {
+    private JButton createEnemyButton(String enemyName) {
+        JButton enemyButton = new DefaultButton(enemyName, buttonFont);
+
+        enemyButton.setPreferredSize(new Dimension(140, 30));
+        enemyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    System.out.println("Started battle with " + enemyName);
+                updateTilePanel();
+            }
+        });
+        return enemyButton;
+    }
+
+    private void addEnemyButtons() {
+        String[] enemyNames = tileAdapter.getEnemyNames(playerPosition);
+
+        for (String enemyName : enemyNames) {
+            constraints.gridy++;
+            add(createEnemyButton(enemyName), constraints);
+        }
+        if (enemyNames.length == 0) {
+            constraints.gridy++;
+            JLabel noEnemy = new JLabel("No more enemy left!");
+            noEnemy.setFont(new Font("Arial", Font.ITALIC, 15));
+            noEnemy.setForeground(Color.LIGHT_GRAY);
+            add(noEnemy, constraints);
+        }
+    }
+
+    private void removeButtons() {
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         removeAll();
-        revalidate();
-        repaint();
+    }
+
+    private void pushToTop(){
+        constraints.gridy++;
+        constraints.weighty = 1;
+        add(new JLabel(""), constraints);
+        constraints.weighty = 0;
+    }
+
+    private boolean isAllZeros(int[] array) {
+        for (int num : array) {
+            if (num != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

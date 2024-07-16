@@ -1,4 +1,7 @@
-package Entity;
+package Entity.Character;
+
+import Entity.Buff;
+import Entity.Skill;
 
 import java.util.ArrayList;
 
@@ -19,8 +22,11 @@ public class Character {
     private int damageReduction;
     private int currentDamageReduction;
     private int speed;
+    private int experience;
 
     private ArrayList<Skill> skills;
+    private int[] skillCooldown;
+    private int[] currentSkillCooldown;
     private ArrayList<Buff>  Buffs;
 
     public Character(int id) {
@@ -161,5 +167,29 @@ public class Character {
 
     public void setBuffs(ArrayList<Buff> buffs) {
         Buffs = buffs;
+    }
+
+    public int[] getSkillCooldown() {
+        return skillCooldown;
+    }
+
+    public void setSkillCooldown(int[] skillCooldown) {
+        this.skillCooldown = skillCooldown;
+    }
+
+    public int[] getCurrentSkillCooldown() {
+        return currentSkillCooldown;
+    }
+
+    public void setCurrentSkillCooldown(int[] currentSkillCooldown) {
+        this.currentSkillCooldown = currentSkillCooldown;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 }

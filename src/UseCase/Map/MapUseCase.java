@@ -1,7 +1,7 @@
 package UseCase.Map;
 
-import Entity.Map;
-import Entity.Tile;
+import Entity.World.Map;
+import Entity.World.Tile;
 import Enums.MapTile.MapType;
 import Enums.MapTile.TileType;
 import UseCase.TileUseCase;

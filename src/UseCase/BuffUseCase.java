@@ -1,7 +1,7 @@
 package UseCase;
 
 import Entity.Buff;
-import Entity.Character;
+import Entity.Character.Character;
 import Enums.BuffType;
 import Utils.ReadCSV;
 
