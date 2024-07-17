@@ -1,4 +1,4 @@
-package UI.GameScreenPanels;
+package UI.GameScreenPanels.World;
 
 import InterfaceAdapter.MapAdapter.MapController;
 import InterfaceAdapter.MapAdapter.MapPresenter;
@@ -8,8 +8,6 @@ import UI.AdapterManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
 public class MapPanel extends JPanel {

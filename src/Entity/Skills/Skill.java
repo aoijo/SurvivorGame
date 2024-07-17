@@ -1,6 +1,7 @@
-package Entity;
+package Entity.Skills;
 
 import Entity.Character.Character;
+import Enums.Rarity;
 
 public class Skill {
     private int id;
@@ -9,11 +10,17 @@ public class Skill {
 
     private float powerLevel;
     private int cooldown;
+    private float worldCooldown;
+    private int maxCooldown;
+    private int maxWorldCooldown;
+    private int Usage;
     private Character source;
     private Character target;
 
     private boolean isGeneral; // Check if the skill be used outside of combat
     private boolean isCombat; // Check if the skill can be used in combat
+    private int[] raceRequirement;
+    private Rarity rarity;
 
     public Skill(int id){
         this.id = id;
@@ -93,5 +100,53 @@ public class Skill {
 
     public void setTarget(Character target) {
         this.target = target;
+    }
+
+    public float getWorldCooldown() {
+        return worldCooldown;
+    }
+
+    public void setWorldCooldown(float worldCooldown) {
+        this.worldCooldown = worldCooldown;
+    }
+
+    public int getUsage() {
+        return Usage;
+    }
+
+    public void setUsage(int usage) {
+        Usage = usage;
+    }
+
+    public int[] getRaceRequirement() {
+        return raceRequirement;
+    }
+
+    public void setRaceRequirement(int[] raceRequirement) {
+        this.raceRequirement = raceRequirement;
+    }
+
+    public int getMaxCooldown() {
+        return maxCooldown;
+    }
+
+    public void setMaxCooldown(int maxCooldown) {
+        this.maxCooldown = maxCooldown;
+    }
+
+    public int getMaxWorldCooldown() {
+        return maxWorldCooldown;
+    }
+
+    public void setMaxWorldCooldown(int maxWorldCooldown) {
+        this.maxWorldCooldown = maxWorldCooldown;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(Rarity rarity) {
+        this.rarity = rarity;
     }
 }

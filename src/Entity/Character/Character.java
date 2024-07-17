@@ -1,7 +1,7 @@
 package Entity.Character;
 
 import Entity.Buff;
-import Entity.Skill;
+import Entity.Skills.Skill;
 
 import java.util.ArrayList;
 

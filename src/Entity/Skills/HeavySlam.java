@@ -1,7 +1,5 @@
 package Entity.Skills;
 
-import Entity.Skill;
-
 public class HeavySlam extends Skill {
     public HeavySlam() {super(5);}
     @Override

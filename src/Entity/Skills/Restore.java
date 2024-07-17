@@ -1,7 +1,5 @@
 package Entity.Skills;
 
-import Entity.Skill;
-
 public class Restore extends Skill {
     public Restore() { super(3);}
     @Override

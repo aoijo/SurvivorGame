@@ -1,7 +1,5 @@
 package Entity.Skills;
 
-import Entity.Skill;
-
 public class SlowRestore extends Skill {
     public SlowRestore() { super(4);}
     @Override

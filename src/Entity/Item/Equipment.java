@@ -1,9 +1,5 @@
 package Entity.Item;
 
-import java.util.ArrayList;
-
-import Entity.Buff;
-import Entity.Skill;
 import Enums.Item.EquipmentType;
 
 public class Equipment extends Item {

@@ -1,4 +1,4 @@
-package UI.GameScreenPanels;
+package UI.GameScreenPanels.World;
 
 import java.awt.*;
 import java.util.ArrayList;

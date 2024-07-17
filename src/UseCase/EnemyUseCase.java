@@ -1,7 +1,7 @@
 package UseCase;
 
 import Entity.Character.Enemy;
-import Entity.Skill;
+import Entity.Skills.Skill;
 import Enums.EnemyType;
 import Enums.Rarity;
 import Utils.ReadCSV;

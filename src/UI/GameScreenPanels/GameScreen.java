@@ -1,15 +1,11 @@
 package UI.GameScreenPanels;
 
-import InterfaceAdapter.MapAdapter.MapController;
-import InterfaceAdapter.MapAdapter.MapPresenter;
-import InterfaceAdapter.PlayerAdapter.PlayerController;
-import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
-import InterfaceAdapter.TileAdapter;
-import InterfaceAdapter.TimeAdapter;
-import Enums.MapTile.MapType;
 import InterfaceAdapter.UseCaseManager;
 import UI.AdapterManager;
 import UI.GamePanel;
+import UI.GameScreenPanels.World.LogPanel;
+import UI.GameScreenPanels.World.MapPanel;
+import UI.GameScreenPanels.World.TilePanel;
 
 import javax.swing.*;
 import java.awt.*;

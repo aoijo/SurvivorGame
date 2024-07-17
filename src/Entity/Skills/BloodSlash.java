@@ -1,7 +1,5 @@
 package Entity.Skills;
 
-import Entity.Skill;
-
 public class BloodSlash extends Skill {
     public BloodSlash() {super(6);}
     @Override

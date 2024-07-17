@@ -1,8 +1,9 @@
-package UI.GameScreenPanels;
+package UI.GameScreenPanels.World;
 
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.TileAdapter;
 import UI.AdapterManager;
+import UI.GameScreenPanels.StatusPanel;
 import Utils.DefaultButton;
 
 import javax.swing.*;

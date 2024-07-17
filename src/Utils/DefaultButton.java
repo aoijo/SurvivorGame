@@ -1,5 +1,7 @@
 package Utils;
 
+import Enums.Rarity;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -21,7 +23,7 @@ public class DefaultButton extends JButton {
      * @param hoverColor  the color of the button when hovered over
      * @param borderColor the color of the button border
      */
-    public DefaultButton(String text, Font font, int borderWidth, Color textColor, Color hoverColor,Color borderColor) {
+    public DefaultButton(String text, Font font, int borderWidth, Color textColor, Color hoverColor, Color borderColor) {
         super(text);
         this.borderWidth = borderWidth;
         this.borderColor = borderColor;
@@ -77,5 +79,32 @@ public class DefaultButton extends JButton {
     public DefaultButton(String text, Font font, Color textColor) {
         this(text, font, 3, textColor, Color.LIGHT_GRAY, Color.black);
     }
-}
 
+    public DefaultButton(String text, Rarity rarity) {
+        this(text, new Font("Courier New", Font.PLAIN, 10), 3,
+                getColorByRarity(rarity), Color.LIGHT_GRAY, Color.BLACK);
+    }
+
+    public static Color getColorByRarity(Rarity rarity) {
+        return switch (rarity) {
+            case COMMON -> Color.BLACK;
+            case UNCOMMON -> new Color(0, 175, 0);
+            case RARE -> Color.BLUE;
+            case LEGENDARY -> Color.ORANGE;
+            case MYTHICAL -> Color.RED;
+            case UNIQUE -> Color.MAGENTA;
+            default -> Color.BLACK;
+        };
+    }
+    public static Color getColorByRarity(int rarity) {
+        return switch (rarity) {
+            case 1 -> Color.BLACK;
+            case 2 -> new Color(0, 175, 0);
+            case 3 -> Color.BLUE;
+            case 4 -> Color.ORANGE;
+            case 5 -> Color.RED;
+            case 0 -> Color.MAGENTA;
+            default -> Color.BLACK;
+        };
+    }
+}

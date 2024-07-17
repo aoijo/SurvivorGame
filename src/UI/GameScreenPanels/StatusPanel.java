@@ -4,7 +4,7 @@ import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.TimeAdapter;
 import UI.AdapterManager;
-import UI.GameScreenPanels.MapPanel;
+import UI.GameScreenPanels.World.MapPanel;
 import Utils.DefaultButton;
 
 import javax.swing.*;

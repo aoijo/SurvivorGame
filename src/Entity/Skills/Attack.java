@@ -1,7 +1,5 @@
 package Entity.Skills;
 
-import Entity.Skill;
-
 public class Attack extends Skill {
 
     public Attack() {

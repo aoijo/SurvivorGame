@@ -32,7 +32,9 @@ public class GamePanel {
         titleScreen = new TitleScreen(this);
         settingScreen = new SettingScreen(this);
         createCharScreen = new CreateCharScreen(this);
+        //
         Enemy testEnemy = this.getGameScreen().getUseCaseManager().getEnemyUseCase().newEnemy(1,false,false);
+        //
         combatScreen = new CombatScreen(this.getGameScreen().getUseCaseManager().getPlayerUseCase().getPlayer(),testEnemy);
 
 
