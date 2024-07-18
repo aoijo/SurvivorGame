@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 
 public class GameScreen extends JPanel {
     private GamePanel gamePanel;
-    private MapPanel mapPanel;
+    private CentrePanel centrePanel;
     private StatusPanel statusPanel;
     private TilePanel tilePanel;
     private LogPanel logPanel;
@@ -26,22 +26,18 @@ public class GameScreen extends JPanel {
         this.gamePanel = gamePanel;
         this.useCaseManager = new UseCaseManager();
 
-        //For Testing
         useCaseManager.getPlayerUseCase().setPlayer(useCaseManager.getPlayerUseCase().newPlayer("Player 1", Color.GREEN,1));
 
         this.adapterManager = new AdapterManager(useCaseManager);
-        this.mapPanel = new MapPanel(adapterManager, 10, 50, 12);
-        MapPanel miniMap = new MapPanel(adapterManager, 4, 40, 9);
-        this.statusPanel = new StatusPanel(adapterManager, miniMap);
-        this.logPanel = new LogPanel(adapterManager);
-        this.tilePanel = new TilePanel(adapterManager, statusPanel, logPanel);
-
-        //Testing Ends
+        this.centrePanel = new CentrePanel(this);
+        this.statusPanel = new StatusPanel(this);
+        this.logPanel = new LogPanel(this);
+        this.tilePanel = new TilePanel(this);
 
         setLayout(new BorderLayout());
 
         add(statusPanel, BorderLayout.WEST);
-        add(mapPanel, BorderLayout.CENTER);
+        add(centrePanel, BorderLayout.CENTER);
         add(logPanel, BorderLayout.SOUTH);
         tilePanel.updateTilePanel();
         add(tilePanel, BorderLayout.EAST);
@@ -86,11 +82,11 @@ public class GameScreen extends JPanel {
                             }
                         }
                     }
+                } else {
+                    logPanel.addOverWeightLog();
                 }
             }
         });
-        // Request focus for key listener
-        requestFocusInWindow();
     }
 
     public void moveActions(int[] originalPosition) {
@@ -98,15 +94,10 @@ public class GameScreen extends JPanel {
         if (originalPosition[0] == newPosition[0] && originalPosition[1] == newPosition[1]) {
             adapterManager.getTimeAdapter().timePass(15);
         }
-        mapPanel.repaint();
+        centrePanel.getMapPanel().repaint();
         tilePanel.updateTilePanel();
         statusPanel.updateStatusPanel();
         logPanel.addMoveLog();
-    }
-
-    public JPanel logPanel() {
-        JPanel logPanel = new JPanel();
-        return logPanel;
     }
 
     public UseCaseManager getUseCaseManager() {
@@ -114,5 +105,17 @@ public class GameScreen extends JPanel {
     }
     public AdapterManager getAdapterManager() {
         return adapterManager;
+    }
+    public CentrePanel getCentrePanel() {
+        return centrePanel;
+    }
+    public StatusPanel getStatusPanel() {
+        return statusPanel;
+    }
+    public TilePanel getTilePanel() {
+        return tilePanel;
+    }
+    public LogPanel getLogPanel() {
+        return logPanel;
     }
 }

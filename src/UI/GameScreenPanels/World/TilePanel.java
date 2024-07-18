@@ -3,10 +3,12 @@ package UI.GameScreenPanels.World;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.TileAdapter;
 import UI.AdapterManager;
+import UI.GameScreenPanels.GameScreen;
 import UI.GameScreenPanels.StatusPanel;
 import Utils.DefaultButton;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,11 +23,11 @@ public class TilePanel extends JPanel {
     private Font buttonFont = new Font("Arial", Font.BOLD, 10);
     private GridBagConstraints constraints;
 
-    public TilePanel(AdapterManager adapterManager, StatusPanel statusPanel, LogPanel logPanel) {
-        this.statusPanel = statusPanel;
-        this.logPanel = logPanel;
-        this.tileAdapter = adapterManager.getTileAdapter();
-        this.playerController = adapterManager.getPlayerController();
+    public TilePanel(GameScreen gameScreen) {
+        this.statusPanel = gameScreen.getStatusPanel();
+        this.logPanel = gameScreen.getLogPanel();
+        this.tileAdapter = gameScreen.getAdapterManager().getTileAdapter();
+        this.playerController = gameScreen.getAdapterManager().getPlayerController();
         this.playerPosition = playerController.getPlayerPosition();
 
         setLayout(new GridBagLayout());
@@ -71,6 +73,7 @@ public class TilePanel extends JPanel {
                 playerController.getPlayerUseCase().harvestResource(
                         tileAdapter.getMapUseCase().getTile(playerPosition[0], playerPosition[1]), resourceName);
                 updateTilePanel();
+
                 logPanel.addHarvestLog(resourceName);
             }
         });
@@ -89,7 +92,7 @@ public class TilePanel extends JPanel {
         }
         if (isAllZeros(resourceCount)) {
             constraints.gridy++;
-            JLabel noResources = new JLabel("No more resources left!");
+            JLabel noResources = new JLabel("No resource left!");
             noResources.setFont(new Font("Arial", Font.ITALIC, 15));
             noResources.setForeground(Color.LIGHT_GRAY);
             add(noResources, constraints);
@@ -119,7 +122,7 @@ public class TilePanel extends JPanel {
         }
         if (enemyNames.length == 0) {
             constraints.gridy++;
-            JLabel noEnemy = new JLabel("No more enemy left!");
+            JLabel noEnemy = new JLabel("No enemy left!");
             noEnemy.setFont(new Font("Arial", Font.ITALIC, 15));
             noEnemy.setForeground(Color.LIGHT_GRAY);
             add(noEnemy, constraints);

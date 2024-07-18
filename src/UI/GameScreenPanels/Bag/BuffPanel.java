@@ -8,34 +8,50 @@ import java.awt.*;
 
 public class BuffPanel extends JPanel {
     private GameScreen gameScreen;
-    private GridBagConstraints gbc;
+    private GridBagConstraints constraints;
+    private Font buffButtonFont = new Font("Arial", Font.PLAIN, 10);
+    private Dimension buttonSize = new Dimension(135, 20);
 
     public BuffPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Padding between elements
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
+        constraints = new GridBagConstraints();
+        constraints.insets = new Insets(5, 5, 0, 5); // Padding between elements
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         updateBuffPanel();
     }
 
     public void updateBuffPanel() {
         removeAll(); // Remove all existing components before updating
+
+        if (gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs() == null) {
+            return;
+        }
+
         int maxIndex = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs().size();
 
         for (int i = 0; i < (maxIndex + 1) / 2; i++) { // Use (maxIndex + 1) / 2 to handle odd numbers correctly
             JPanel rowPanel = new JPanel();
-            rowPanel.setLayout(new GridLayout(1, 2, 5, 5));
+            rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
 
             int currentIndex = i * 2;
             rowPanel.add(BuffButton(currentIndex));
+            rowPanel.add(Box.createRigidArea(new Dimension(5, 0))); // Add space between buttons
+
             if (currentIndex + 1 < maxIndex) {
                 rowPanel.add(BuffButton(currentIndex + 1));
+            } else {
+                rowPanel.add(Box.createRigidArea(buttonSize)); // Add empty space if odd number of buffs
             }
-            gbc.gridy = i;
-            add(rowPanel, gbc);
+
+            constraints.gridy = i;
+            add(rowPanel, constraints);
         }
+
+        constraints.gridy++;
+        constraints.weighty = 1;
+        add(new JPanel(), constraints);
+        constraints.weighty = 0;
 
         revalidate(); // Revalidate the layout
         repaint(); // Repaint the panel
@@ -44,7 +60,14 @@ public class BuffPanel extends JPanel {
     private JButton BuffButton(int buffIndex) {
         String buffName = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs().get(buffIndex).getName();
         int buffStack = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs().get(buffIndex).getStack();
-        String buttonText = buffName + "(" + buffStack + ")";
-        return new DefaultButton(buttonText);
+
+        String buttonText = buffName + " (" + buffStack + ")";
+        JButton buffButton = new DefaultButton(buttonText);
+
+        buffButton.setFont(buffButtonFont);
+        buffButton.setPreferredSize(buttonSize);
+        buffButton.setMinimumSize(buttonSize);
+        buffButton.setMaximumSize(buttonSize);
+        return buffButton;
     }
 }

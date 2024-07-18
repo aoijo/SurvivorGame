@@ -1,20 +1,23 @@
 package UI.GameScreenPanels.Bag;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class SwitchButton extends JButton {
     private boolean isHovered;
-    private Boolean isActive;
+    private Boolean isActive = false;
 
     public SwitchButton(String text) {
         super(text);
         setContentAreaFilled(false);
         setFocusPainted(false);
-        setBorderPainted(false);
-        setFont(new Font("Courier New", Font.PLAIN, 10));
+        setFont(new Font("Arial", Font.BOLD, 12));
+        setBorder(new MatteBorder(2,2,2,0,Color.black));
+        setPreferredSize(new Dimension(100,30));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -41,14 +44,6 @@ public class SwitchButton extends JButton {
         }
         g.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
-    }
-
-    @Override
-    protected void paintBorder(Graphics g) {
-        g.setColor(Color.BLACK); // Border color
-        for (int i = 0; i < 4; i++) {
-            g.drawRect(i, i, getWidth() - 2 * i, getHeight() - 2 * i);
-        }
     }
 
     public Boolean getActive() {

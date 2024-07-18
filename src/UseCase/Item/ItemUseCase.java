@@ -86,6 +86,7 @@ public class ItemUseCase {
             case 3: return Rarity.RARE;
             case 4: return Rarity.LEGENDARY;
             case 5: return Rarity.MYTHICAL;
+            case 6: return Rarity.UNIQUE;
             default: System.out.println("Invalid rarityId");
         }
         return null;
@@ -144,7 +145,9 @@ public class ItemUseCase {
         item.setBuffsId(ReadCSV.readIntList(equipData[15]));
         item.setBuffStack(ReadCSV.readIntList(equipData[16]));
         item.setEquipmentType(determineEquipmentType(Integer.parseInt(equipData[17])));
+
         item.setRarity(Rarity.COMMON);
+        item.setItemType(ItemType.EQUIPMENT);
         return item;
     }
 
@@ -158,6 +161,8 @@ public class ItemUseCase {
         item.setSingleWeight(Integer.parseInt(materialData[4]));
         item.setSingleDust(Integer.parseInt(materialData[5]));
         item.setRarity(determineRarity(Integer.parseInt(materialData[6])));
+
+        item.setItemType(ItemType.MATERIAL);
         return item;
     }
 
@@ -172,6 +177,8 @@ public class ItemUseCase {
         item.setLevelRequirement(Integer.parseInt(consumableData[6]));
         item.setRaceRequirementId(determineRaceType(ReadCSV.readIntList(consumableData[7])));
         item.setRarity(determineRarity(Integer.parseInt(consumableData[8])));
+
+        item.setItemType(ItemType.CONSUMABLE);
         return item;
     }
 
@@ -181,6 +188,8 @@ public class ItemUseCase {
         item.setName(keyData[1]);
         item.setDescription(keyData[2]);
         item.setRarity(Rarity.UNIQUE);
+
+        item.setItemType(ItemType.KEY);
         return item;
     }
 
@@ -190,6 +199,8 @@ public class ItemUseCase {
         item.setName(questData[1]);
         item.setDescription(questData[2]);
         item.setRarity(determineRarity(Integer.parseInt(questData[3])));
+
+        item.setItemType(ItemType.QUEST);
         return item;
     }
 }

@@ -3,9 +3,7 @@ package UI.GameScreenPanels;
 import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.TimeAdapter;
-import UI.AdapterManager;
-import UI.GameScreenPanels.World.MapPanel;
-import Utils.DefaultButton;
+import Utils.DefaultToggleButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StatusPanel extends JPanel {
+    private GameScreen gameScreen;
     private PlayerPresenter playerPresenter;
     private MapPresenter mapPresenter;
     private TimeAdapter timeAdapter;
@@ -23,6 +22,7 @@ public class StatusPanel extends JPanel {
     private JLabel seasonLabel;
     private JLabel nameLabel;
     private JPanel dayPanel;
+    private JToggleButton bagButton;
     //private MapPanel miniMap;
 
     private JPanel healthPanel;
@@ -33,16 +33,19 @@ public class StatusPanel extends JPanel {
     private JPanel expPanel;
     private JPanel sanityPanel;
 
-    public StatusPanel(AdapterManager adapterManager, MapPanel miniMap) {
-        this.playerPresenter = adapterManager.getPlayerPresenter();
-        this.mapPresenter = adapterManager.getMapPresenter();
-        this.timeAdapter = adapterManager.getTimeAdapter();
+    public StatusPanel(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
+        this.playerPresenter = gameScreen.getAdapterManager().getPlayerPresenter();
+        this.mapPresenter = gameScreen.getAdapterManager().getMapPresenter();
+        this.timeAdapter = gameScreen.getAdapterManager().getTimeAdapter();
+
         //this.miniMap = miniMap;
 
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(200, 600));
         constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 10, 5, 10);
+
         Font textFont = new Font("Courier New", Font.BOLD, 12);
         Font timeFont = new Font("Arial", Font.PLAIN, 12);
         Font locationFont = new Font("Arial", Font.BOLD, 12);
@@ -140,7 +143,7 @@ public class StatusPanel extends JPanel {
         constraints.gridy++;
         constraints.weighty = 0;
         constraints.gridwidth = 2;
-        add(bagButton(timeFont), constraints);
+        add(bagButton(), constraints);
 
         // Last Row
         constraints.gridy++;
@@ -156,16 +159,24 @@ public class StatusPanel extends JPanel {
         return constraints;
     }
 
-    private JButton bagButton(Font font){
-        JButton button = new DefaultButton("Bag", font);
-        button.setPreferredSize(new Dimension(100,50));
-        button.addActionListener(new ActionListener(){
+    private JToggleButton bagButton(){
+        JToggleButton bagButton = new DefaultToggleButton("Map","Bag");
+        bagButton.setPreferredSize(new Dimension(100, 30));
+        bagButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                playerPresenter.getPlayerUseCase().bagTest();
+                if(bagButton.isSelected()){
+                    gameScreen.getCentrePanel().switchToScreen("BagPanel");
+                    gameScreen.getCentrePanel().getBagPanel().getItemPanel().updateItemPanel();
+                    gameScreen.setFocusable(false);
+                }else{
+                    gameScreen.getCentrePanel().switchToScreen("MapPanel");
+                    gameScreen.setFocusable(true);
+                    gameScreen.requestFocus();
+                }
             }
         });
-        return button;
+        return bagButton;
     }
 
     private JLabel createLabel(String attribute, Font font) {

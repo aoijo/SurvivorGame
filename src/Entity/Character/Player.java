@@ -26,9 +26,9 @@ public class Player extends Character {
     private int levelUpHydration;
     private int levelUpWeight;
     private int maxExperience;
-    private int levelUpPoints;
+    private int levelUpAttributePoints;
     private int attributePoint;
-    private int money;
+    private int currency;
 
     private boolean noHunger;
     private boolean noSanity;
@@ -172,12 +172,12 @@ public class Player extends Character {
         this.maxExperience = experience;
     }
 
-    public int getLevelUpPoints() {
-        return levelUpPoints;
+    public int getLevelUpAttributePoints() {
+        return levelUpAttributePoints;
     }
 
-    public void setLevelUpPoints(int levelUpPoints) {
-        this.levelUpPoints = levelUpPoints;
+    public void setLevelUpAttributePoints(int levelUpAttributePoints) {
+        this.levelUpAttributePoints = levelUpAttributePoints;
     }
 
     public int getAttributePoint() {
@@ -212,12 +212,12 @@ public class Player extends Character {
         this.noHydration = noHydration;
     }
 
-    public int getMoney() {
-        return money;
+    public int getCurrency() {
+        return currency;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public void setCurrency(int currency) {
+        this.currency = currency;
     }
 
     public ArrayList<Item> getItemInBag() {

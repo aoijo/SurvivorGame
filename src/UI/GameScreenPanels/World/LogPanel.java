@@ -7,34 +7,34 @@ import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 import InterfaceAdapter.TimeAdapter;
 import UI.AdapterManager;
+import UI.GameScreenPanels.GameScreen;
 
 import javax.swing.*;
 
 public class LogPanel extends JPanel{
     private ArrayList<String> logs;
-    private String lastLog;
     private int maxLogCount = 1000;
     PlayerPresenter playerPresenter;
     PlayerController playerController;
     TimeAdapter timeAdapter;
 
-    public LogPanel(AdapterManager adapterManager){
+    public LogPanel(GameScreen gameScreen){
         setLayout(new GridLayout());
         //setPreferredSize(new Dimension(400,200));
-        this.timeAdapter = adapterManager.getTimeAdapter();
-        this.playerPresenter = adapterManager.getPlayerPresenter();
-        this.playerController = adapterManager.getPlayerController();
+        this.timeAdapter = gameScreen.getAdapterManager().getTimeAdapter();
+        this.playerPresenter = gameScreen.getAdapterManager().getPlayerPresenter();
+        this.playerController = gameScreen.getAdapterManager().getPlayerController();
         this.logs = new ArrayList<>();
     }
 
     private void addLog(String log){
         logs.add(log);
-        removeAll();
-        lastLog = log;
-        add(new JLabel(lastLog));
-        while (logs.size() > maxLogCount){
-            logs.remove(0);
+        if (logs.size() > maxLogCount){
+            logs.removeFirst();
         }
+
+        removeAll();
+        add(new JLabel(log));
     }
 
     public void addHarvestLog(String resourceName){
@@ -53,6 +53,10 @@ public class LogPanel extends JPanel{
         int y = this.playerController.getPlayerPosition()[1];
         String MoveLog = String.format("[%02d:%02d] Moved to position[%d,%d]",hour,minute,x,y);
         addLog(MoveLog);
+    }
+    public void addOverWeightLog(){
+        String overWeightLog = "Too heavy! Cannot Move!";
+        addLog(overWeightLog);
     }
 
     public void addPickUpLog(String itemName, int Quantity){

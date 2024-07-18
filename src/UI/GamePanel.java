@@ -50,7 +50,7 @@ public class GamePanel {
         frame.setVisible(true);
 
         // Optionally, switch to GameScreen immediately to test
-        switchToScreen("CombatScreen");
+        switchToScreen("GameScreen");
     }
 
     public void switchToScreen(String screenName) {

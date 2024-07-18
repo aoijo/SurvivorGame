@@ -26,7 +26,7 @@ public class UseCaseManager {
         skillUseCase = new SkillUseCase();
         enemyUseCase = new EnemyUseCase(skillUseCase);
         tileUseCase = new TileUseCase(resourceUseCase, enemyUseCase);
-        playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase);
+        playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase,skillUseCase,buffUseCase);
     }
 
     public ItemUseCase getItemUseCase() {

@@ -3,14 +3,13 @@ package Utils;
 import Enums.Rarity;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class DefaultButton extends JButton {
     private boolean isHovered = false;
-    private int borderWidth;
-    private Color borderColor;
     private Color hoverColor;
 
     /**
@@ -25,14 +24,12 @@ public class DefaultButton extends JButton {
      */
     public DefaultButton(String text, Font font, int borderWidth, Color textColor, Color hoverColor, Color borderColor) {
         super(text);
-        this.borderWidth = borderWidth;
-        this.borderColor = borderColor;
         this.hoverColor = hoverColor;
         setContentAreaFilled(false);
         setFocusPainted(false);
-        setBorderPainted(false);
         setFont(font); // Set custom font
         setForeground(textColor); // Set custom text color
+        setBorder(new LineBorder(borderColor,borderWidth));
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -58,14 +55,6 @@ public class DefaultButton extends JButton {
         }
         g.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
-    }
-
-    @Override
-    protected void paintBorder(Graphics g) {
-        g.setColor(borderColor); // Border color
-        for (int i = 0; i < borderWidth; i++) {
-            g.drawRect(i, i, getWidth() - 2 * i, getHeight() - 2 * i);
-        }
     }
 
     public DefaultButton(String text) {

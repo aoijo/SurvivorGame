@@ -12,8 +12,8 @@ id,name,description,type,maxStack,is combat
 11,Defense UP,Increase defense by  1%,1,-1,1
 12,Defense Down,Decrease defense by 1%,2,99,1
 13,Life Steal Up,Increase life steal by 1%,1,-1,1
-14,Damage Reduction Up,Increase damage reduction by  1%,1,-1,1
-15,Damage Reduction Down,Decrease damage reduction by 1%,2,-1,1
+14,Damage Re. Up,Increase damage reduction by  1%,1,-1,1
+15,Damage Re. Down,Decrease damage reduction by 1%,2,-1,1
 16,Exp Up,Increase experience gain by  1%,1,-1,1
 17,Exp Down,Decrease experience gain by 1%,2,-1,1
 18,Luck Up,Increase Item drop range by 1,1,-1,1

@@ -1,5 +1,6 @@
 package InterfaceAdapter.PlayerAdapter;
 
+import Enums.Item.ItemType;
 import InterfaceAdapter.UseCaseManager;
 import UseCase.PlayerUseCase;
 
@@ -104,4 +105,5 @@ public class PlayerPresenter {
     public String getPlayerName(){
         return this.playerUseCase.getPlayer().getName();
     }
+
 }

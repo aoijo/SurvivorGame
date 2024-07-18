@@ -9,37 +9,54 @@ import java.awt.*;
 
 public class SkillPanel extends JPanel {
     private GameScreen gameScreen;
-    private GridBagConstraints gbc;
+    private GridBagConstraints constraints;
+    private Font buffButtonFont = new Font("Arial", Font.PLAIN, 10);
+    private Dimension buttonSize = new Dimension(135, 20);
 
     public SkillPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Padding between elements
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        constraints = new GridBagConstraints();
+        constraints.insets = new Insets(5, 5, 0, 5); // Padding between elements
+        constraints.fill = GridBagConstraints.HORIZONTAL;
 
         updateSkillPanel();
     }
 
     public void updateSkillPanel() {
-        int maxIndex = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSkills().size();
         removeAll(); // Remove all existing components before updating
+        if (gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSkills() == null){
+            return;
+        }
+
+        int maxIndex = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSkills().size();
 
         for (int i = 0; i < (maxIndex + 1) / 2; i++) { // Use (maxIndex + 1) / 2 to handle odd numbers correctly
             JPanel rowPanel = new JPanel();
-            rowPanel.setLayout(new GridLayout(1, 2, 5, 5));
+            rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
 
             int currentIndex = i * 2;
             rowPanel.add(SkillButton(currentIndex));
+            rowPanel.add(Box.createRigidArea(new Dimension(5, 0))); // Add space between buttons
+
             if (currentIndex + 1 < maxIndex) {
                 rowPanel.add(SkillButton(currentIndex + 1));
+            } else {
+                rowPanel.add(Box.createRigidArea(buttonSize)); // Add empty space if odd number of buffs
             }
-            gbc.gridy = i;
-            add(rowPanel, gbc);
+
+            constraints.gridx = 0;
+            constraints.gridy = i;
+            constraints.weightx = 1.0;
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+
+            add(rowPanel, constraints);
         }
+
+        constraints.gridy++;
+        constraints.weighty = 1;
+        add(new JPanel(), constraints);
+        constraints.weighty = 0;
 
         revalidate(); // Revalidate the layout
         repaint(); // Repaint the panel
@@ -53,16 +70,22 @@ public class SkillPanel extends JPanel {
 
         String buttonText = "";
         if (worldCoolDown > 1) {
-            buttonText = skillName + "(" + (int) Math.ceil(worldCoolDown) + " days)";
+            buttonText = skillName + " (" + (int) Math.ceil(worldCoolDown) + " days)";
         } else if(worldCoolDown > 0) {
-            buttonText = skillName + "(" + (int) Math.ceil(worldCoolDown) + " day)";
+            buttonText = skillName + " (" + (int) Math.ceil(worldCoolDown) + " day)";
         } else if (coolDown > 1) {
-            buttonText = skillName + "(" + coolDown + " turns)";
+            buttonText = skillName + " (" + coolDown + " turns)";
         } else if (coolDown > 0) {
-            buttonText = skillName + "(" + coolDown + " turn)";
+            buttonText = skillName + " (" + coolDown + " turn)";
         } else {
-            buttonText = skillName + "(ready)";
+            buttonText = skillName + " (ready)";
         }
-        return new DefaultButton(buttonText,rarity);
+        JButton skillButton =  new DefaultButton(buttonText,rarity);
+
+        skillButton.setFont(buffButtonFont);
+        skillButton.setPreferredSize(buttonSize);
+        skillButton.setMinimumSize(buttonSize);
+        skillButton.setMaximumSize(buttonSize);
+        return skillButton;
     }
 }

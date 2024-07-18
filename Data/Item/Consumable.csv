@@ -1,5 +1,5 @@
 id,name,description,single price,single weight,single dust,level requirement,race requirement,rarity
-2001,Dirt,Can be eaten in desperate time, reduce max health.",1,1,1,0,0,1
+2001,Dirt,Can be eaten in desperate time.  reduce max health.,1,1,1,0,1,1
 2002,Water,It's WATERRRRRRRRRRRRR,1,1,1,0,0,1
 2003,Berry,Edible fruit that restores a small amount of hunger and hydration.,5,1,1,0,0,1
 2004,Herb,Edible plant that restores a small amount of health.,5,1,1,0,0,1

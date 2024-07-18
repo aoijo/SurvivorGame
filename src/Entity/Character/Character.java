@@ -25,9 +25,12 @@ public class Character {
     private int experience;
 
     private ArrayList<Skill> skills;
+    private ArrayList<Skill> currentSkills;
     private int[] skillCooldown;
     private int[] currentSkillCooldown;
+
     private ArrayList<Buff>  Buffs;
+    private ArrayList<Buff>  currentBuffs;
 
     public Character(int id) {
         this.id = id;
@@ -191,5 +194,21 @@ public class Character {
 
     public void setExperience(int experience) {
         this.experience = experience;
+    }
+
+    public ArrayList<Skill> getCurrentSkills() {
+        return currentSkills;
+    }
+
+    public void setCurrentSkills(ArrayList<Skill> currentSkills) {
+        this.currentSkills = currentSkills;
+    }
+
+    public ArrayList<Buff> getCurrentBuffs() {
+        return currentBuffs;
+    }
+
+    public void setCurrentBuffs(ArrayList<Buff> currentBuffs) {
+        this.currentBuffs = currentBuffs;
     }
 }
