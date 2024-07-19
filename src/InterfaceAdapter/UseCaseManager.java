@@ -1,12 +1,14 @@
 package InterfaceAdapter;
 
 import UseCase.*;
+import UseCase.Item.EquipmentUseCase;
 import UseCase.Item.ItemUseCase;
 import UseCase.Map.MapUseCase;
 
 import java.awt.*;
 
 public class UseCaseManager {
+    private EquipmentUseCase equipmentUseCase;
     private ItemUseCase itemUseCase;
     private MapUseCase mapUseCase;
     private BuffUseCase buffUseCase;
@@ -18,12 +20,13 @@ public class UseCaseManager {
     private EnemyUseCase enemyUseCase;
 
     public UseCaseManager() {
-        itemUseCase = new ItemUseCase();
         mapUseCase = new MapUseCase();
         buffUseCase = new BuffUseCase();
         resourceUseCase = new ResourceUseCase();
         timeUseCase = new TimeUseCase();
         skillUseCase = new SkillUseCase();
+        equipmentUseCase = new EquipmentUseCase(skillUseCase,buffUseCase);
+        itemUseCase = new ItemUseCase(equipmentUseCase);
         enemyUseCase = new EnemyUseCase(skillUseCase);
         tileUseCase = new TileUseCase(resourceUseCase, enemyUseCase);
         playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase,skillUseCase,buffUseCase);
@@ -91,5 +94,21 @@ public class UseCaseManager {
 
     public void setEnemyUseCase(EnemyUseCase enemyUseCase) {
         this.enemyUseCase = enemyUseCase;
+    }
+
+    public SkillUseCase getSkillUseCase() {
+        return skillUseCase;
+    }
+
+    public void setSkillUseCase(SkillUseCase skillUseCase) {
+        this.skillUseCase = skillUseCase;
+    }
+
+    public EquipmentUseCase getEquipmentUseCase() {
+        return equipmentUseCase;
+    }
+
+    public void setEquipmentUseCase(EquipmentUseCase equipmentUseCase) {
+        this.equipmentUseCase = equipmentUseCase;
     }
 }

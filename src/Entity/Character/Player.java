@@ -26,6 +26,7 @@ public class Player extends Character {
     private int levelUpHydration;
     private int levelUpWeight;
     private int maxExperience;
+    private int ForgetExperience;
     private int levelUpAttributePoints;
     private int attributePoint;
     private int currency;
@@ -242,5 +243,13 @@ public class Player extends Character {
 
     public void setRaceId(int raceId) {
         this.raceId = raceId;
+    }
+
+    public int getForgetExperience() {
+        return ForgetExperience;
+    }
+
+    public void setForgetExperience(int forgetExperience) {
+        ForgetExperience = forgetExperience;
     }
 }

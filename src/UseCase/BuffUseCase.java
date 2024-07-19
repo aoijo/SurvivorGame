@@ -2,11 +2,12 @@ package UseCase;
 
 import Entity.Buff;
 import Entity.Character.Character;
+import Entity.Item.Equipment;
+import Entity.Item.Item;
 import Enums.BuffType;
 import Utils.ReadCSV;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class BuffUseCase {
@@ -20,6 +21,10 @@ public class BuffUseCase {
     public Buff newBuff(int id, Character source, Character target){
         Buff buff = new Buff(id, source, target);
         initializeBuff(buff, id);
+        return buff;
+    }
+    public Buff newBuff(int id, Equipment source){
+        Buff buff = new Buff(id, source);
         return buff;
     }
 
@@ -57,7 +62,7 @@ public class BuffUseCase {
         else return Integer.MAX_VALUE;
     }
 
-    public void gainBuff(int buffId, int stack, Character source, Character target){
+    public void characterGainBuff(int buffId, int stack, Character source, Character target){
         ArrayList<Buff> buffs = target.getBuffs();
         if(buffs == null) {
             buffs = new ArrayList<>();
@@ -81,8 +86,51 @@ public class BuffUseCase {
         buffs.add(newBuff);
     }
 
-    public void removeBuff(int buffId, int stack, Character target){
+
+    public void characterRemoveBuff(int buffId, int stack, Character target){
         ArrayList<Buff> buffs = target.getBuffs();
+        if (buffs == null) {
+            return;
+        }
+        Iterator<Buff> iterator = buffs.iterator();
+        while(iterator.hasNext()) {
+            Buff buff = iterator.next();
+            if(buff.getId() == buffId) {
+                if (buff.getStack() > stack) {
+                    buff.setStack(buff.getStack() - stack);
+                } else {
+                    iterator.remove();
+                }
+                break;
+            }
+        }
+    }
+    public void equipmentGainBuff(int buffId, int stack, Equipment source){
+        ArrayList<Buff> buffs = source.getBuffs();
+        if(buffs == null) {
+            buffs = new ArrayList<>();
+            source.setBuffs(buffs);
+        }
+        for (Buff buff : buffs) {
+            if(buff.getId() == buffId) {
+                long newStack = (long) buff.getStack() + stack;
+                if (newStack > buff.getMaxStack()) {
+                    buff.setStack(buff.getMaxStack());
+                } else {
+                    buff.setStack((int) newStack);
+                }
+                return;
+            }
+        }
+        if (stack == 0){return;}
+
+        Buff newBuff = newBuff(buffId, source);
+        newBuff.setStack(stack);
+        buffs.add(newBuff);
+    }
+
+    public void itemRemoveBuff(int buffId, int stack, Equipment source){
+        ArrayList<Buff> buffs = source.getBuffs();
         if (buffs == null) {
             return;
         }

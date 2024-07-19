@@ -1,6 +1,10 @@
 package Entity.Item;
 
+import Entity.Buff;
+import Entity.Skills.Skill;
 import Enums.Item.EquipmentType;
+
+import java.util.ArrayList;
 
 public class Equipment extends Item {
     private int attack;
@@ -11,9 +15,10 @@ public class Equipment extends Item {
     private int damageReduction;
 
     private int durability;
-    private int[] skills;
-    private int[] buffsId;
-    private int[] buffStack;
+    private int currentMaxDurability;
+    private int maxDurability;
+    private ArrayList<Skill> skills;
+    private ArrayList<Buff> buffs;
 
     private EquipmentType equipmentType;
 
@@ -37,11 +42,11 @@ public class Equipment extends Item {
         this.defense = defense;
     }
 
-    public int[] getSkills() {
+    public ArrayList<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(int[] skills) {
+    public void setSkills(ArrayList<Skill> skills) {
         this.skills = skills;
     }
 
@@ -61,12 +66,12 @@ public class Equipment extends Item {
         this.equipmentType = equipmentType;
     }
 
-    public int[] getBuffsId() {
-        return buffsId;
+    public ArrayList<Buff> getBuffs() {
+        return buffs;
     }
 
-    public void setBuffsId(int[] buffsId) {
-        this.buffsId = buffsId;
+    public void setBuffs(ArrayList<Buff> buffsId) {
+        this.buffs = buffsId;
     }
 
     public int getLifeSteal() {
@@ -101,11 +106,19 @@ public class Equipment extends Item {
         this.maxWeight = maxWeight;
     }
 
-    public int[] getBuffStack() {
-        return buffStack;
+    public int getMaxDurability() {
+        return maxDurability;
     }
 
-    public void setBuffStack(int[] buffStack) {
-        this.buffStack = buffStack;
+    public void setMaxDurability(int maxDurability) {
+        this.maxDurability = maxDurability;
+    }
+
+    public int getCurrentMaxDurability() {
+        return currentMaxDurability;
+    }
+
+    public void setCurrentMaxDurability(int currentMaxDurability) {
+        this.currentMaxDurability = currentMaxDurability;
     }
 }

@@ -35,6 +35,38 @@ public class PlayerUseCase {
         loadRaceData();
     }
 
+    private void initialize(Player player, int raceId) {
+        String[] raceData = this.RaceData[raceId];
+        player.setDescription(raceData[2]);
+        player.setMaxHealth(Integer.parseInt(raceData[3]));
+        player.setMaxHunger(Integer.parseInt(raceData[4]));
+        player.setMaxHydration(Integer.parseInt(raceData[5]));
+        player.setMaxSanity(Integer.parseInt(raceData[6]));
+        player.setMaxWeight(Integer.parseInt(raceData[7]));
+        player.setAttack(Integer.parseInt(raceData[8]));
+        player.setDefense(Integer.parseInt(raceData[9]));
+        player.setSpeed(Integer.parseInt(raceData[10]));
+        player.setLevelUpHealth(Integer.parseInt(raceData[11]));
+        player.setLevelUpHunger(Integer.parseInt(raceData[12]));
+        player.setLevelUpHydration(Integer.parseInt(raceData[13]));
+        player.setLevelUpWeight(Integer.parseInt(raceData[14]));
+        player.setLevelUpAttributePoints(Integer.parseInt(raceData[15]));
+        player.setLevel(Integer.parseInt(raceData[16]));
+        player.setMaxExperience(Integer.parseInt(raceData[17]));
+        gainItems(player,ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
+        //Test part start
+        //gainItems(player, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001}, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001});
+        //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
+        //gainBuff(player,1,0);
+        //gainBuff(player,1,1);
+        //gainSkills(player,new int[]{1,2,3,4,5});
+        //skillTest(player);
+        //buffTest(player);
+        //player.setAttributePoint(3);
+        //bagTest(player);
+        //Test part end
+    }
+
     public Player newPlayer(String name, Color color, int raceId) {
         Player newPlayer = new Player(color, raceId);
         initialize(newPlayer, raceId);
@@ -102,6 +134,11 @@ public class PlayerUseCase {
         player.setDefense(player.getDefense() + dd);
     }
 
+    private void loadRaceData(){
+        this.RaceData = ReadCSV.read("Data/Race.csv");
+    }
+
+
     private void levelUp() {
         player.setHealth(player.getHealth() + player.getLevelUpHealth());
         player.setMaxHealth(player.getMaxHealth() + player.getLevelUpHealth());
@@ -114,42 +151,6 @@ public class PlayerUseCase {
         player.setLevel(player.getLevel() + 1);
         player.setMaxExperience(10 * player.getLevel() * player.getLevel());
         player.setAttributePoint(player.getAttributePoint() + player.getLevelUpAttributePoints());
-    }
-
-    private void loadRaceData(){
-        this.RaceData = ReadCSV.read("Data/Race.csv");
-    }
-
-    private void initialize(Player player, int raceId) {
-        String[] raceData = this.RaceData[raceId];
-        player.setDescription(raceData[2]);
-        player.setMaxHealth(Integer.parseInt(raceData[3]));
-        player.setMaxHunger(Integer.parseInt(raceData[4]));
-        player.setMaxHydration(Integer.parseInt(raceData[5]));
-        player.setMaxSanity(Integer.parseInt(raceData[6]));
-        player.setMaxWeight(Integer.parseInt(raceData[7]));
-        player.setAttack(Integer.parseInt(raceData[8]));
-        player.setDefense(Integer.parseInt(raceData[9]));
-        player.setSpeed(Integer.parseInt(raceData[10]));
-        player.setLevelUpHealth(Integer.parseInt(raceData[11]));
-        player.setLevelUpHunger(Integer.parseInt(raceData[12]));
-        player.setLevelUpHydration(Integer.parseInt(raceData[13]));
-        player.setLevelUpWeight(Integer.parseInt(raceData[14]));
-        player.setLevelUpAttributePoints(Integer.parseInt(raceData[15]));
-        player.setLevel(Integer.parseInt(raceData[16]));
-        player.setMaxExperience(Integer.parseInt(raceData[17]));
-        gainItems(player,ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
-        //Test part start
-        //gainItems(player, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001}, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001});
-        //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
-        //gainBuff(player,1,0);
-        //gainBuff(player,1,1);
-        //gainSkills(player,new int[]{1,2,3,4,5});
-        //skillTest(player);
-        //buffTest(player);
-        //player.setAttributePoint(3);
-        //bagTest(player);
-        //Test part end
     }
 
     public void gainItem(Player player, int itemId, int number) {
@@ -258,10 +259,10 @@ public class PlayerUseCase {
         }
     }
     public void gainBuff(Player player, int buffId ,int stack) {
-        buffUseCase.gainBuff(buffId,stack,player,player);
+        buffUseCase.characterGainBuff(buffId,stack,player,player);
     }
     public void removeBuff(Player player, int buffId , int stack) {
-        buffUseCase.removeBuff(buffId,stack,player);
+        buffUseCase.characterRemoveBuff(buffId,stack,player);
     }
     public void gainBuffs(Player player, int[] buffIds, int[] stacks) {
         for(int i = 0; i <buffIds.length; i++) {
@@ -541,21 +542,5 @@ public class PlayerUseCase {
         player.setCurrentSkills(currentSkills);
         player.setCurrentBuffs(currentBuffs);
         updateWeight(player);
-    }
-
-    public SkillUseCase getSkillUseCase() {
-        return skillUseCase;
-    }
-
-    public void setSkillUseCase(SkillUseCase skillUseCase) {
-        this.skillUseCase = skillUseCase;
-    }
-
-    public BuffUseCase getBuffUseCase() {
-        return buffUseCase;
-    }
-
-    public void setBuffUseCase(BuffUseCase buffUseCase) {
-        this.buffUseCase = buffUseCase;
     }
 }

@@ -9,13 +9,13 @@ import Utils.ReadCSV;
 
 public class ItemUseCase {
     private Item item;
-    private String[][] equipmentData;
+    private EquipmentUseCase equipmentUseCase;
     private String[][] materialData;
     private String[][] consumableData;
     private String[][] keyData;
     private String[][] questData;
 
-    public ItemUseCase(){
+    public ItemUseCase(EquipmentUseCase equipmentUseCase){
         loadItemData();
     }
 
@@ -32,7 +32,6 @@ public class ItemUseCase {
     }
 
     private void loadItemData(){
-        this.equipmentData = ReadCSV.read("Data/Item/Equipment.csv");
         this.materialData = ReadCSV.read("Data/Item/Material.csv");
         this.consumableData = ReadCSV.read("Data/Item/Consumable.csv");
         this.keyData = ReadCSV.read("Data/Item/Key.csv");
@@ -44,7 +43,7 @@ public class ItemUseCase {
         if (itemType != null) {
             switch (itemType) {
                 case EQUIPMENT:
-                    return initializeEquipment(itemId);
+                    return equipmentUseCase.newEquipment(itemId);
                 case MATERIAL:
                     return initializeMaterial(itemId);
                 case CONSUMABLE:
@@ -92,18 +91,6 @@ public class ItemUseCase {
         return null;
     }
 
-    private EquipmentType determineEquipmentType(int equipmentTypeId){
-        switch(equipmentTypeId){
-            case 1 -> {return EquipmentType.ARMOR;}
-            case 2 -> {return EquipmentType.WEAPON;}
-            case 3 -> {return EquipmentType.AMULET;}
-            case 4 -> {return EquipmentType.BAG;}
-            case 5 -> {return EquipmentType.TOOL;}
-            default -> System.out.println("Invalid equipment Type Id");
-        }
-        return null;
-    }
-
     private RaceType[] determineRaceType(int[] raceTypeId){
         RaceType[] raceTypes = new RaceType[raceTypeId.length];
         if(raceTypeId[0] == 0){
@@ -120,35 +107,6 @@ public class ItemUseCase {
             }
         }
         return raceTypes;
-    }
-
-    private Equipment initializeEquipment(int itemId){
-        if (itemId == 0){return null;}
-
-        Equipment item = new Equipment(itemId);
-        String[] equipData = this.equipmentData[itemId];
-
-        item.setName(equipData[1]);
-        item.setDescription(equipData[2]);
-        item.setSinglePrice(Integer.parseInt(equipData[3]));
-        item.setSingleWeight(Integer.parseInt(equipData[4]));
-        item.setSingleDust(Integer.parseInt(equipData[5]));
-        item.setLevelRequirement(Integer.parseInt(equipData[6]));
-        item.setAttack(Integer.parseInt(equipData[7]));
-        item.setDefense(Integer.parseInt(equipData[8]));
-        item.setMaxHealth(Integer.parseInt(equipData[9]));
-        item.setLifeSteal(Integer.parseInt(equipData[10]));
-        item.setDamageReduction(Integer.parseInt(equipData[11]));
-        item.setMaxWeight(Integer.parseInt(equipData[12]));
-        item.setDurability(Integer.parseInt(equipData[13]));
-        item.setSkills(ReadCSV.readIntList(equipData[14]));
-        item.setBuffsId(ReadCSV.readIntList(equipData[15]));
-        item.setBuffStack(ReadCSV.readIntList(equipData[16]));
-        item.setEquipmentType(determineEquipmentType(Integer.parseInt(equipData[17])));
-
-        item.setRarity(Rarity.COMMON);
-        item.setItemType(ItemType.EQUIPMENT);
-        return item;
     }
 
     private Material initializeMaterial(int itemId){
@@ -202,5 +160,13 @@ public class ItemUseCase {
 
         item.setItemType(ItemType.QUEST);
         return item;
+    }
+
+    public EquipmentUseCase getEquipmentUseCase() {
+        return equipmentUseCase;
+    }
+
+    public void setEquipmentUseCase(EquipmentUseCase equipmentUseCase) {
+        this.equipmentUseCase = equipmentUseCase;
     }
 }

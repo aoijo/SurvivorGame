@@ -1,6 +1,7 @@
 package Entity;
 
 import Entity.Character.Character;
+import Entity.Item.Equipment;
 import Enums.BuffType;
 
 public class Buff {
@@ -18,6 +19,9 @@ public class Buff {
     private boolean isActive;
 
     public Buff(int id, Character source, Character target){
+        this.id = id;
+    }
+    public Buff(int id, Equipment source){
         this.id = id;
     }
 
