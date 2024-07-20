@@ -17,170 +17,178 @@ public class EquipmentUseCase {
     private SkillUseCase skillUseCase;
     private BuffUseCase buffUseCase;
     private String[][] equipmentData;
+    private Random random;
 
-    private String[] mythicalBuffNames = new String[]{
+    private static final String[] MYTHICAL_BUFF_NAMES = {
             "Healing", "Berserk", "Luxury", "Vampire", "Protector", "Sturdy", "Madness", "Immune"
     };
 
-    public EquipmentUseCase(SkillUseCase skillUseCase, BuffUseCase buffUseCase){
+    public EquipmentUseCase(SkillUseCase skillUseCase, BuffUseCase buffUseCase) {
         this.skillUseCase = skillUseCase;
         this.buffUseCase = buffUseCase;
+        this.random = new Random();
         loadEquipmentData();
     }
-
 
     private void loadEquipmentData() {
         this.equipmentData = ReadCSV.read("Data/Item/Equipment.csv");
     }
 
-    public Equipment forgeEquipment(int forgeExperience, int equipmentId){
+    public Equipment forgeEquipment(int forgeExperience, int equipmentId) {
         Equipment equipment = newEquipment(equipmentId);
+        if (equipment == null) {
+            return null;
+        }
         setStatsFloat(equipment);
         determineRarity(forgeExperience, equipment);
         addRarityStats(equipment);
         return equipment;
     }
 
-    public void addRarityStats(Equipment equipment){
-        Random rand = new Random();
-        switch(equipment.getRarity()){
-            case UNCOMMON:{
-                if(rand.nextBoolean()){
-                    equipment.setAttack((int)(equipment.getAttack() * (1.1f + rand.nextFloat() * 0.1f)));
+    private void addRarityStats(Equipment equipment) {
+        switch (equipment.getRarity()) {
+            case UNCOMMON -> {
+                if (random.nextBoolean()) {
+                    equipment.setAttack((int) (equipment.getAttack() * (1.1f + random.nextFloat() * 0.1f)));
                 } else {
-                    equipment.setDefense((int)(equipment.getDefense() * (1.1f + rand.nextFloat() * 0.1f)));
-                }
-
-            }
-            case RARE:{
-                if(rand.nextBoolean()){
-                    if(rand.nextBoolean()){
-                        equipment.setAttack((int)(equipment.getAttack() * (1.2f + rand.nextFloat() * 0.2f)));
-                    } else {
-                        equipment.setDefense((int)(equipment.getDefense() * (1.2f + rand.nextFloat() * 0.2f)));
-                    }
-                } else {
-                    equipment.setAttack((int)(equipment.getAttack() * (1.1f + rand.nextFloat() * 0.1f)));
-                    equipment.setDefense((int)(equipment.getDefense() * (1.1f + rand.nextFloat() * 0.1f)));
+                    equipment.setDefense((int) (equipment.getDefense() * (1.1f + random.nextFloat() * 0.1f)));
                 }
             }
-            case LEGENDARY:{
-                if(rand.nextBoolean()){
-                    if(rand.nextBoolean()){
-                        equipment.setAttack((int)(equipment.getAttack() * (1.2f + rand.nextFloat() * 0.2f)));
-                        equipment.setLifeSteal((int)(equipment.getLifeSteal() * (5f + rand.nextFloat() * 10f)));
+            case RARE -> {
+                if (random.nextBoolean()) {
+                    if (random.nextBoolean()) {
+                        equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
                     } else {
-                        equipment.setDefense((int)(equipment.getDefense() * (1.2f + rand.nextFloat() * 0.2f)));
-                        equipment.setDamageReduction((int)(equipment.getDamageReduction() * (5f + rand.nextFloat() * 5f)));
+                        equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
                     }
                 } else {
-                    equipment.setAttack((int)(equipment.getAttack() * (1.2f + rand.nextFloat() * 0.2f)));
-                    equipment.setDefense((int)(equipment.getDefense() * (1.2f + rand.nextFloat() * 0.2f)));
+                    equipment.setAttack((int) (equipment.getAttack() * (1.1f + random.nextFloat() * 0.1f)));
+                    equipment.setDefense((int) (equipment.getDefense() * (1.1f + random.nextFloat() * 0.1f)));
                 }
             }
-            case MYTHICAL:{
-                if(rand.nextBoolean()){
-                    if(rand.nextBoolean()){
-                        equipment.setAttack((int)(equipment.getAttack() * (1.2f + rand.nextFloat() * 0.2f)));
-                        equipment.setLifeSteal((int)(equipment.getLifeSteal() * (5f + rand.nextFloat() * 10f)));
+            case LEGENDARY -> {
+                if (random.nextBoolean()) {
+                    if (random.nextBoolean()) {
+                        equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
+                        equipment.setLifeSteal((int) (equipment.getLifeSteal() * (5f + random.nextFloat() * 10f)));
                     } else {
-                        equipment.setDefense((int)(equipment.getDefense() * (1.2f + rand.nextFloat() * 0.2f)));
-                        equipment.setDamageReduction((int)(equipment.getDamageReduction() * (5f + rand.nextFloat() * 5f)));
+                        equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
+                        equipment.setDamageReduction((int) (equipment.getDamageReduction() * (5f + random.nextFloat() * 5f)));
                     }
                 } else {
-                    equipment.setAttack((int)(equipment.getAttack() * (1.2f + rand.nextFloat() * 0.2f)));
-                    equipment.setDefense((int)(equipment.getDefense() * (1.2f + rand.nextFloat() * 0.2f)));
+                    equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
+                    equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
+                }
+            }
+            case MYTHICAL -> {
+                if (random.nextBoolean()) {
+                    if (random.nextBoolean()) {
+                        equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
+                        equipment.setLifeSteal((int) (equipment.getLifeSteal() * (5f + random.nextFloat() * 10f)));
+                    } else {
+                        equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
+                        equipment.setDamageReduction((int) (equipment.getDamageReduction() * (5f + random.nextFloat() * 5f)));
+                    }
+                } else {
+                    equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
+                    equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
                 }
                 addMythicalBuffs(equipment);
             }
         }
     }
-    public void addMythicalBuffs(Equipment equipment){
-        Random rand = new Random();
-        int mythicalBuff = rand.nextInt(mythicalBuffNames.length);
-        equipment.setName(equipment.getName() + "of" + mythicalBuffNames[mythicalBuff]);
-        switch (mythicalBuffNames[mythicalBuff]){
-            case "Healing":{
-                gainSkill(equipment,3);
-                break;
+
+    private void addMythicalBuffs(Equipment equipment) {
+        int mythicalBuffIndex = random.nextInt(MYTHICAL_BUFF_NAMES.length);
+        String mythicalBuffName = MYTHICAL_BUFF_NAMES[mythicalBuffIndex];
+        equipment.setName(equipment.getName() + " of " + mythicalBuffName);
+
+        switch (mythicalBuffName) {
+            case "Healing" -> {
+                gainSkill(equipment, 3);
             }
-            case "Berserk":{
-                gainBuff(equipment,9,100);
-                gainBuff(equipment,12,100);
+            case "Berserk" -> {
+                gainBuff(equipment, 9, 100);
+                gainBuff(equipment, 12, 100);
             }
-            case "Luxury":{
+            case "Luxury" -> {
                 equipment.setPrice(equipment.getPrice() * 10);
                 equipment.setSinglePrice(equipment.getSinglePrice() * 10);
             }
-            case "Vampire":{
+            case "Vampire" -> {
                 equipment.setLifeSteal(equipment.getLifeSteal() + 20);
             }
-            case "Protector":{
-                gainBuff(equipment,10,500);
-                gainBuff(equipment,14,50);
+            case "Protector" -> {
+                gainBuff(equipment, 10, 500);
+                gainBuff(equipment, 14, 50);
             }
-            case "Sturdy":{
+            case "Sturdy" -> {
                 equipment.setDurability(equipment.getDurability() * 5);
+                equipment.setMaxDurability(equipment.getMaxDurability() * 5);
             }
-            case "Madness":{
-                gainSkill(equipment,8);
-                gainBuff(equipment,37,15);
+            case "Madness" -> {
+                gainSkill(equipment, 8);
+                gainBuff(equipment, 37, 15);
             }
-            case "Immune":{
-                gainBuff(equipment ,17,100);
-                gainBuff(equipment,34,1);
+            case "Immune" -> {
+                gainBuff(equipment, 17, 100);
+                gainBuff(equipment, 34, 1);
             }
         }
-
     }
-    public void determineRarity(int forgeExperience, Equipment equipment){
-        Random rand = new Random();
 
+    private void determineRarity(int forgeExperience, Equipment equipment) {
         float minimalChance = 0.05f;
         float maxMythical = 0.1f;
         float maxLegendary = 0.4f;
         float maxRare = 0.6f;
         float maxUncommon = 0.8f;
-        float forgeMultiplier = 1 + (17f * (float)Math.log(forgeExperience) / (float)Math.log(10));
+        float forgeMultiplier = 1 + (17f * (float) Math.log(forgeExperience) / (float) Math.log(10));
 
-        float mythicalChance =Math.min(maxMythical,forgeMultiplier/1000);
-        mythicalChance = Math.max(minimalChance/10,mythicalChance);
+        float mythicalChance = Math.min(maxMythical, forgeMultiplier / 1000);
+        mythicalChance = Math.max(minimalChance / 10, mythicalChance);
 
-        float legendaryChance =Math.min(maxLegendary,forgeMultiplier/190);
-        legendaryChance = Math.max(minimalChance/2,legendaryChance);
+        float legendaryChance = Math.min(maxLegendary, forgeMultiplier / 190);
+        legendaryChance = Math.max(minimalChance / 2, legendaryChance);
 
-        float rareChance =Math.min(maxRare,forgeMultiplier/110);
-        rareChance = Math.max(minimalChance,rareChance);
+        float rareChance = Math.min(maxRare, forgeMultiplier / 110);
+        rareChance = Math.max(minimalChance, rareChance);
 
-        float uncommonChance =Math.min(maxUncommon,forgeMultiplier/75);
-        uncommonChance = Math.max(minimalChance,uncommonChance);
+        float uncommonChance = Math.min(maxUncommon, forgeMultiplier / 75);
+        uncommonChance = Math.max(minimalChance, uncommonChance);
 
-        if (rand.nextFloat() < mythicalChance){
+        float randomValue = random.nextFloat();
+        if (randomValue < mythicalChance) {
             equipment.setRarity(Rarity.MYTHICAL);
-        } else if (rand.nextFloat() < legendaryChance){
+        } else if (randomValue < legendaryChance) {
             equipment.setRarity(Rarity.LEGENDARY);
-        } else if (rand.nextFloat() < rareChance){
+        } else if (randomValue < rareChance) {
             equipment.setRarity(Rarity.RARE);
-        } else if (rand.nextFloat() < uncommonChance){
+        } else if (randomValue < uncommonChance) {
             equipment.setRarity(Rarity.UNCOMMON);
-        } else{equipment.setRarity(Rarity.COMMON);}
+        } else {
+            equipment.setRarity(Rarity.COMMON);
+        }
     }
-    public void setStatsFloat(Equipment equipment){
-        Random rand = new Random();
-        float attackFloat = (float) (rand.nextFloat() * 0.4 - 0.2);
-        float defenseFloat = (float) (rand.nextFloat() * 0.4 - 0.2);
-        float healthFloat = (float) (rand.nextFloat() * 0.4 - 0.2);
-        float lifeStealFloat = (float) (rand.nextFloat() * 0.4 - 0.2);
-        float damageReduceFloat = (float) (rand.nextFloat() * 0.4 - 0.2);
-        equipment.setAttack((int)(equipment.getAttack() * attackFloat));
-        equipment.setDefense((int)(equipment.getDefense() * defenseFloat));
-        equipment.setMaxHealth((int)(equipment.getMaxHealth() * healthFloat));
-        equipment.setLifeSteal((int)(equipment.getLifeSteal() * lifeStealFloat));
-        equipment.setDamageReduction((int)(equipment.getDamageReduction() * damageReduceFloat));
+
+    private void setStatsFloat(Equipment equipment) {
+        float attackFloat = random.nextFloat() * 0.4f - 0.2f;
+        float defenseFloat = random.nextFloat() * 0.4f - 0.2f;
+        float healthFloat = random.nextFloat() * 0.4f - 0.2f;
+        float lifeStealFloat = random.nextFloat() * 0.4f - 0.2f;
+        float damageReduceFloat = random.nextFloat() * 0.4f - 0.2f;
+
+        equipment.setAttack((int) (equipment.getAttack() * (1 + attackFloat)));
+        equipment.setDefense((int) (equipment.getDefense() * (1 + defenseFloat)));
+        equipment.setMaxHealth((int) (equipment.getMaxHealth() * (1 + healthFloat)));
+        equipment.setLifeSteal((int) (equipment.getLifeSteal() * (1 + lifeStealFloat)));
+        equipment.setDamageReduction((int) (equipment.getDamageReduction() * (1 + damageReduceFloat)));
     }
 
     public Equipment newEquipment(int equipmentId) {
-        if (equipmentId == 0){return null;}
+        if (equipmentId == 0 || equipmentId >= equipmentData.length || equipmentData[equipmentId] == null) {
+            return null;
+        }
 
         Equipment equipment = new Equipment(equipmentId);
         String[] equipData = this.equipmentData[equipmentId];
@@ -197,42 +205,44 @@ public class EquipmentUseCase {
         equipment.setLifeSteal(Integer.parseInt(equipData[10]));
         equipment.setDamageReduction(Integer.parseInt(equipData[11]));
         equipment.setMaxWeight(Integer.parseInt(equipData[12]));
-        equipment.setDurability(Integer.parseInt(equipData[13]));
-        gainSkills(equipment,ReadCSV.readIntList(equipData[14]));
-        gainBuffs(equipment,ReadCSV.readIntList(equipData[15]), ReadCSV.readIntList(equipData[16]));
+        equipment.setMaxDurability(Integer.parseInt(equipData[13]));
+        gainSkills(equipment, ReadCSV.readIntList(equipData[14]));
+        gainBuffs(equipment, ReadCSV.readIntList(equipData[15]), ReadCSV.readIntList(equipData[16]));
         equipment.setEquipmentType(determineEquipmentType(Integer.parseInt(equipData[17])));
 
+        equipment.setPrice(equipment.getSinglePrice());
+        equipment.setWeight(equipment.getSingleWeight());
+        equipment.setDust(equipment.getSingleDust());
+        equipment.setDurability(equipment.getMaxDurability());
         equipment.setRarity(Rarity.COMMON);
         equipment.setItemType(ItemType.EQUIPMENT);
         return equipment;
-
     }
 
-    public void setSkillUseCase(SkillUseCase skillUseCase) {
-        this.skillUseCase = skillUseCase;
+    private EquipmentType determineEquipmentType(int equipmentTypeId) {
+        return switch (equipmentTypeId) {
+            case 1 -> EquipmentType.ARMOR;
+            case 2 -> EquipmentType.WEAPON;
+            case 3 -> EquipmentType.AMULET;
+            case 4 -> EquipmentType.BAG;
+            case 5 -> EquipmentType.TOOL;
+            default -> {
+                System.out.println("Invalid equipment Type Id: " + equipmentTypeId);
+                yield null;
+            }
+        };
     }
-    public void setBuffUseCase(BuffUseCase buffUseCase) {
-        this.buffUseCase = buffUseCase;
+
+    private void gainBuff(Equipment equipment, int buffId, int buffStack) {
+        buffUseCase.equipmentGainBuff(buffId, buffStack, equipment);
     }
-    private EquipmentType determineEquipmentType(int equipmentTypeId){
-        switch(equipmentTypeId){
-            case 1 -> {return EquipmentType.ARMOR;}
-            case 2 -> {return EquipmentType.WEAPON;}
-            case 3 -> {return EquipmentType.AMULET;}
-            case 4 -> {return EquipmentType.BAG;}
-            case 5 -> {return EquipmentType.TOOL;}
-            default -> System.out.println("Invalid equipment Type Id");
-        }
-        return null;
-    }
-    private void gainBuff(Equipment equipment, int buffId, int buffStack){
-        buffUseCase.equipmentGainBuff(buffId,buffStack,equipment);
-    }
-    private void gainBuffs(Equipment equipment, int[] buffId, int[] buffStack){
-        for (int i = 0; i < buffStack.length; i++){
-            gainBuff(equipment,buffId[i],buffStack[i]);
+
+    private void gainBuffs(Equipment equipment, int[] buffIds, int[] buffStacks) {
+        for (int i = 0; i < buffIds.length; i++) {
+            gainBuff(equipment, buffIds[i], buffStacks[i]);
         }
     }
+
     private void gainSkill(Equipment equipment, int skillId) {
         ArrayList<Skill> skills = equipment.getSkills();
         if (skills == null) {
@@ -247,11 +257,20 @@ public class EquipmentUseCase {
         }
 
         // Skill does not exist, add new skill
-        equipment.getSkills().add(skillUseCase.newSkill(skillId));
+        skills.add(skillUseCase.newSkill(skillId));
     }
-    private void gainSkills(Equipment equipment, int[] skillIds){
+
+    private void gainSkills(Equipment equipment, int[] skillIds) {
         for (int skillId : skillIds) {
             gainSkill(equipment, skillId);
         }
+    }
+
+    public void setSkillUseCase(SkillUseCase skillUseCase) {
+        this.skillUseCase = skillUseCase;
+    }
+
+    public void setBuffUseCase(BuffUseCase buffUseCase) {
+        this.buffUseCase = buffUseCase;
     }
 }

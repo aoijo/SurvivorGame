@@ -11,12 +11,14 @@ import java.awt.event.ActionListener;
 
 public class StatsPanel extends JPanel {
     private GameScreen gameScreen;
+    private InformationPanel informationPanel;
     private GridBagConstraints constraints;
     private Font StatsFont = new Font("Arial", Font.BOLD, 12);
     private Font attributeButtonFont = new Font("Arial", Font.BOLD, 15);
 
-    public StatsPanel(GameScreen gameScreen) {
-        this.gameScreen = gameScreen;
+    public StatsPanel(InformationPanel informationPanel) {
+        this.gameScreen = informationPanel.getGameScreen();
+        this.informationPanel = informationPanel;
         setLayout(new GridBagLayout());
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -80,6 +82,10 @@ public class StatsPanel extends JPanel {
                     // Update the player's color here
                     gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setColor(newColor);
                     gameScreen.getStatusPanel().updateStatusPanel();
+                    informationPanel.getBagPanel().getSwitchTopPanel().setSwitchButtonColor(newColor);
+                    informationPanel.getBagPanel().getSwitchTopPanel().updateSwitchTopPanel();
+                    informationPanel.getBagPanel().getSwitchBottomPanel().updateSortingButtonColor(newColor);
+                    informationPanel.getBagPanel().getSwitchBottomPanel().repaint();
                 }
             }
         });
@@ -151,5 +157,9 @@ public class StatsPanel extends JPanel {
         initializeStatsPanel();
         revalidate();
         repaint();
+    }
+
+    public InformationPanel getInformationPanel() {
+        return informationPanel;
     }
 }

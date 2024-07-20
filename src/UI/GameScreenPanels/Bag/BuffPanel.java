@@ -1,5 +1,6 @@
 package UI.GameScreenPanels.Bag;
 
+import InterfaceAdapter.MapAdapter.BuffAdapter;
 import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultButton;
 
@@ -8,12 +9,15 @@ import java.awt.*;
 
 public class BuffPanel extends JPanel {
     private GameScreen gameScreen;
+    private BuffAdapter buffAdapter;
     private GridBagConstraints constraints;
+
     private Font buffButtonFont = new Font("Arial", Font.PLAIN, 10);
     private Dimension buttonSize = new Dimension(135, 20);
 
     public BuffPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        this.buffAdapter = gameScreen.getAdapterManager().getBuffAdapter();
         setLayout(new GridBagLayout());
         constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 0, 5); // Padding between elements
@@ -58,8 +62,8 @@ public class BuffPanel extends JPanel {
     }
 
     private JButton BuffButton(int buffIndex) {
-        String buffName = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs().get(buffIndex).getName();
-        int buffStack = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs().get(buffIndex).getStack();
+        String buffName = buffAdapter.getBuffNameByIndex(buffIndex);
+        int buffStack = buffAdapter.getBuffStackByIndex(buffIndex);
 
         String buttonText = buffName + " (" + buffStack + ")";
         JButton buffButton = new DefaultButton(buttonText);

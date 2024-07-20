@@ -6,6 +6,7 @@ import InterfaceAdapter.TimeAdapter;
 import Utils.DefaultToggleButton;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,8 +23,7 @@ public class StatusPanel extends JPanel {
     private JLabel seasonLabel;
     private JLabel nameLabel;
     private JPanel dayPanel;
-    private JToggleButton bagButton;
-    //private MapPanel miniMap;
+    private DefaultToggleButton bagButton;
 
     private JPanel healthPanel;
     private JPanel weightPanel;
@@ -32,6 +32,7 @@ public class StatusPanel extends JPanel {
     private JLabel levelLabel;
     private JPanel expPanel;
     private JPanel sanityPanel;
+    private JLabel forgeExpPanel;
 
     public StatusPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -39,117 +40,102 @@ public class StatusPanel extends JPanel {
         this.mapPresenter = gameScreen.getAdapterManager().getMapPresenter();
         this.timeAdapter = gameScreen.getAdapterManager().getTimeAdapter();
 
-        //this.miniMap = miniMap;
-
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(200, 600));
         constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5, 10, 5, 10);
+        constraints.insets = new Insets(5, 0, 5, 0);
+        constraints.fill = GridBagConstraints.BOTH;
 
-        Font textFont = new Font("Courier New", Font.BOLD, 12);
-        Font timeFont = new Font("Arial", Font.PLAIN, 12);
-        Font locationFont = new Font("Arial", Font.BOLD, 12);
-        Font seasonAndDayFont = new Font("Arial", Font.BOLD, 14);
-        Font nameFont = new Font("Arial", Font.ITALIC, 14);
+        Font textFont = new Font("Arial", Font.PLAIN, 14);
+        Font timeFont = new Font("Arial", Font.PLAIN, 14);
+        Font locationFont = new Font("Arial", Font.PLAIN, 14);
+        Font seasonAndDayFont = new Font("Arial", Font.PLAIN, 16);
+        Font nameFont = new Font("Arial", Font.ITALIC, 16);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.weightx = 1;
 
         // Row 1
         constraints.gridwidth = 2;
         timeLabel = createTimeLabel(timeFont);
-        add(timeLabel, constraints);
+        JPanel row1 = labelContainer(timeLabel);
+        add(row1, constraints);
 
         // Row 2
         constraints.gridy++;
         locationLabel = createLocationLabel(locationFont);
-        add(locationLabel, constraints);
-
-        // Row 2
-        constraints.gridy++;
-        nameLabel = createNameLabel(nameFont);
-        add(nameLabel, constraints);
+        JPanel row2 = labelContainer(locationLabel);
+        row2.setPreferredSize(new Dimension(200, 30));
+        row2.setBorder(new MatteBorder(2, 0, 0, 0, Color.BLACK));
+        add(row2, constraints);
 
         // Row 3
+        constraints.gridy++;
+        nameLabel = createNameLabel(nameFont);
+        JPanel row3 = labelContainer(nameLabel);
+        row3.setPreferredSize(new Dimension(200, 30));
+        row3.setBorder(new MatteBorder(2, 0, 2, 0, Color.BLACK));
+        add(row3, constraints);
+
+        // Row 4
         constraints.gridy++;
         constraints.gridwidth = 1;
         constraints.gridheight = 2;
         seasonLabel = createSeasonLabel(seasonAndDayFont);
-        add(seasonLabel, constraints);
-        constraints.gridx++;
         dayPanel = createDayLabel(seasonAndDayFont);
+        add(labelContainer(seasonLabel), constraints);
+        constraints.gridx++;
         add(dayPanel, constraints);
+        constraints.gridx--;
         constraints.gridheight = 1;
 
-        // Row 4
-        constraints.gridx--;
-        constraints.gridy += 2;
-        add(createLabel("Health", textFont), constraints);
-        constraints.gridy++;
-        healthPanel = createValueLabel(textFont, Color.red);
-        add(healthPanel, constraints);
-
-        constraints.gridx++;
-        constraints.gridy--;
-        add(createLabel("Weight", textFont), constraints);
-        constraints.gridy++;
-        weightPanel = createValueLabel(textFont, Color.BLACK);
-        add(weightPanel, constraints);
-
         // Row 5
-        constraints.gridy++;
-        constraints.gridx--;
-        add(createLabel("Hydration", textFont), constraints);
-        constraints.gridy++;
-        hydrationPanel = createValueLabel(textFont, Color.BLUE);
-        add(hydrationPanel, constraints);
+        constraints.gridy += 2;
+        add(createRowPanel(labelContainer(createLabel("Health", textFont)), healthPanel = createValueLabel(textFont, Color.red)), constraints);
 
         constraints.gridx++;
-        constraints.gridy--;
-        add(createLabel("Hunger", textFont), constraints);
-        constraints.gridy++;
-        hungerPanel = createValueLabel(textFont, Color.ORANGE);
-        add(hungerPanel, constraints);
+        add(createRowPanel(labelContainer(createLabel("Weight", textFont)), weightPanel = createValueLabel(textFont, Color.BLACK)), constraints);
 
         // Row 6
         constraints.gridy++;
         constraints.gridx--;
-        add(createLabel("Level", textFont), constraints);
-        constraints.gridy++;
-        levelLabel = createLabel("", textFont);
-        add(levelLabel, constraints);
+        add(createRowPanel(labelContainer(createLabel("Hydration", textFont)), hydrationPanel = createValueLabel(textFont, Color.BLUE)), constraints);
 
         constraints.gridx++;
-        constraints.gridy--;
-        add(createLabel("EXP", textFont), constraints);
-        constraints.gridy++;
-        expPanel = createValueLabel(textFont, Color.BLACK);
-        add(expPanel, constraints);
+        add(createRowPanel(labelContainer(createLabel("Hunger", textFont)), hungerPanel = createValueLabel(textFont, Color.ORANGE)), constraints);
 
         // Row 7
         constraints.gridy++;
         constraints.gridx--;
-        add(createLabel("Sanity", textFont), constraints);
+        add(createRowPanel(labelContainer(createLabel("Level", textFont)), labelContainer(levelLabel = createLabel("", textFont))), constraints);
+
+        constraints.gridx++;
+        add(createRowPanel(labelContainer(createLabel("EXP", textFont)), expPanel = createValueLabel(textFont, Color.BLACK)), constraints);
+
+
+        // Row 8
         constraints.gridy++;
-        sanityPanel = createValueLabel(textFont, Color.BLACK);
-        add(sanityPanel, constraints);
+        constraints.gridx--;
+        add(createRowPanel(labelContainer(createLabel("Sanity", textFont)), sanityPanel = createValueLabel(textFont, Color.BLACK)), constraints);
+
+        constraints.gridx++;
+        add(createRowPanel(labelContainer(createLabel("Forge EXP",textFont)), labelContainer(forgeExpPanel = createLabel("", textFont))), constraints);
 
         // Middle Space filler
         constraints.gridy++;
+        constraints.gridx--;
         constraints.weighty = 1;
+        constraints.gridwidth = 2;
         add(new JLabel(""), constraints);
 
         // Add bag button at the bottom just above the miniMap
         constraints.gridy++;
         constraints.weighty = 0;
-        constraints.gridwidth = 2;
-        add(bagButton(), constraints);
-
-        // Last Row
-        constraints.gridy++;
-        constraints.gridwidth = 2;
-        constraints.weighty = 0;
-        //add(miniMap, constraints);
+        bagButton = createBagButton();
+        JPanel bagRow = new JPanel(new FlowLayout());
+        bagRow.add(bagButton);
+        add(bagRow, constraints);
 
         // Initialize values
         updateStatusPanel();
@@ -158,18 +144,23 @@ public class StatusPanel extends JPanel {
     public GridBagConstraints getConstraints() {
         return constraints;
     }
+    private JPanel labelContainer(JLabel label) {
+        JPanel panel = new JPanel(new FlowLayout());
+        panel.add(label);
+        return panel;
+    }
 
-    private JToggleButton bagButton(){
-        JToggleButton bagButton = new DefaultToggleButton("Map","Bag");
+    private DefaultToggleButton createBagButton() {
+        DefaultToggleButton bagButton = new DefaultToggleButton("Map", "Bag", playerPresenter.getPlayerColor());
         bagButton.setPreferredSize(new Dimension(100, 30));
-        bagButton.addActionListener(new ActionListener(){
+        bagButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(bagButton.isSelected()){
+                if (bagButton.isSelected()) {
                     gameScreen.getCentrePanel().switchToScreen("BagPanel");
                     gameScreen.getCentrePanel().getBagPanel().getItemPanel().updateItemPanel();
                     gameScreen.setFocusable(false);
-                }else{
+                } else {
                     gameScreen.getCentrePanel().switchToScreen("MapPanel");
                     gameScreen.setFocusable(true);
                     gameScreen.requestFocus();
@@ -177,6 +168,17 @@ public class StatusPanel extends JPanel {
             }
         });
         return bagButton;
+    }
+
+    private JPanel createRowPanel(JComponent... components) {
+        JPanel rowPanel = new JPanel();
+        rowPanel.setLayout(new GridLayout(components.length, 1, 0, 0));
+        for (JComponent component : components) {
+            rowPanel.add(component);
+        }
+        rowPanel.setBorder(new MatteBorder(2, 0, 0, 0, Color.BLACK));
+        rowPanel.setPreferredSize(new Dimension(100, 48));
+        return rowPanel;
     }
 
     private JLabel createLabel(String attribute, Font font) {
@@ -187,7 +189,7 @@ public class StatusPanel extends JPanel {
 
     private JPanel createValueLabel(Font font, Color valueColor) {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        panel.setLayout(new FlowLayout());
 
         JLabel valueLabel = new JLabel();
         valueLabel.setFont(font);
@@ -207,9 +209,9 @@ public class StatusPanel extends JPanel {
         return panel;
     }
 
-    private JLabel createTimeLabel(Font timefont) {
+    private JLabel createTimeLabel(Font timeFont) {
         JLabel timeLabel = new JLabel();
-        timeLabel.setFont(timefont);
+        timeLabel.setFont(timeFont);
         return timeLabel;
     }
 
@@ -218,6 +220,7 @@ public class StatusPanel extends JPanel {
         locationLabel.setFont(locationFont);
         return locationLabel;
     }
+
     private JLabel createNameLabel(Font nameFont) {
         JLabel nameLabel = new JLabel();
         nameLabel.setFont(nameFont);
@@ -251,9 +254,11 @@ public class StatusPanel extends JPanel {
         updateValuePanel(hydrationPanel, playerPresenter.getHydration(), playerPresenter.getMaxHydration());
         updateValuePanel(hungerPanel, playerPresenter.getHunger(), playerPresenter.getMaxHunger());
         levelLabel.setText("" + playerPresenter.getLevel());
+        forgeExpPanel.setText("" + playerPresenter.getForgeEXP());
         updateValuePanel(expPanel, playerPresenter.getExperience(), playerPresenter.getMaxExperience());
         updateValuePanel(sanityPanel, playerPresenter.getSanity(), playerPresenter.getMaxSanity());
-        //miniMap.repaint();
+        bagButton.setSelectedColor(playerPresenter.getPlayerColor());
+        bagButton.repaint();
     }
 
     private String getTimeString() {

@@ -16,6 +16,7 @@ public class ItemUseCase {
     private String[][] questData;
 
     public ItemUseCase(EquipmentUseCase equipmentUseCase){
+        this.equipmentUseCase = equipmentUseCase;
         loadItemData();
     }
 
@@ -74,7 +75,7 @@ public class ItemUseCase {
         } else if (itemId < 5000){
             return ItemType.QUEST;
         }
-        System.out.println("Invalid itemId");
+        System.out.println("Invalid itemId: " + itemId);
         return null;
     }
 
@@ -133,7 +134,6 @@ public class ItemUseCase {
         item.setSingleWeight(Integer.parseInt(consumableData[4]));
         item.setSingleDust(Integer.parseInt(consumableData[5]));
         item.setLevelRequirement(Integer.parseInt(consumableData[6]));
-        item.setRaceRequirementId(determineRaceType(ReadCSV.readIntList(consumableData[7])));
         item.setRarity(determineRarity(Integer.parseInt(consumableData[8])));
 
         item.setItemType(ItemType.CONSUMABLE);

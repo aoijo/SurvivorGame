@@ -23,7 +23,6 @@ public class Item {
 
     private Rarity rarity;
     private int levelRequirement;
-    private RaceType[] raceRequirementId;
 
     public Item(int id) {
         this.id = id;
@@ -124,14 +123,6 @@ public class Item {
 
     public void setLevelRequirement(int levelRequirement) {
         this.levelRequirement = levelRequirement;
-    }
-
-    public RaceType[] getRaceRequirementId() {
-        return raceRequirementId;
-    }
-
-    public void setRaceRequirementId(RaceType[] raceRequirementId) {
-        this.raceRequirementId = raceRequirementId;
     }
 
     public ItemType getItemType() {

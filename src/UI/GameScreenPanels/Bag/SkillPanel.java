@@ -1,6 +1,7 @@
 package UI.GameScreenPanels.Bag;
 
 import Enums.Rarity;
+import InterfaceAdapter.SkillAdapter;
 import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultButton;
 
@@ -9,12 +10,15 @@ import java.awt.*;
 
 public class SkillPanel extends JPanel {
     private GameScreen gameScreen;
+    private SkillAdapter skillAdapter;
+
     private GridBagConstraints constraints;
     private Font buffButtonFont = new Font("Arial", Font.PLAIN, 10);
     private Dimension buttonSize = new Dimension(135, 20);
 
     public SkillPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        this.skillAdapter = gameScreen.getAdapterManager().getSkillAdapter();
         setLayout(new GridBagLayout());
         constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 0, 5); // Padding between elements
@@ -63,10 +67,10 @@ public class SkillPanel extends JPanel {
     }
 
     private JButton SkillButton(int skillIndex) {
-        String skillName = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSkills().get(skillIndex).getName();
-        float worldCoolDown = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSkills().get(skillIndex).getWorldCooldown();
-        int coolDown = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSkills().get(skillIndex).getCooldown();
-        Rarity rarity = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSkills().get(skillIndex).getRarity();
+        String skillName = skillAdapter.getPlayerSkillNameByIndex(skillIndex);
+        float worldCoolDown = skillAdapter.getPlayerSkillWorldCooldownByIndex(skillIndex);
+        int coolDown = skillAdapter.getPlayerSkillCooldownByIndex(skillIndex);
+        Rarity rarity = skillAdapter.getPlayerSkillRarityByIndex(skillIndex);
 
         String buttonText = "";
         if (worldCoolDown > 1) {

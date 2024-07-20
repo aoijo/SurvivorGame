@@ -18,11 +18,11 @@ public class BagPanel extends JPanel {
 
     public BagPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        this.informationPanel = new InformationPanel(gameScreen);
+        this.informationPanel = new InformationPanel(this);
         this.switchTopPanel = new SwitchTopPanel(informationPanel);
         this.itemPanel = new ItemPanel(gameScreen);
         this.itemScrollPane = new DefaultScrollPane(itemPanel);
-        this.switchBottomPanel = new SwitchBottomPanel(itemPanel);
+        this.switchBottomPanel = new SwitchBottomPanel(this);
 
         itemScrollPane.setPreferredSize(new Dimension(300,300));
         itemScrollPane.setBorder(new MatteBorder(0, 2, 2, 2, Color.BLACK));
@@ -60,5 +60,8 @@ public class BagPanel extends JPanel {
     }
     public ItemPanel getItemPanel() {
         return itemPanel;
+    }
+    public GameScreen getGameScreen() {
+        return gameScreen;
     }
 }

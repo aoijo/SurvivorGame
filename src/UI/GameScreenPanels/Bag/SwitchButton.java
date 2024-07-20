@@ -10,9 +10,11 @@ import java.awt.event.MouseEvent;
 public class SwitchButton extends JButton {
     private boolean isHovered;
     private Boolean isActive = false;
+    private Color buttonColor;
 
-    public SwitchButton(String text) {
+    public SwitchButton(String text, Color buttonColor) {
         super(text);
+        this.buttonColor = buttonColor;
         setContentAreaFilled(false);
         setFocusPainted(false);
         setFont(new Font("Arial", Font.BOLD, 12));
@@ -36,7 +38,7 @@ public class SwitchButton extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         if (isActive) {
-            g.setColor(Color.GREEN);
+            g.setColor(buttonColor);
         }else if (isHovered) {
             g.setColor(Color.lightGray); // Hover color
         } else {
@@ -52,5 +54,8 @@ public class SwitchButton extends JButton {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+    public void setButtonColor(Color buttonColor) {
+        this.buttonColor = buttonColor;
     }
 }

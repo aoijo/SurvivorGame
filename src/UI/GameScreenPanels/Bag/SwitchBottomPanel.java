@@ -12,13 +12,17 @@ import Utils.DefaultToggleButton;
 
 public class SwitchBottomPanel extends JPanel {
     private ItemPanel itemPanel;
+    private BagPanel bagPanel;
+    private Color sortingButtonColor;
     private Dimension panelDimension = new Dimension(300,34);
     private JComboBox itemTypeSelection;
     private JComboBox itemSortingDependency;
-    private JToggleButton sortingDirection;
+    private DefaultToggleButton sortingDirection;
 
-    public SwitchBottomPanel(ItemPanel itemPanel) {
-        this.itemPanel = itemPanel;
+    public SwitchBottomPanel(BagPanel bagPanel) {
+        this.itemPanel = bagPanel.getItemPanel();
+        this.bagPanel = bagPanel;
+        this.sortingButtonColor = bagPanel.getGameScreen().getAdapterManager().getPlayerPresenter().getPlayerColor();
         setLayout(new FlowLayout());
         setPreferredSize(panelDimension);
         setMaximumSize(panelDimension);
@@ -29,7 +33,7 @@ public class SwitchBottomPanel extends JPanel {
         String[] SortingDependencies = new String[]{"Name", "Time", "Weight", "Rarity"};
         itemTypeSelection = new DefaultComboBox(itemTypes);
         itemSortingDependency = new DefaultComboBox(SortingDependencies);
-        sortingDirection = new DefaultToggleButton("Descend","Ascend");
+        sortingDirection = new DefaultToggleButton("Descend","Ascend", sortingButtonColor);
 
         itemTypeSelection.addActionListener(new ActionListener() {
             @Override
@@ -81,5 +85,9 @@ public class SwitchBottomPanel extends JPanel {
             case "Quest" -> ItemType.QUEST;
             default -> null;
         };
+    }
+    public void updateSortingButtonColor(Color sortingButtonColor){
+        this.sortingButtonColor = sortingButtonColor;
+        sortingDirection.setSelectedColor(sortingButtonColor);
     }
 }

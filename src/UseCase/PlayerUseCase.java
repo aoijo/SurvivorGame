@@ -1,6 +1,7 @@
 package UseCase;
 
 import Entity.Buff;
+import Entity.Item.Equipment;
 import Entity.Item.Item;
 import Entity.Character.Player;
 import Entity.Skills.Skill;
@@ -8,6 +9,7 @@ import Entity.World.Resource;
 import Entity.World.Tile;
 import Enums.Item.ItemType;
 import Enums.Rarity;
+import UseCase.Item.EquipmentUseCase;
 import UseCase.Item.ItemUseCase;
 import Utils.ReadCSV;
 
@@ -19,16 +21,22 @@ import java.util.List;
 public class PlayerUseCase {
     private Player player;
     private String[][] RaceData;
+
     private ItemUseCase itemUseCase;
+    private EquipmentUseCase equipmentUseCase;
     private TileUseCase tileUseCase;
     private TimeUseCase timeUseCase;
     private SkillUseCase skillUseCase;
     private BuffUseCase buffUseCase;
 
+    private ArrayList<Item> sortedItems;
+    private String[][] sortedItemInfo;
+
     public PlayerUseCase(TileUseCase tileUseCase, ItemUseCase itemUseCase, TimeUseCase timeUseCase,
     SkillUseCase skillUseCase, BuffUseCase buffUseCase) {
         this.tileUseCase = tileUseCase;
         this.itemUseCase = itemUseCase;
+        this.equipmentUseCase = itemUseCase.getEquipmentUseCase();
         this.timeUseCase = timeUseCase;
         this.skillUseCase = skillUseCase;
         this.buffUseCase = buffUseCase;
@@ -54,7 +62,15 @@ public class PlayerUseCase {
         player.setLevel(Integer.parseInt(raceData[16]));
         player.setMaxExperience(Integer.parseInt(raceData[17]));
         gainItems(player,ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
+
+        player.setForgetExperience(1000000);
+        player.setHealth(player.getMaxHealth());
+        player.setHunger(player.getMaxHunger());
+        player.setHydration(player.getMaxHydration());
+        player.setSanity(player.getMaxSanity());
+        player.setPosition(new int[]{0,0});
         //Test part start
+        forgeEquipments(player,1,100);
         //gainItems(player, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001}, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001});
         //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
         //gainBuff(player,1,0);
@@ -71,11 +87,7 @@ public class PlayerUseCase {
         Player newPlayer = new Player(color, raceId);
         initialize(newPlayer, raceId);
         newPlayer.setName(name);
-        newPlayer.setHealth(newPlayer.getMaxHealth());
-        newPlayer.setHunger(newPlayer.getMaxHunger());
-        newPlayer.setHydration(newPlayer.getMaxHydration());
-        newPlayer.setSanity(newPlayer.getMaxSanity());
-        newPlayer.setPosition(new int[]{0,0});
+
         return newPlayer;
     }
     public void setPlayer(Player player) {
@@ -162,6 +174,10 @@ public class PlayerUseCase {
             items = new ArrayList<>();
             player.setItemInBag(items);
         }
+        if (itemId <= 1000){
+            System.out.println("Cannot gain Equipment this way");
+            return;
+        }
         if (number == 0 ){
             return;
         }else if (number > 0) {
@@ -174,7 +190,7 @@ public class PlayerUseCase {
                     } else {
                         item.setQuantity((int) newQuantity);
                     }
-                    updateItemWeight(item);
+                    updateItemNumberChange(item);
                     updateWeight(player);
                     return; // Exit after processing the item
                 }
@@ -183,11 +199,10 @@ public class PlayerUseCase {
             Item newItem = itemUseCase.newItem(itemId);
             newItem.setQuantity(number);
             items.add(newItem);
-            updateItemWeight(newItem);
+            updateItemNumberChange(newItem);
         }
         updateWeight(player);
     }
-
     public void removeItem(int itemId, int number) {
         ArrayList<Item> items = player.getItemInBag();
 
@@ -202,7 +217,7 @@ public class PlayerUseCase {
                     items.remove(item);
                 } else{
                     item.setQuantity(item.getQuantity() - number);
-                    updateItemWeight(item);
+                    updateItemNumberChange(item);
                 }
             }
         }
@@ -233,7 +248,6 @@ public class PlayerUseCase {
         // Skill does not exist, add new skill
         player.getSkills().add(skillUseCase.newSkill(skillId));
     }
-
     public void removeSkill(Player player, int skillId) {
         ArrayList<Skill> skills = player.getSkills();
         if (skills == null) {
@@ -272,6 +286,25 @@ public class PlayerUseCase {
     public void removeBuffs(Player player, int[] buffIds, int[] stacks) {
         for(int i = 0; i <buffIds.length; i++) {
             removeBuff(player,buffIds[i],stacks[i]);
+        }
+    }
+    public void forgeEquipment(Player player, int equipmentId) {
+        // Retrieve the player's item bag
+        ArrayList<Item> items = player.getItemInBag();
+
+        // Initialize the items list if it is null
+        if (items == null) {
+            items = new ArrayList<>();
+            player.setItemInBag(items);
+        }
+        Equipment newEquipment = equipmentUseCase.forgeEquipment(player.getForgetExperience(),equipmentId);
+        newEquipment.setQuantity((1));
+        items.add(newEquipment);
+        updateWeight(player);
+    }
+    public void forgeEquipments(Player player, int equipmentId,int equipmentNumber) {
+        for (int i = 0; i < equipmentNumber; i++) {
+            forgeEquipment(player, equipmentId);
         }
     }
 
@@ -443,7 +476,7 @@ public class PlayerUseCase {
             default:
                 throw new IllegalArgumentException("sort by option not supported");
         }
-
+        sortedItems = itemsToShow;
         String[][] itemInfo = new String[4][itemsToShow.size()];
         for (int i = 0; i < itemsToShow.size(); i++) {
             itemInfo[0][i] = String.valueOf(itemsToShow.get(i).getId());
@@ -451,6 +484,7 @@ public class PlayerUseCase {
             itemInfo[2][i] = String.valueOf(itemsToShow.get(i).getQuantity());
             itemInfo[3][i] = String.valueOf(itemsToShow.get(i).getRarity());
         }
+        this.sortedItemInfo = itemInfo;
         return itemInfo;
     }
 
@@ -515,8 +549,10 @@ public class PlayerUseCase {
         return items;
     }
 
-    private void updateItemWeight(Item item){
+    private void updateItemNumberChange(Item item){
         item.setWeight(item.getQuantity() * item.getSingleWeight());
+        item.setDust(item.getQuantity() * item.getSingleDust());
+        item.setPrice(item.getQuantity() * item.getSinglePrice());
     }
 
     private void updateWeight(Player player){
@@ -526,6 +562,7 @@ public class PlayerUseCase {
         }
         player.setWeight(Weight);
     }
+
 
     public void updatePlayer(Player player){
         int currentAttack = player.getAttack();
@@ -542,5 +579,13 @@ public class PlayerUseCase {
         player.setCurrentSkills(currentSkills);
         player.setCurrentBuffs(currentBuffs);
         updateWeight(player);
+    }
+
+    public ArrayList<Item> getSortedItems() {
+        return sortedItems;
+    }
+
+    public String[][] getSortedItemInfo() {
+        return sortedItemInfo;
     }
 }

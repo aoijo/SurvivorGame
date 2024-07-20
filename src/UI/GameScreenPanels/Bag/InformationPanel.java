@@ -8,18 +8,22 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class InformationPanel extends JPanel {
+    private BagPanel bagPanel;
+    private GameScreen gameScreen;
     private CardLayout cardLayout;
     private StatsPanel statsPanel;
     private JScrollPane skillPanel;
     private JScrollPane buffPanel;
 
-    public InformationPanel(GameScreen gameScreen){
+    public InformationPanel(BagPanel bagPanel){
+        this.gameScreen = bagPanel.getGameScreen();
+        this.bagPanel = bagPanel;
         cardLayout = new CardLayout();
         setLayout(cardLayout);
         setPreferredSize(new Dimension(300, 103));
         setBorder(new MatteBorder(0, 2, 0, 2, Color.BLACK));
 
-        statsPanel = new StatsPanel(gameScreen);
+        statsPanel = new StatsPanel(this);
 
         // Wrap BuffPanel and SkillPanel in a JScrollPane
         buffPanel = new DefaultScrollPane(new BuffPanel(gameScreen));
@@ -49,5 +53,11 @@ public class InformationPanel extends JPanel {
             }
         }
         return null;
+    }
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
+    public BagPanel getBagPanel() {
+        return bagPanel;
     }
 }

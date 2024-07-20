@@ -5,5 +5,5 @@ id,name ,description,isGeneral,isCombat,power level,Cooldown,world cooldown,Usag
 4,Slow Restore,Restore health to full,1,0,0,0,1,0,0,2
 5,Heavy Slam,Deal 1.5X attack damage,0,1,1.5,1,0,0,0,2
 6,Blood Slash,"Deal 1X attack attack damage, For every 10 max health, deal 1 extra damage",0,1,2,0,0,0,1,2
-7,Goblin Slam,"Deal 1.5X attack damage, 10% chance of applying ""Skip turn"" to enemy",0,1,1.75,0,0,0,-1,2
-8,Corrupt,Deal 2X attack damage to uncorrupted character,0,1,2,0,0,0,-1,2
+7,Goblin Slam,"Deal 1.5X attack damage, 10% chance of applying ""Skip turn"" to enemy",0,1,1.75,0,0,0,2,2
+8,Corrupt,Deal 2X attack damage to uncorrupted character,0,1,2,0,0,0,0,2

@@ -5,8 +5,11 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DefaultToggleButton extends JToggleButton {
+    boolean isHovered = false;
     private String selectedText;
     private String unselectedText;
     private Color selectedColor;
@@ -31,6 +34,20 @@ public class DefaultToggleButton extends JToggleButton {
         setContentAreaFilled(false);
         setOpaque(true);
 
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                isHovered = true;
+                repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                isHovered = false;
+                repaint();
+            }
+        });
+
         // Add an ActionListener to repaint when the state changes
         addActionListener(new ActionListener() {
             @Override
@@ -41,7 +58,10 @@ public class DefaultToggleButton extends JToggleButton {
     }
 
     public DefaultToggleButton(String selectedText, String unselectedText) {
-        this(selectedText, unselectedText, Color.GREEN, Color.LIGHT_GRAY, new Font("Arial", Font.BOLD, 12));
+        this(selectedText, unselectedText, Color.GREEN, Color.WHITE, new Font("Arial", Font.BOLD, 12));
+    }
+    public DefaultToggleButton(String selectedText, String unselectedText, Color selectedCcolor) {
+        this(selectedText, unselectedText, selectedCcolor, Color.WHITE, new Font("Arial", Font.BOLD, 12));
     }
 
     @Override
@@ -49,10 +69,16 @@ public class DefaultToggleButton extends JToggleButton {
         if (isSelected()) {
             setBackground(selectedColor); // Change to desired color
             setText(selectedText);
-        } else {
+        } else if(isHovered){
+            setBackground(Color.LIGHT_GRAY);
+            setText(unselectedText);
+        }else {
             setBackground(unselectedColor); // Change to another color if needed
             setText(unselectedText);
         }
         super.paintComponent(g);
+    }
+    public void setSelectedColor(Color selectedCcolor) {
+        this.selectedColor = selectedCcolor;
     }
 }

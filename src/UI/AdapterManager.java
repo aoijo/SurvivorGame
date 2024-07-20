@@ -1,13 +1,12 @@
 package UI;
 
 import Enums.MapTile.MapType;
+import InterfaceAdapter.*;
+import InterfaceAdapter.MapAdapter.BuffAdapter;
 import InterfaceAdapter.MapAdapter.MapController;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
-import InterfaceAdapter.TileAdapter;
-import InterfaceAdapter.TimeAdapter;
-import InterfaceAdapter.UseCaseManager;
 
 public class AdapterManager {
     private UseCaseManager useCaseManager;
@@ -17,6 +16,9 @@ public class AdapterManager {
     private MapController mapController;
     private TimeAdapter timeAdapter;
     private TileAdapter tileAdapter;
+    private ItemAdapter itemAdapter;
+    private SkillAdapter skillAdapter;
+    private BuffAdapter buffAdapter;
     private long mapSeed = 12345L;
 
     public AdapterManager(UseCaseManager useCaseManager) {
@@ -27,6 +29,9 @@ public class AdapterManager {
         mapController = new MapController(32, 32, MapType.ISLAND, mapSeed, useCaseManager);
         timeAdapter = new TimeAdapter(useCaseManager);
         tileAdapter = new TileAdapter(useCaseManager);
+        itemAdapter = new ItemAdapter(useCaseManager);
+        skillAdapter = new SkillAdapter(useCaseManager);
+        buffAdapter = new BuffAdapter(useCaseManager);
     }
     public UseCaseManager getUseCaseManager() {
         return useCaseManager;
@@ -81,5 +86,17 @@ public class AdapterManager {
 
     public void setTileAdapter(TileAdapter tileAdapter) {
         this.tileAdapter = tileAdapter;
+    }
+
+    public ItemAdapter getItemAdapter() {
+        return itemAdapter;
+    }
+
+    public SkillAdapter getSkillAdapter() {
+        return skillAdapter;
+    }
+
+    public BuffAdapter getBuffAdapter() {
+        return buffAdapter;
     }
 }

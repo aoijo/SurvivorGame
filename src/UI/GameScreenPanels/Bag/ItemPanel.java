@@ -12,7 +12,7 @@ import java.awt.*;
 public class ItemPanel extends JPanel {
     private GameScreen gameScreen;
     private GridBagConstraints constraints;
-    private Font buffButtonFont = new Font("Arial", Font.PLAIN, 10);
+    private Font buffButtonFont = new Font("Arial", Font.BOLD, 10);
     private Dimension buttonSize = new Dimension(135, 20);
 
     private ItemType ShowType = null;
@@ -47,11 +47,20 @@ public class ItemPanel extends JPanel {
         removeAll();
 
         if (gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getItemInBag() == null) {
+            add(NoItem(),constraints);
+            revalidate(); // Revalidate the layout
+            repaint(); // Repaint the panel
             return;
         }
 
         int maxIndex = itemIds.length;
 
+        if (maxIndex == 0){
+            add(NoItem(),constraints);
+            revalidate(); // Revalidate the layout
+            repaint(); // Repaint the panel
+            return;
+        }
         for (int i = 0; i < (maxIndex + 1) / 2; i++) { // Use (maxIndex + 1) / 2 to handle odd numbers correctly
             JPanel rowPanel = new JPanel();
             rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
@@ -110,6 +119,14 @@ public class ItemPanel extends JPanel {
         }
         return rarityArray;
     }
+    private JPanel NoItem(){
+        JPanel panel = new JPanel(new FlowLayout());
+        JLabel label = new JLabel("No item here!");
+        label.setFont(new Font("Arial", Font.ITALIC, 15));
+        label.setForeground(Color.lightGray);
+        panel.add(label);
+        return panel;
+    }
 
     public void setShowType(ItemType showType) {
         ShowType = showType;
@@ -123,4 +140,5 @@ public class ItemPanel extends JPanel {
     public void setShowAll(boolean showAll) {
         this.showAll = showAll;
     }
+
 }
