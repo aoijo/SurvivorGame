@@ -64,8 +64,13 @@ public class DescriptionPanel extends JPanel {
         for (int i = 0; i < equipmentStats.length; i++) {
             if (equipmentStats[i] != 0) {
                 JPanel statPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                JLabel equipmentStatLabel = new JLabel(equipmentStatNames[i] + ": " + equipmentStats[i]);
-                statPanel.add(equipmentStatLabel);
+                if (equipmentStatNames[i].equals("Life Steal") || equipmentStatNames[i].equals("Damage Reduction")) {
+                    JLabel equipmentStatLabel = new JLabel(equipmentStatNames[i] + ": " + equipmentStats[i] + "%");
+                    statPanel.add(equipmentStatLabel);
+                }else{
+                    JLabel equipmentStatLabel = new JLabel(equipmentStatNames[i] + ": " + equipmentStats[i]);
+                    statPanel.add(equipmentStatLabel);
+                }
                 equipmentStatsPanel.add(statPanel);
             }
         }

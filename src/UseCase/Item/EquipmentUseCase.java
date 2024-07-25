@@ -49,49 +49,49 @@ public class EquipmentUseCase {
         switch (equipment.getRarity()) {
             case UNCOMMON -> {
                 if (random.nextBoolean()) {
-                    equipment.setAttack((int) (equipment.getAttack() * (1.1f + random.nextFloat() * 0.1f)));
+                    equipment.setAttack((int) (Math.max(equipment.getAttack(),1) * (1.2f + random.nextFloat() * 0.2f)));
                 } else {
-                    equipment.setDefense((int) (equipment.getDefense() * (1.1f + random.nextFloat() * 0.1f)));
+                    equipment.setDefense((int) (Math.max(equipment.getDefense(),1) * (1.2f + random.nextFloat() * 0.2f)));
                 }
             }
             case RARE -> {
                 if (random.nextBoolean()) {
                     if (random.nextBoolean()) {
-                        equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
+                        equipment.setAttack((int) (Math.max(1,equipment.getAttack()) * (1.4f + random.nextFloat() * 0.2f)));
                     } else {
-                        equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
+                        equipment.setDefense((int) (equipment.getDefense() * (1.4f + random.nextFloat() * 0.2f)));
                     }
                 } else {
-                    equipment.setAttack((int) (equipment.getAttack() * (1.1f + random.nextFloat() * 0.1f)));
-                    equipment.setDefense((int) (equipment.getDefense() * (1.1f + random.nextFloat() * 0.1f)));
+                    equipment.setAttack((int) (Math.max(1,equipment.getAttack()) * (1.2f + random.nextFloat() * 0.2f)));
+                    equipment.setDefense((int) (Math.max(1,equipment.getDefense()) * (1.2f + random.nextFloat() * 0.2f)));
                 }
             }
             case LEGENDARY -> {
                 if (random.nextBoolean()) {
                     if (random.nextBoolean()) {
-                        equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
-                        equipment.setLifeSteal((int) (equipment.getLifeSteal() * (5f + random.nextFloat() * 10f)));
+                        equipment.setAttack((int) (Math.max(1,equipment.getAttack()) * (1.4f + random.nextFloat() * 0.2f)));
+                        equipment.setLifeSteal((int) (equipment.getLifeSteal() + (5f + random.nextFloat() * 10f)));
                     } else {
-                        equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
-                        equipment.setDamageReduction((int) (equipment.getDamageReduction() * (5f + random.nextFloat() * 5f)));
+                        equipment.setDefense((int) (Math.max(1,equipment.getDefense()) * (1.4f + random.nextFloat() * 0.2f)));
+                        equipment.setDamageReduction((int) (equipment.getDamageReduction() + (5f + random.nextFloat() * 5f)));
                     }
                 } else {
-                    equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
-                    equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
+                    equipment.setAttack((int) (Math.max(1,equipment.getAttack()) * (1.4f + random.nextFloat() * 0.2f)));
+                    equipment.setDefense((int) (Math.max(1,equipment.getDefense()) * (1.4f + random.nextFloat() * 0.2f)));
                 }
             }
             case MYTHICAL -> {
                 if (random.nextBoolean()) {
                     if (random.nextBoolean()) {
-                        equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
-                        equipment.setLifeSteal((int) (equipment.getLifeSteal() * (5f + random.nextFloat() * 10f)));
+                        equipment.setAttack((int) (Math.max(1,equipment.getAttack()) * (1.4f + random.nextFloat() * 0.2f)));
+                        equipment.setLifeSteal((int) (equipment.getLifeSteal() + (5f + random.nextFloat() * 10f)));
                     } else {
-                        equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
-                        equipment.setDamageReduction((int) (equipment.getDamageReduction() * (5f + random.nextFloat() * 5f)));
+                        equipment.setDefense((int) (Math.max(1,equipment.getDefense()) * (1.4f + random.nextFloat() * 0.2f)));
+                        equipment.setDamageReduction((int) (equipment.getDamageReduction() + (5f + random.nextFloat() * 5f)));
                     }
                 } else {
-                    equipment.setAttack((int) (equipment.getAttack() * (1.2f + random.nextFloat() * 0.2f)));
-                    equipment.setDefense((int) (equipment.getDefense() * (1.2f + random.nextFloat() * 0.2f)));
+                    equipment.setAttack((int) (Math.max(1,equipment.getAttack()) * (1.4f + random.nextFloat() * 0.2f)));
+                    equipment.setDefense((int) (Math.max(1,equipment.getDefense()) * (1.4f + random.nextFloat() * 0.2f)));
                 }
                 addMythicalBuffs(equipment);
             }

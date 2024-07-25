@@ -12,7 +12,6 @@ public class Character {
 
     private int level;
     private int health;
-    private int currentHealth;
     private int maxHealth;
     private int currentMaxHealth;
     private int attack;
@@ -29,8 +28,6 @@ public class Character {
 
     private ArrayList<Skill> skills;
     private ArrayList<Skill> currentSkills;
-    private int[] skillCooldown;
-    private int[] currentSkillCooldown;
 
     private ArrayList<Buff>  Buffs;
     private ArrayList<Buff>  currentBuffs;
@@ -175,22 +172,6 @@ public class Character {
         Buffs = buffs;
     }
 
-    public int[] getSkillCooldown() {
-        return skillCooldown;
-    }
-
-    public void setSkillCooldown(int[] skillCooldown) {
-        this.skillCooldown = skillCooldown;
-    }
-
-    public int[] getCurrentSkillCooldown() {
-        return currentSkillCooldown;
-    }
-
-    public void setCurrentSkillCooldown(int[] currentSkillCooldown) {
-        this.currentSkillCooldown = currentSkillCooldown;
-    }
-
     public int getExperience() {
         return experience;
     }
@@ -213,14 +194,6 @@ public class Character {
 
     public void setCurrentBuffs(ArrayList<Buff> currentBuffs) {
         this.currentBuffs = currentBuffs;
-    }
-
-    public int getCurrentHealth() {
-        return currentHealth;
-    }
-
-    public void setCurrentHealth(int currentHealth) {
-        this.currentHealth = currentHealth;
     }
 
     public int getCurrentMaxHealth() {

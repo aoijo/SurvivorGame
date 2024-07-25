@@ -51,7 +51,7 @@ public class EnemyUseCase {
         enemy.setExperience(Integer.parseInt(enemyData[14]));
         enemy.setSkillId(ReadCSV.readIntList(enemyData[15]));
         enemy.setSkillTriggerHealth(ReadCSV.readFloatList(enemyData[16]));
-        enemy.setSkillCooldown(ReadCSV.readIntList(enemyData[17]));
+        enemy.setMaxSkillCooldown(ReadCSV.readIntList(enemyData[17]));
         enemy.setItemDropId(ReadCSV.readIntList(enemyData[18]));
         enemy.setItemDropMin(ReadCSV.readIntList(enemyData[19]));
         enemy.setItemDropMax(ReadCSV.readIntList(enemyData[20]));
@@ -100,18 +100,22 @@ public class EnemyUseCase {
     }
 
     private void initializeStats(Enemy enemy){
+        enemy.setHealth(enemy.getMaxHealth());
+        enemy.setCurrentAttack((int) (enemy.getAttack() * (0.4 * rand.nextFloat() - 0.2f)));
+        enemy.setCurrentDefense((int) (enemy.getDefense() * (0.4 * rand.nextFloat() - 0.2f)));
+        enemy.setCurrentLifeSteal(enemy.getLifeSteal());
+        enemy.setCurrentDamageReduction(enemy.getDamageReduction());
+        enemy.setCurrentSpeed(enemy.getSpeed());
+
         ArrayList<Skill> skills = new ArrayList<>();
         for (int id : enemy.getSkillId()){
             skills.add(skillUseCase.newSkill(id));
         }
 
         enemy.setSkills(skills);
+        enemy.setCurrentSkills(skills);
         enemy.setCurrentSkillCooldown(new int[skills.size()]);
-        enemy.setHealth(enemy.getMaxHealth());
-        enemy.setCurrentAttack((int) (enemy.getAttack() * (0.4 * rand.nextFloat() - 0.2f)));
-        enemy.setCurrentDefense((int) (enemy.getDefense() * (0.4 * rand.nextFloat() - 0.2f)));
-        enemy.setCurrentLifeSteal(enemy.getLifeSteal());
-        enemy.setCurrentDamageReduction(enemy.getDamageReduction());
         enemy.setBuffs(new ArrayList<>());
+        enemy.setCurrentBuffs(new ArrayList<>());
     }
 }

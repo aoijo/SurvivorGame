@@ -18,15 +18,21 @@ public class Player extends Character {
     private int sanity;
     private float weight;
     private int maxHunger;
+    private int currentMaxHunger;
     private int maxHydration;
+    private int currentMaxHydration;
     private int maxSanity;
+    private int currentMaxSanity;
     private float maxWeight;
+    private float currentMaxWeight;
+
     private int levelUpHealth;
     private int levelUpHunger;
     private int levelUpHydration;
     private int levelUpWeight;
+
     private int maxExperience;
-    private int ForgetExperience;
+    private int ForgeExperience;
     private int levelUpAttributePoints;
     private int attributePoint;
     private int currency;
@@ -41,6 +47,8 @@ public class Player extends Character {
     private Equipment tool;
     private Equipment bag;
     private Equipment[] Amulet;
+
+    private boolean inCombat;
 
     public Player(Color color, int raceId) {
         super(1);
@@ -252,12 +260,12 @@ public class Player extends Character {
         this.raceId = raceId;
     }
 
-    public int getForgetExperience() {
-        return ForgetExperience;
+    public int getForgeExperience() {
+        return ForgeExperience;
     }
 
-    public void setForgetExperience(int forgetExperience) {
-        ForgetExperience = forgetExperience;
+    public void setForgeExperience(int forgetExperience) {
+        ForgeExperience = forgetExperience;
     }
 
     public Equipment getWeapon() {
@@ -290,5 +298,45 @@ public class Player extends Character {
 
     public void setBag(Equipment bag) {
         this.bag = bag;
+    }
+
+    public boolean isInCombat() {
+        return inCombat;
+    }
+
+    public void setInCombat(boolean inCombat) {
+        this.inCombat = inCombat;
+    }
+
+    public int getCurrentMaxHunger() {
+        return currentMaxHunger;
+    }
+
+    public void setCurrentMaxHunger(int currentMaxHunger) {
+        this.currentMaxHunger = currentMaxHunger;
+    }
+
+    public int getCurrentMaxHydration() {
+        return currentMaxHydration;
+    }
+
+    public void setCurrentMaxHydration(int currentMaxHydration) {
+        this.currentMaxHydration = currentMaxHydration;
+    }
+
+    public int getCurrentMaxSanity() {
+        return currentMaxSanity;
+    }
+
+    public void setCurrentMaxSanity(int currentMaxSanity) {
+        this.currentMaxSanity = currentMaxSanity;
+    }
+
+    public float getCurrentMaxWeight() {
+        return currentMaxWeight;
+    }
+
+    public void setCurrentMaxWeight(float currentMaxWeight) {
+        this.currentMaxWeight = currentMaxWeight;
     }
 }

@@ -28,7 +28,7 @@ public class StatsPanel extends JPanel {
 
     private void initializeStatsPanel() {
         JPanel colorPanel = createColorPanel();
-        JPanel speedPanel = createAttributePanel("Speed", gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSpeed());
+        JPanel speedPanel = createAttributePanel("Speed", gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentSpeed());
         JPanel attackPanel = createAttributePanel("Attack", gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentAttack());
         JPanel defensePanel = createAttributePanel("Defense", gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentDefense());
         JPanel lifeStealPanel = createGeneralPanel("LifeSteal", "%", gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentLifeSteal());

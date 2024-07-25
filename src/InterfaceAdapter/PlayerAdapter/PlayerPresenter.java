@@ -60,9 +60,6 @@ public class PlayerPresenter {
     public int getHealth(){
         return this.playerUseCase.getPlayer().getHealth();
     }
-    public int getCurrentHealth(){
-        return this.playerUseCase.getPlayer().getCurrentHealth();
-    }
     public int getMaxHealth(){
         return this.playerUseCase.getPlayer().getMaxHealth();
     }
@@ -102,6 +99,15 @@ public class PlayerPresenter {
     public int getMaxExperience(){
         return this.playerUseCase.getPlayer().getMaxExperience();
     }
+    public float getCurrentMaxWeight(){
+        return this.playerUseCase.getPlayer().getCurrentMaxWeight();
+    }
+    public int getCurrentMaxHunger(){
+        return this.playerUseCase.getPlayer().getCurrentMaxHunger();
+    }
+    public int getCurrentMaxHydration(){
+        return this.playerUseCase.getPlayer().getCurrentMaxHydration();
+    }
     public PlayerUseCase getPlayerUseCase() {
         return playerUseCase;
     }
@@ -109,7 +115,7 @@ public class PlayerPresenter {
         return this.playerUseCase.getPlayer().getName();
     }
     public int getForgeEXP(){
-        return this.playerUseCase.getPlayer().getForgetExperience();
+        return this.playerUseCase.getPlayer().getForgeExperience();
     }
     public String getEquipmentName(String equipmentType) {
         return switch (equipmentType) {
@@ -183,6 +189,9 @@ public class PlayerPresenter {
             }
         }
         return amuletCount;
+    }
+    public int getSortedItemCount(){
+        return playerUseCase.getSortedItems().size();
     }
     public PlayerController getPlayerController() {
         return playerController;

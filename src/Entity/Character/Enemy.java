@@ -12,6 +12,9 @@ public class Enemy extends Character {
 
     private int[] skillId;
     private float[] skillTriggerHealth;
+    private int[] maxSkillCooldown;
+    private int[] currentSkillCooldown;
+
 
     private boolean isBoss;
     private boolean isCursed;
@@ -109,5 +112,22 @@ public class Enemy extends Character {
 
     public void setSkillTriggerHealth(float[] skillTriggerHealth) {
         this.skillTriggerHealth = skillTriggerHealth;
+    }
+
+
+    public int[] getMaxSkillCooldown() {
+        return maxSkillCooldown;
+    }
+
+    public void setMaxSkillCooldown(int[] maxSkillCooldown) {
+        this.maxSkillCooldown = maxSkillCooldown;
+    }
+
+    public int[] getCurrentSkillCooldown() {
+        return currentSkillCooldown;
+    }
+
+    public void setCurrentSkillCooldown(int[] currentSkillCooldown) {
+        this.currentSkillCooldown = currentSkillCooldown;
     }
 }

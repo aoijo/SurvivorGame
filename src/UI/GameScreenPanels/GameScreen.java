@@ -58,7 +58,7 @@ public class GameScreen extends JPanel {
                 int key = e.getKeyCode();
 
                 if (adapterManager.getPlayerPresenter().getPlayerUseCase().getPlayer().getWeight() <=
-                        adapterManager.getPlayerPresenter().getPlayerUseCase().getPlayer().getMaxWeight()){
+                        adapterManager.getPlayerPresenter().getPlayerUseCase().getPlayer().getCurrentMaxWeight()){
                     switch (key) {
                         case KeyEvent.VK_UP -> {
                             if (y > 0) {

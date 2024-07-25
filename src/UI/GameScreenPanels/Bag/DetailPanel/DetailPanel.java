@@ -27,11 +27,13 @@ public class DetailPanel extends JPanel {
     private ItemQuantityPanel itemQuantityPanel;
     private UsagePanel usagePanel;
 
-    private String informationType; //"item","skill","buff"
+    private String informationType; //"item","skill","buff", "None"
     private SkillNamePanel skillNamePanel;
     private BuffNamePanel buffNamePanel;
     private SkillDescriptionPanel skillDescriptionPanel;
     private BuffDescriptionPanel buffDescriptionPanel;
+    private NoneNamePanel noneNamePanel;
+    private NoneDescriptionPanel noneDescriptionPanel;
 
     public DetailPanel(GameScreen gameScreen) {
         this.playerPresenter = gameScreen.getAdapterManager().getPlayerPresenter();
@@ -49,6 +51,8 @@ public class DetailPanel extends JPanel {
         this.skillDescriptionPanel = new SkillDescriptionPanel(this);
         this.buffNamePanel = new BuffNamePanel(this);
         this.buffDescriptionPanel = new BuffDescriptionPanel(this);
+        this.noneNamePanel = new NoneNamePanel(this);
+        this.noneDescriptionPanel = new NoneDescriptionPanel(this);
         this.informationType = "item";
 
         setLayout(new GridBagLayout());
@@ -78,6 +82,9 @@ public class DetailPanel extends JPanel {
         } else if (informationType.equals("buff")) {
             buffNamePanel.update();
             buffDescriptionPanel.update();
+        } else if (informationType.equals("none")) {
+            noneNamePanel.update();
+            noneDescriptionPanel.update();
         }
 
         revalidate();
@@ -115,6 +122,14 @@ public class DetailPanel extends JPanel {
         constraints.gridy++;
         constraints.weighty = 1;
         add(buffDescriptionPanel, constraints);
+        constraints.weighty = 0;
+    }
+    public void addNonePanel(){
+        add(noneNamePanel, constraints);
+
+        constraints.gridy++;
+        constraints.weighty = 1;
+        add(noneDescriptionPanel, constraints);
         constraints.weighty = 0;
     }
 
@@ -185,6 +200,9 @@ public class DetailPanel extends JPanel {
         } else if(informationType.equals("buff")) {
             removeAll();
             addBuffPanels();
+        } else if (informationType.equals("none")){
+            removeAll();
+            addNonePanel();
         }
         update();
     }

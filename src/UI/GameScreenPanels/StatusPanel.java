@@ -250,10 +250,10 @@ public class StatusPanel extends JPanel {
         nameLabel.setForeground(playerPresenter.getPlayerColor());
         updateDayPanel();
 
-        updateValuePanel(healthPanel, playerPresenter.getCurrentHealth(), playerPresenter.getCurrentMaxHealth());
-        updateValuePanel(weightPanel, (int)playerPresenter.getWeight(), (int)playerPresenter.getMaxWeight());
-        updateValuePanel(hydrationPanel, playerPresenter.getHydration(), playerPresenter.getMaxHydration());
-        updateValuePanel(hungerPanel, playerPresenter.getHunger(), playerPresenter.getMaxHunger());
+        updateValuePanel(healthPanel, playerPresenter.getHealth(), playerPresenter.getCurrentMaxHealth());
+        updateValuePanel(weightPanel, (int)playerPresenter.getWeight(), (int)playerPresenter.getCurrentMaxWeight());
+        updateValuePanel(hydrationPanel, playerPresenter.getHydration(), playerPresenter.getCurrentMaxHydration());
+        updateValuePanel(hungerPanel, playerPresenter.getHunger(), playerPresenter.getCurrentMaxHunger());
         levelLabel.setText("" + playerPresenter.getLevel());
         forgeExpPanel.setText("" + playerPresenter.getForgeEXP());
         updateValuePanel(expPanel, playerPresenter.getExperience(), playerPresenter.getMaxExperience());

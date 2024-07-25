@@ -48,6 +48,24 @@ public class PlayerUseCase {
         this.characterStatsCalculation = characterStatsCalculation;
         loadRaceData();
     }
+    private void additionalInitialize(Player player) {
+        player.setForgeExperience(1000000);
+        changeExperience(player,1000);
+        changeExperience(player,1000);
+        forgeEquipments(player,1,50);
+        forgeEquipments(player,10,50);
+        forgeEquipments(player,21,50);
+        forgeEquipment(player,44);
+        forgeEquipment(player,45);
+        //gainItems(player, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001}, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001});
+        //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
+        //gainBuff(player,1,0);
+        //gainBuff(player,1,12);
+        //skillTest(player);
+        //buffTest(player);
+        //player.setAttributePoint(3);
+        //bagTest(player);
+    }
 
     private void initialize(Player player, int raceId) {
         String[] raceData = this.RaceData[raceId];
@@ -69,13 +87,18 @@ public class PlayerUseCase {
         player.setMaxExperience(Integer.parseInt(raceData[17]));
 
         player.setHealth(player.getMaxHealth());
-        player.setHunger(player.getMaxHunger());
-        player.setCurrentHealth(player.getHealth());
         player.setCurrentMaxHealth(player.getMaxHealth());
+        player.setHunger(player.getMaxHunger());
+        player.setCurrentMaxHunger(player.getMaxHunger());
         player.setHydration(player.getMaxHydration());
+        player.setCurrentMaxHydration(player.getMaxHydration());
         player.setSanity(player.getMaxSanity());
+        player.setCurrentMaxSanity(player.getMaxSanity());
+        player.setCurrentMaxWeight(player.getMaxWeight());
+        player.setCurrentSpeed(player.getSpeed());
         player.setPosition(new int[]{0,0});
         player.setAmulet(new Equipment[4]);
+        player.setInCombat(false);
 
         player.setSkills(new ArrayList<>());
         player.setBuffs(new ArrayList<>());
@@ -86,23 +109,7 @@ public class PlayerUseCase {
         gainSkills(player,new int[]{1,2});
         gainSkills(player,ReadCSV.readIntList(raceData[20]));
 
-        //Test part start
-        player.setForgetExperience(1000000);
-        changeExperience(player,1000);
-        forgeEquipments(player,1,50);
-        forgeEquipments(player,10,50);
-        forgeEquipments(player,21,50);
-        forgeEquipment(player,44);
-        forgeEquipment(player,45);
-        //gainItems(player, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001}, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001});
-        //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
-        //gainBuff(player,1,0);
-        gainBuff(player,1,12);
-        //skillTest(player);
-        //buffTest(player);
-        //player.setAttributePoint(3);
-        //bagTest(player);
-        //Test part end
+        additionalInitialize(player);
     }
 
     public Player newPlayer(String name, Color color, int raceId) {
@@ -350,7 +357,7 @@ public class PlayerUseCase {
             items = new ArrayList<>();
             player.setItemInBag(items);
         }
-        Equipment newEquipment = equipmentUseCase.forgeEquipment(player.getForgetExperience(),equipmentId);
+        Equipment newEquipment = equipmentUseCase.forgeEquipment(player.getForgeExperience(),equipmentId);
         newEquipment.setQuantity((1));
         items.add(newEquipment);
         updateWeight(player);
@@ -565,12 +572,12 @@ public class PlayerUseCase {
      */
     public String[][] getSortedItemInfo(ItemType itemType, String sortBy, boolean showAll, boolean isAscend) {
         if (player == null || player.getItemInBag() == null) {
-            return new String[4][0];
+            return new String[5][0];
         }
 
         ArrayList<Item> itemsToShow = sortItemsByType(player.getItemInBag(), itemType, showAll, isAscend);
         if (itemsToShow.isEmpty()) {
-            return new String[4][0];
+            return new String[5][0];
         }
 
         switch (sortBy) {
@@ -594,16 +601,15 @@ public class PlayerUseCase {
                 throw new IllegalArgumentException("sort by option not supported");
         }
         sortedItems = itemsToShow;
-        String[][] itemInfo = new String[6][itemsToShow.size()];
+        String[][] itemInfo = new String[5][itemsToShow.size()];
         for (int i = 0; i < itemsToShow.size(); i++) {
             itemInfo[0][i] = String.valueOf(itemsToShow.get(i).getId());
             itemInfo[1][i] = itemsToShow.get(i).getName();
             itemInfo[2][i] = String.valueOf(itemsToShow.get(i).getQuantity());
             itemInfo[3][i] = String.valueOf(itemsToShow.get(i).getRarity());
+            itemInfo[4][i] = String.valueOf(false);
             if (itemsToShow.get(i).getItemType() == ItemType.EQUIPMENT){
                 itemInfo[4][i] = String.valueOf(((Equipment)itemsToShow.get(i)).getEquipped());
-            } else{
-                itemInfo[4][i] = String.valueOf(false);
             }
         }
         this.sortedItemInfo = itemInfo;
@@ -723,6 +729,18 @@ public class PlayerUseCase {
     private void updateCurrentMaxHealth(Player player){
         player.setCurrentMaxHealth(characterStatsCalculation.CalculateMaxHealth());
     }
+    private void updateCurrentSpeed(Player player){
+        player.setCurrentSpeed(characterStatsCalculation.CalculateSpeed());
+    }
+    private void updateCurrentMaxHunger(Player player){
+        player.setCurrentMaxHunger(characterStatsCalculation.CalculateHunger());
+    }
+    private void updateCurrentMaxHydration(Player player){
+        player.setCurrentMaxHydration(characterStatsCalculation.CalculateHydration());
+    }
+    private void updateCurrentMaxWeight(Player player){
+        player.setCurrentMaxWeight(characterStatsCalculation.CalculateWeight());
+    }
 
     public void updatePlayer(){
         characterStatsCalculation.setCharacter(player);
@@ -733,7 +751,11 @@ public class PlayerUseCase {
         updateCurrentLifeSteal(player);
         updateCurrentDamageReduction(player);
         updateCurrentMaxHealth(player);
+        updateCurrentSpeed(player);
+        updateCurrentMaxHunger(player);
+        updateCurrentMaxHydration(player);
         updateWeight(player);
+        updateCurrentMaxWeight(player);
     }
 
     public ArrayList<Skill> getEquipmentSkills(Player player){

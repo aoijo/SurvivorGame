@@ -2,7 +2,6 @@ package UseCase.Character;
 
 import Entity.Buff;
 import Entity.Character.Character;
-import Entity.Character.Enemy;
 import Entity.Character.Player;
 import Entity.Item.Equipment;
 
@@ -92,6 +91,111 @@ public class CharacterStatsCalculation {
         int currentDefense = (int)((baseDefense + additionLayer) * (1 + multiplyLayer/100));
         return Math.max(1,currentDefense);
     }
+    public int CalculateHunger() {
+        int baseHunger = ((Player) character).getHunger();
+        if (character == null) {
+            return 0;
+        }
+
+        ArrayList<Buff> characterBuffs = character.getCurrentBuffs();
+        if (characterBuffs == null) {
+            return baseHunger;
+        }
+
+        int hungerUp = 0;
+        int hungerDown = 0;
+        int hungerIncrease = 0;
+        int hungerDecrease = 0;
+        for (Buff buff : characterBuffs) {
+            if (buff.getId() == 5) { // Assuming buff ID 11 is for defense up
+                hungerUp += buff.getStack();
+            }
+            if (buff.getId() == 6) { // Assuming buff ID 12 is for defense down
+                hungerDown += buff.getStack();
+            }
+            if (buff.getId() == 25) { // Assuming buff ID 30 is for defense increase
+                hungerIncrease += buff.getStack();
+            }
+            if (buff.getId() == 26) { // Assuming buff ID 31 is for defense decrease
+                hungerDecrease += buff.getStack();
+            }
+        }
+        int additionLayer = hungerIncrease - hungerDecrease;
+        float multiplyLayer = hungerUp - hungerDown;
+        int currentHunger = (int)((baseHunger + additionLayer) * (1 + multiplyLayer/100));
+        return Math.max(1, currentHunger);
+    }
+    public int CalculateHydration() {
+        int baseHydration = ((Player) character).getHydration();
+        if (character == null) {
+            return 0;
+        }
+
+        ArrayList<Buff> characterBuffs = character.getCurrentBuffs();
+        if (characterBuffs == null) {
+            return baseHydration;
+        }
+
+        int hydrationUp = 0;
+        int hydrationDown = 0;
+        int hydrationIncrease = 0;
+        int hydrationDecrease = 0;
+        for (Buff buff : characterBuffs) {
+            if (buff.getId() == 3) { // Assuming buff ID 11 is for defense up
+                hydrationUp += buff.getStack();
+            }
+            if (buff.getId() == 4) { // Assuming buff ID 12 is for defense down
+                hydrationDown += buff.getStack();
+            }
+            if (buff.getId() == 23) { // Assuming buff ID 30 is for defense increase
+                hydrationIncrease += buff.getStack();
+            }
+            if (buff.getId() == 24) { // Assuming buff ID 31 is for defense decrease
+                hydrationDecrease += buff.getStack();
+            }
+        }
+        int additionLayer = hydrationIncrease - hydrationDecrease;
+        float multiplyLayer = hydrationUp - hydrationDown;
+        int currentHydration = (int)((baseHydration + additionLayer) * (1 + multiplyLayer/100));
+        return Math.max(1, currentHydration);
+    }
+    public float CalculateWeight() {
+        float baseWeight = ((Player) character).getMaxWeight();
+        if (character == null) {
+            return 0;
+        }
+        float equipmentWeight = statFromEquipment("maxWeight");
+        baseWeight += equipmentWeight;
+
+        ArrayList<Buff> characterBuffs = character.getCurrentBuffs();
+        if (characterBuffs == null) {
+            return baseWeight;
+        }
+
+        int weightUp = 0;
+        int weightDown = 0;
+        int weightIncrease = 0;
+        int weightDecrease = 0;
+        for (Buff buff : characterBuffs) {
+            if (buff.getId() == 7) { // Assuming buff ID 11 is for defense up
+                weightUp += buff.getStack();
+            }
+            if (buff.getId() == 8) { // Assuming buff ID 12 is for defense down
+                weightDown += buff.getStack();
+            }
+            if (buff.getId() == 27) { // Assuming buff ID 30 is for defense increase
+                weightIncrease += buff.getStack();
+            }
+            if (buff.getId() == 28) { // Assuming buff ID 31 is for defense decrease
+                weightDecrease += buff.getStack();
+            }
+        }
+        int additionLayer = weightIncrease - weightDecrease;
+        float multiplyLayer = weightUp - weightDown;
+        float currentWeight = (int)((baseWeight + additionLayer) * (1 + multiplyLayer/100));
+        return Math.max(0, currentWeight);
+    }
+
 
     public int CalculateSpeed() {
         int baseSpeed = character.getSpeed();
@@ -247,6 +351,9 @@ public class CharacterStatsCalculation {
                     break;
                 case "maxHealth":
                     stat += equipment.getMaxHealth();
+                    break;
+                case "maxWeight":
+                    stat += equipment.getMaxWeight();
                     break;
                 default:
                     // Optional: handle the case where attribute is not recognized

@@ -81,6 +81,10 @@ public class UsagePanel extends JPanel {
                     logPanel.addCannotDropEquippedLog();
                 } else{
                     itemUseCount = detailPanel.getItemUseCount();
+                    if (itemUseCount >= itemAdapter.getQuantityByIndex(currentItemIndex) &&
+                            playerPresenter.getSortedItemCount() == 1){
+                        detailPanel.setInformationType("none");
+                    }
                     playerPresenter.getPlayerUseCase().removeByIndex(currentItemIndex, itemUseCount);
                     playerPresenter.getPlayerUseCase().updatePlayer();
                     statusPanel.updateStatusPanel();

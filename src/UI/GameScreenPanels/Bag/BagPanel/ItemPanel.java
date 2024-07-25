@@ -53,7 +53,6 @@ public class ItemPanel extends JPanel {
         this.itemQuantities = readIntArray(itemInformation[2]);
         this.itemRarities = readRarityArray(itemInformation[3]);
         this.itemsEquipped = readBooleanArray(itemInformation[4]);
-
         removeAll();
 
         if (gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getItemInBag() == null) {
@@ -96,7 +95,6 @@ public class ItemPanel extends JPanel {
 
         revalidate(); // Revalidate the layout
         repaint(); // Repaint the panel
-
     }
 
     private JButton ItemButton(int itemIndex){
@@ -120,9 +118,8 @@ public class ItemPanel extends JPanel {
         itemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                detailPanel.setInformationType("item");
                 detailPanel.setCurrentItemIndex(itemIndex);
-                detailPanel.update();
+                detailPanel.setInformationType("item");
             }
         });
         return itemButton;
@@ -180,7 +177,6 @@ public class ItemPanel extends JPanel {
     public void setDetailPanel(DetailPanel detailPanel) {
         this.detailPanel = detailPanel;
     }
-
     public Font getButtonFont() {
         return buttonFont;
     }
