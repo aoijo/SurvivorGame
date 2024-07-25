@@ -1,8 +1,7 @@
-package InterfaceAdapter.MapAdapter;
+package InterfaceAdapter;
 
 import Enums.BuffType;
-import InterfaceAdapter.UseCaseManager;
-import UseCase.PlayerUseCase;
+import UseCase.Character.PlayerUseCase;
 
 public class BuffAdapter {
     private PlayerUseCase playerUseCase;
@@ -15,8 +14,8 @@ public class BuffAdapter {
         return playerUseCase.getPlayer().getBuffs().get(index).getId();
     }
 
-    public String getBuffNameByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).getName();
+    public String getCurrentBuffNameByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getName();
     }
 
     public String getBuffDescriptionByIndex(int index) {
@@ -27,8 +26,8 @@ public class BuffAdapter {
         return playerUseCase.getPlayer().getBuffs().get(index).getType();
     }
 
-    public int getBuffStackByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).getStack();
+    public int getCurrentBuffStackByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getStack();
     }
 
     public int getBuffMaxStackByIndex(int index) {

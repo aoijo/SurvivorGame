@@ -1,9 +1,10 @@
 package InterfaceAdapter;
 
 import Entity.Item.Equipment;
+import Enums.Item.EquipmentType;
 import Enums.Item.ItemType;
 import Enums.Rarity;
-import UseCase.PlayerUseCase;
+import UseCase.Character.PlayerUseCase;
 
 public class ItemAdapter {
     private PlayerUseCase playerUseCase;
@@ -97,5 +98,13 @@ public class ItemAdapter {
 
     public int getMaxDurabilityByIndex(int index) {
         return ((Equipment) playerUseCase.getSortedItems().get(index)).getMaxDurability();
+    }
+
+    public boolean getEquippedByIndex(int index) {
+        return ((Equipment) playerUseCase.getSortedItems().get(index)).getEquipped();
+    }
+
+    public EquipmentType getEquipmentTypeByIndex(int index) {
+        return ((Equipment) playerUseCase.getSortedItems().get(index)).getEquipmentType();
     }
 }

@@ -1,11 +1,15 @@
 package InterfaceAdapter;
 
 import UseCase.*;
+import UseCase.Character.CharacterStatsCalculation;
+import UseCase.Character.EnemyUseCase;
+import UseCase.Character.PlayerUseCase;
 import UseCase.Item.EquipmentUseCase;
 import UseCase.Item.ItemUseCase;
 import UseCase.Map.MapUseCase;
-
-import java.awt.*;
+import UseCase.World.ResourceUseCase;
+import UseCase.World.TileUseCase;
+import UseCase.World.TimeUseCase;
 
 public class UseCaseManager {
     private EquipmentUseCase equipmentUseCase;
@@ -18,8 +22,10 @@ public class UseCaseManager {
     private TimeUseCase timeUseCase;
     private SkillUseCase skillUseCase;
     private EnemyUseCase enemyUseCase;
+    private CharacterStatsCalculation characterStatsCalculation;
 
     public UseCaseManager() {
+        characterStatsCalculation = new CharacterStatsCalculation();
         mapUseCase = new MapUseCase();
         buffUseCase = new BuffUseCase();
         resourceUseCase = new ResourceUseCase();
@@ -29,7 +35,7 @@ public class UseCaseManager {
         itemUseCase = new ItemUseCase(equipmentUseCase);
         enemyUseCase = new EnemyUseCase(skillUseCase);
         tileUseCase = new TileUseCase(resourceUseCase, enemyUseCase);
-        playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase,skillUseCase,buffUseCase);
+        playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase,skillUseCase,buffUseCase,characterStatsCalculation);
     }
 
     public ItemUseCase getItemUseCase() {

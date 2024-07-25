@@ -1,7 +1,6 @@
-package UI.GameScreenPanels.Bag;
+package UI.GameScreenPanels.Bag.BagPanel;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;

@@ -10,6 +10,7 @@ import UI.AdapterManager;
 import UI.GameScreenPanels.GameScreen;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 
 public class LogPanel extends JPanel {
     private ArrayList<String> logs;
@@ -20,6 +21,7 @@ public class LogPanel extends JPanel {
 
     public LogPanel(GameScreen gameScreen) {
         setLayout(new GridLayout());
+        setBorder(new MatteBorder(2,0,0,0,Color.BLACK));
         //setPreferredSize(new Dimension(400,200));
         this.timeAdapter = gameScreen.getAdapterManager().getTimeAdapter();
         this.playerPresenter = gameScreen.getAdapterManager().getPlayerPresenter();
@@ -60,6 +62,21 @@ public class LogPanel extends JPanel {
     public void addOverWeightLog() {
         String overWeightLog = "Too heavy! Cannot Move!";
         SwingUtilities.invokeLater(() -> addLog(overWeightLog));
+    }
+
+    public void addCannotEquipLog() {
+        String cannotEquipLog = "Cannot be equipped due to level requirement!";
+        SwingUtilities.invokeLater(() -> addLog(cannotEquipLog));
+    }
+
+    public void addCannotDropEquippedLog(){
+        String CannotDropEquippedLog = "Cannot drop equipped item!";
+        SwingUtilities.invokeLater(() -> addLog(CannotDropEquippedLog));
+    }
+
+    public void addFullAmuletLog(){
+        String fullAmuletLog = "Already have full amulet!";
+        SwingUtilities.invokeLater(() -> addLog(fullAmuletLog));
     }
 
     public void addPickUpLog(String itemName, int quantity) {

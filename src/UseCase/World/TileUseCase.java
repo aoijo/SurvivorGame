@@ -1,9 +1,10 @@
-package UseCase;
+package UseCase.World;
 
 import Entity.Character.Enemy;
 import Entity.World.Resource;
 import Entity.World.Tile;
 import Enums.MapTile.TileType;
+import UseCase.Character.EnemyUseCase;
 import Utils.GraphicsUtils;
 import Utils.ReadCSV;
 

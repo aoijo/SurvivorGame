@@ -1,19 +1,26 @@
-package UI.GameScreenPanels.Bag;
+package UI.GameScreenPanels.Bag.BagPanel;
 
 import Enums.Item.ItemType;
 import Enums.Rarity;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultButton;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class ItemPanel extends JPanel {
     private GameScreen gameScreen;
     private GridBagConstraints constraints;
-    private Font buffButtonFont = new Font("Arial", Font.BOLD, 10);
+    private DetailPanel detailPanel;
+    private Font buttonFont = new Font("Arial", Font.BOLD, 10);
     private Dimension buttonSize = new Dimension(135, 20);
+    private Border equippedBorder = new LineBorder(Color.BLUE, 3);
 
     private ItemType ShowType = null;
     private String SortBy = "Name";
@@ -25,11 +32,13 @@ public class ItemPanel extends JPanel {
     private int[] itemIds;
     private int[] itemQuantities;
     private Rarity[] itemRarities;
+    private boolean[] itemsEquipped;
 
     public ItemPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
 
         setLayout(new GridBagLayout());
+        //setMinimumSize(new Dimension(300, 400));
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.insets = new Insets(5, 5, 0, 5);
@@ -43,6 +52,7 @@ public class ItemPanel extends JPanel {
         this.itemNames = itemInformation[1];
         this.itemQuantities = readIntArray(itemInformation[2]);
         this.itemRarities = readRarityArray(itemInformation[3]);
+        this.itemsEquipped = readBooleanArray(itemInformation[4]);
 
         removeAll();
 
@@ -93,15 +103,36 @@ public class ItemPanel extends JPanel {
         String itemName = itemNames[itemIndex];
         int itemQuantity = itemQuantities[itemIndex];
         Rarity itemRarity = itemRarities[itemIndex];
+        boolean itemEquipped = itemsEquipped[itemIndex];
 
         String buttonText = itemName + "(" + itemQuantity + ")";
         JButton itemButton = new DefaultButton(buttonText, itemRarity);
+        if (itemEquipped){
+            itemButton.setBorder(equippedBorder);
+        }
 
-        itemButton.setFont(buffButtonFont);
+
+        itemButton.setFont(buttonFont);
         itemButton.setPreferredSize(buttonSize);
         itemButton.setMaximumSize(buttonSize);
         itemButton.setMinimumSize(buttonSize);
+
+        itemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detailPanel.setInformationType("item");
+                detailPanel.setCurrentItemIndex(itemIndex);
+                detailPanel.update();
+            }
+        });
         return itemButton;
+    }
+    private boolean[] readBooleanArray(String[] input) {
+        boolean[] booleanArray = new boolean[input.length];
+        for (int i = 0; i < input.length; i++){
+            booleanArray[i] = Boolean.parseBoolean(input[i]);
+        }
+        return booleanArray;
     }
 
     private int[] readIntArray(String[] strings){
@@ -119,6 +150,7 @@ public class ItemPanel extends JPanel {
         }
         return rarityArray;
     }
+
     private JPanel NoItem(){
         JPanel panel = new JPanel(new FlowLayout());
         JLabel label = new JLabel("No item here!");
@@ -141,4 +173,27 @@ public class ItemPanel extends JPanel {
         this.showAll = showAll;
     }
 
+    public DetailPanel getDetailPanel() {
+        return detailPanel;
+    }
+
+    public void setDetailPanel(DetailPanel detailPanel) {
+        this.detailPanel = detailPanel;
+    }
+
+    public Font getButtonFont() {
+        return buttonFont;
+    }
+    public Dimension getButtonSize() {
+        return buttonSize;
+    }
+    public String[] getItemNames(){
+        return itemNames;
+    }
+    public Rarity[] getItemRarities(){
+        return itemRarities;
+    }
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
 }

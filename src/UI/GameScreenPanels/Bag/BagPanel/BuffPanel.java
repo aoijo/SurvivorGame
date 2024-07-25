@@ -1,15 +1,19 @@
-package UI.GameScreenPanels.Bag;
+package UI.GameScreenPanels.Bag.BagPanel;
 
-import InterfaceAdapter.MapAdapter.BuffAdapter;
+import InterfaceAdapter.BuffAdapter;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BuffPanel extends JPanel {
     private GameScreen gameScreen;
     private BuffAdapter buffAdapter;
+    private DetailPanel detailPanel;
     private GridBagConstraints constraints;
 
     private Font buffButtonFont = new Font("Arial", Font.PLAIN, 10);
@@ -27,12 +31,13 @@ public class BuffPanel extends JPanel {
 
     public void updateBuffPanel() {
         removeAll(); // Remove all existing components before updating
+        //System.out.println(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentBuffs().size());
 
-        if (gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs() == null) {
+        if (gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentBuffs() == null) {
             return;
         }
 
-        int maxIndex = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getBuffs().size();
+        int maxIndex = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentBuffs().size();
 
         for (int i = 0; i < (maxIndex + 1) / 2; i++) { // Use (maxIndex + 1) / 2 to handle odd numbers correctly
             JPanel rowPanel = new JPanel();
@@ -62,16 +67,27 @@ public class BuffPanel extends JPanel {
     }
 
     private JButton BuffButton(int buffIndex) {
-        String buffName = buffAdapter.getBuffNameByIndex(buffIndex);
-        int buffStack = buffAdapter.getBuffStackByIndex(buffIndex);
+        String buffName = buffAdapter.getCurrentBuffNameByIndex(buffIndex);
+        int buffStack = buffAdapter.getCurrentBuffStackByIndex(buffIndex);
 
         String buttonText = buffName + " (" + buffStack + ")";
         JButton buffButton = new DefaultButton(buttonText);
+        buffButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detailPanel.getBuffNamePanel().setCurrentBuffIndex(buffIndex);
+                detailPanel.setInformationType("buff");
+            }
+        });
 
         buffButton.setFont(buffButtonFont);
         buffButton.setPreferredSize(buttonSize);
         buffButton.setMinimumSize(buttonSize);
         buffButton.setMaximumSize(buttonSize);
         return buffButton;
+    }
+
+    public void setDetailPanel(DetailPanel detailPanel) {
+        this.detailPanel = detailPanel;
     }
 }

@@ -3,6 +3,8 @@ package Utils;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 public class DefaultScrollPane extends JScrollPane {
 
@@ -11,6 +13,7 @@ public class DefaultScrollPane extends JScrollPane {
 
         // Apply custom scroll bar UI
         getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        getVerticalScrollBar().setUnitIncrement(10);
         getHorizontalScrollBar().setUI(new CustomScrollBarUI());
 
         // Remove border to prevent any white line
@@ -25,6 +28,17 @@ public class DefaultScrollPane extends JScrollPane {
         setWheelScrollingEnabled(true);
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        // Add custom mouse wheel listener to override scroll speed
+        addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int scrollAmount = e.getScrollAmount();
+                int scrollDirection = e.getWheelRotation();
+                int unitIncrement = getVerticalScrollBar().getUnitIncrement();
+                getVerticalScrollBar().setValue(getVerticalScrollBar().getValue() + scrollDirection * scrollAmount * unitIncrement);
+            }
+        });
 
         // Revalidate and repaint to ensure proper rendering
         revalidate();

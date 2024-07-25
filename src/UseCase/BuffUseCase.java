@@ -25,6 +25,7 @@ public class BuffUseCase {
     }
     public Buff newBuff(int id, Equipment source){
         Buff buff = new Buff(id, source);
+        initializeBuff(buff, id);
         return buff;
     }
 
@@ -111,6 +112,7 @@ public class BuffUseCase {
             buffs = new ArrayList<>();
             source.setBuffs(buffs);
         }
+
         for (Buff buff : buffs) {
             if(buff.getId() == buffId) {
                 long newStack = (long) buff.getStack() + stack;
@@ -125,6 +127,7 @@ public class BuffUseCase {
         if (stack == 0){return;}
 
         Buff newBuff = newBuff(buffId, source);
+        //System.out.println(buffId);
         newBuff.setStack(stack);
         buffs.add(newBuff);
     }

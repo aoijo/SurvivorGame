@@ -3,6 +3,7 @@ package UI.GameScreenPanels.World;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.TileAdapter;
 import UI.AdapterManager;
+import UI.GameScreenPanels.Bag.BagPanel.ItemPanel;
 import UI.GameScreenPanels.GameScreen;
 import UI.GameScreenPanels.StatusPanel;
 import Utils.DefaultButton;
@@ -18,6 +19,7 @@ public class TilePanel extends JPanel {
     private PlayerController playerController;
     private StatusPanel statusPanel;
     private LogPanel logPanel;
+    private ItemPanel itemPanel;
     private int[] playerPosition;
     private Font titleFont = new Font("Arial", Font.BOLD, 15);
     private Font buttonFont = new Font("Arial", Font.BOLD, 10);
@@ -73,7 +75,7 @@ public class TilePanel extends JPanel {
                 playerController.getPlayerUseCase().harvestResource(
                         tileAdapter.getMapUseCase().getTile(playerPosition[0], playerPosition[1]), resourceName);
                 updateTilePanel();
-
+                itemPanel.updateItemPanel();
                 logPanel.addHarvestLog(resourceName);
             }
         });
@@ -158,5 +160,9 @@ public class TilePanel extends JPanel {
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
+    }
+
+    public void setItemPanel(ItemPanel itemPanel) {
+        this.itemPanel = itemPanel;
     }
 }

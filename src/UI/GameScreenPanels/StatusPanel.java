@@ -138,6 +138,7 @@ public class StatusPanel extends JPanel {
         add(bagRow, constraints);
 
         // Initialize values
+        playerPresenter.getPlayerUseCase().updatePlayer();
         updateStatusPanel();
     }
 
@@ -157,7 +158,7 @@ public class StatusPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (bagButton.isSelected()) {
-                    gameScreen.getCentrePanel().switchToScreen("BagPanel");
+                    gameScreen.getCentrePanel().switchToScreen("CharacterPanel");
                     gameScreen.getCentrePanel().getBagPanel().getItemPanel().updateItemPanel();
                     gameScreen.setFocusable(false);
                 } else {
@@ -249,7 +250,7 @@ public class StatusPanel extends JPanel {
         nameLabel.setForeground(playerPresenter.getPlayerColor());
         updateDayPanel();
 
-        updateValuePanel(healthPanel, playerPresenter.getHealth(), playerPresenter.getMaxHealth());
+        updateValuePanel(healthPanel, playerPresenter.getCurrentHealth(), playerPresenter.getCurrentMaxHealth());
         updateValuePanel(weightPanel, (int)playerPresenter.getWeight(), (int)playerPresenter.getMaxWeight());
         updateValuePanel(hydrationPanel, playerPresenter.getHydration(), playerPresenter.getMaxHydration());
         updateValuePanel(hungerPanel, playerPresenter.getHunger(), playerPresenter.getMaxHunger());

@@ -1,9 +1,10 @@
-package UseCase;
+package UseCase.Character;
 
 import Entity.Character.Enemy;
 import Entity.Skills.Skill;
 import Enums.EnemyType;
 import Enums.Rarity;
+import UseCase.SkillUseCase;
 import Utils.ReadCSV;
 
 import java.util.ArrayList;

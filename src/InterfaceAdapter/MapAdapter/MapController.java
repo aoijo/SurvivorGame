@@ -3,8 +3,8 @@ package InterfaceAdapter.MapAdapter;
 import Enums.MapTile.MapType;
 import InterfaceAdapter.UseCaseManager;
 import UseCase.Map.MapUseCase;
-import UseCase.PlayerUseCase;
-import UseCase.TileUseCase;
+import UseCase.Character.PlayerUseCase;
+import UseCase.World.TileUseCase;
 
 public class MapController {
     private MapUseCase mapUseCase;

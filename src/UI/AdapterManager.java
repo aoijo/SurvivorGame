@@ -2,7 +2,7 @@ package UI;
 
 import Enums.MapTile.MapType;
 import InterfaceAdapter.*;
-import InterfaceAdapter.MapAdapter.BuffAdapter;
+import InterfaceAdapter.BuffAdapter;
 import InterfaceAdapter.MapAdapter.MapController;
 import InterfaceAdapter.MapAdapter.MapPresenter;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
@@ -23,8 +23,8 @@ public class AdapterManager {
 
     public AdapterManager(UseCaseManager useCaseManager) {
         this.useCaseManager = useCaseManager;
-        playerPresenter = new PlayerPresenter(useCaseManager);
         playerController = new PlayerController(useCaseManager);
+        playerPresenter = new PlayerPresenter(useCaseManager, playerController);
         mapPresenter = new MapPresenter(useCaseManager);
         mapController = new MapController(32, 32, MapType.ISLAND, mapSeed, useCaseManager);
         timeAdapter = new TimeAdapter(useCaseManager);

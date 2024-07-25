@@ -12,7 +12,9 @@ public class Character {
 
     private int level;
     private int health;
+    private int currentHealth;
     private int maxHealth;
+    private int currentMaxHealth;
     private int attack;
     private int currentAttack;
     private int defense;
@@ -22,6 +24,7 @@ public class Character {
     private int damageReduction;
     private int currentDamageReduction;
     private int speed;
+    private int currentSpeed;
     private int experience;
 
     private ArrayList<Skill> skills;
@@ -210,5 +213,29 @@ public class Character {
 
     public void setCurrentBuffs(ArrayList<Buff> currentBuffs) {
         this.currentBuffs = currentBuffs;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
+    public int getCurrentMaxHealth() {
+        return currentMaxHealth;
+    }
+
+    public void setCurrentMaxHealth(int currentMaxHealth) {
+        this.currentMaxHealth = currentMaxHealth;
+    }
+
+    public int getCurrentSpeed() {
+        return currentSpeed;
+    }
+
+    public void setCurrentSpeed(int currentSpeed) {
+        this.currentSpeed = currentSpeed;
     }
 }

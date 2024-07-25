@@ -12,27 +12,30 @@ id,name,description,type,maxStack,is combat
 11,Defense UP,Increase defense by  1%,1,-1,1
 12,Defense Down,Decrease defense by 1%,2,-1,1
 13,Life Steal Up,Increase life steal by 1%,1,-1,1
-14,Damage Re. Up,Increase damage reduction by  1%,1,-1,1
-15,Damage Re. Down,Decrease damage reduction by 1%,2,-1,1
-16,Exp Up,Increase experience gain by  1%,1,-1,1
-17,Exp Down,Decrease experience gain by 1%,2,-1,1
-18,Luck Up,Increase Item drop range by 1,1,-1,1
-19,Luck Down,Decrease Item drop range by 1,2,-1,1
-20,Health Increase,Increase max health by  1,1,-1,1
-21,Health Decrease,Decrease max health by 1,2,-1,1
-22,Hydration Increase,Increase max hydration by  1,1,-1,1
-23,Hydration Decrease,Decrease max hydration by 1,2,-1,1
-24,Hunger  Increase,Increase max hunger by  1,1,-1,1
-25,Hunger Decrease,decrease max hunger by 1,2,-1,1
-26,Weight Increase,Increase max weight by  1,1,-1,1
-27,Weight Decrease,Decrease max weight by 1,2,-1,1
-28,Attack Increase,Increase attack by  1,1,-1,1
-29,Attack Decrease,Decrease attack by 1,2,-1,1
-30,Defense Increase,Increase defense by  1,1,-1,1
-31,Defense Decrease,Decrease defense by 1,2,-1,1
-32,Faster,"After reaches 100 stack, apply 1 Skip turn to your opponent, then reset to 0",1,100,1
-33,Skip turn,Skip next turn,2,-1,1
-34,Negate,"If health would drop below 1, set health to one",1,1,1
-35,Goblin Killer,Increase damage to goblin by 100%,1,1,1
-36,Thorn,Deal 1 damage to opponent when attacked,1,-1,1
-37,Accuracy down,Decrease the chance of hitting an attack by 1%,2,99,1
+14,Life Steal Down,decrease life steal by 1%,2,-1,1
+15,Damage Re. Up,Increase damage reduction by  1%,1,-1,1
+16,Damage Re. Down,Decrease damage reduction by 1%,2,-1,1
+17,Exp Up,Increase experience gain by  1%,1,-1,1
+18,Exp Down,Decrease experience gain by 1%,2,-1,1
+19,Luck Up,Increase Item drop range by 1,1,-1,1
+20,Luck Down,Decrease Item drop range by 1,2,-1,1
+21,Health Increase,Increase max health by  1,1,-1,1
+22,Health Decrease,Decrease max health by 1,2,-1,1
+23,Hydration Increase,Increase max hydration by  1,1,-1,1
+24,Hydration Decrease,Decrease max hydration by 1,2,-1,1
+25,Hunger  Increase,Increase max hunger by  1,1,-1,1
+26,Hunger Decrease,decrease max hunger by 1,2,-1,1
+27,Weight Increase,Increase max weight by  1,1,-1,1
+28,Weight Decrease,Decrease max weight by 1,2,-1,1
+29,Attack Increase,Increase attack by  1,1,-1,1
+30,Attack Decrease,Decrease attack by 1,2,-1,1
+31,Defense Increase,Increase defense by  1,1,-1,1
+32,Defense Decrease,Decrease defense by 1,2,-1,1
+33,Speed Increase,Increase speed by  1,1,-1,1
+34,Speed Decrease,Decrease speed by 1,2,-1,1
+35,Faster,"After reaches 100 stack, apply 1 Skip turn to your opponent, then reset to 0",1,100,1
+36,Skip turn,Skip next turn,2,-1,1
+37,Negate,"If health would drop below 1, set health to one",1,1,1
+38,Goblin Killer,Increase damage to goblin by 100%,1,1,1
+39,Thorn,Deal 1 damage to opponent when attacked,1,-1,1
+40,Accuracy down,Decrease the chance of hitting an attack by 1%,2,99,1

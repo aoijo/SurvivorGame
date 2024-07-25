@@ -87,6 +87,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSV-198\optd_por_public.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\commons-csv-1.11.0-src\src\test\resources\org\apache\commons\csv\CSV-213\999751170.patch.csv">
           <value>
             <Attribute>

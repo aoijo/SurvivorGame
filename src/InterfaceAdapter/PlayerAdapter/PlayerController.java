@@ -1,10 +1,11 @@
 package InterfaceAdapter.PlayerAdapter;
 
 import InterfaceAdapter.UseCaseManager;
-import UseCase.PlayerUseCase;
+import UseCase.Character.PlayerUseCase;
 
 public class PlayerController {
     private PlayerUseCase playerUseCase;
+    private PlayerPresenter playerPresenter;
     private int[] playerPosition;
 
     public PlayerController(UseCaseManager useCaseManager) {
@@ -24,4 +25,19 @@ public class PlayerController {
         return playerUseCase;
     }
 
+    public void equipByIndex(int index){
+        playerUseCase.equipByIndex(playerUseCase.getPlayer(),index);
+    }
+
+    public void unEquipByIndex(int index){
+        playerUseCase.unEquipByIndex(playerUseCase.getPlayer(),index);
+    }
+
+    public PlayerPresenter getPlayerPresenter() {
+        return playerPresenter;
+    }
+
+    public void setPlayerPresenter(PlayerPresenter playerPresenter) {
+        this.playerPresenter = playerPresenter;
+    }
 }

@@ -1,4 +1,4 @@
-package UseCase;
+package UseCase.Character;
 
 import Entity.Buff;
 import Entity.Item.Equipment;
@@ -9,8 +9,12 @@ import Entity.World.Resource;
 import Entity.World.Tile;
 import Enums.Item.ItemType;
 import Enums.Rarity;
+import UseCase.BuffUseCase;
 import UseCase.Item.EquipmentUseCase;
 import UseCase.Item.ItemUseCase;
+import UseCase.SkillUseCase;
+import UseCase.World.TileUseCase;
+import UseCase.World.TimeUseCase;
 import Utils.ReadCSV;
 
 import java.awt.*;
@@ -28,18 +32,20 @@ public class PlayerUseCase {
     private TimeUseCase timeUseCase;
     private SkillUseCase skillUseCase;
     private BuffUseCase buffUseCase;
+    private CharacterStatsCalculation characterStatsCalculation;
 
     private ArrayList<Item> sortedItems;
     private String[][] sortedItemInfo;
 
     public PlayerUseCase(TileUseCase tileUseCase, ItemUseCase itemUseCase, TimeUseCase timeUseCase,
-    SkillUseCase skillUseCase, BuffUseCase buffUseCase) {
+    SkillUseCase skillUseCase, BuffUseCase buffUseCase, CharacterStatsCalculation characterStatsCalculation) {
         this.tileUseCase = tileUseCase;
         this.itemUseCase = itemUseCase;
         this.equipmentUseCase = itemUseCase.getEquipmentUseCase();
         this.timeUseCase = timeUseCase;
         this.skillUseCase = skillUseCase;
         this.buffUseCase = buffUseCase;
+        this.characterStatsCalculation = characterStatsCalculation;
         loadRaceData();
     }
 
@@ -61,21 +67,37 @@ public class PlayerUseCase {
         player.setLevelUpAttributePoints(Integer.parseInt(raceData[15]));
         player.setLevel(Integer.parseInt(raceData[16]));
         player.setMaxExperience(Integer.parseInt(raceData[17]));
-        gainItems(player,ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
 
-        player.setForgetExperience(1000000);
         player.setHealth(player.getMaxHealth());
         player.setHunger(player.getMaxHunger());
+        player.setCurrentHealth(player.getHealth());
+        player.setCurrentMaxHealth(player.getMaxHealth());
         player.setHydration(player.getMaxHydration());
         player.setSanity(player.getMaxSanity());
         player.setPosition(new int[]{0,0});
+        player.setAmulet(new Equipment[4]);
+
+        player.setSkills(new ArrayList<>());
+        player.setBuffs(new ArrayList<>());
+        player.setCurrentBuffs(new ArrayList<>());
+        player.setCurrentSkills(new ArrayList<>());
+
+        gainItems(player,ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
+        gainSkills(player,new int[]{1,2});
+        gainSkills(player,ReadCSV.readIntList(raceData[20]));
+
         //Test part start
-        forgeEquipments(player,1,100);
+        player.setForgetExperience(1000000);
+        changeExperience(player,1000);
+        forgeEquipments(player,1,50);
+        forgeEquipments(player,10,50);
+        forgeEquipments(player,21,50);
+        forgeEquipment(player,44);
+        forgeEquipment(player,45);
         //gainItems(player, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001}, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001});
         //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
         //gainBuff(player,1,0);
-        //gainBuff(player,1,1);
-        //gainSkills(player,new int[]{1,2,3,4,5});
+        gainBuff(player,1,12);
         //skillTest(player);
         //buffTest(player);
         //player.setAttributePoint(3);
@@ -98,39 +120,40 @@ public class PlayerUseCase {
         return player;
     }
 
-    public void setPlayerPosition(int dx, int dy) {
+    public void setPlayerPosition(Player player, int dx, int dy) {
         int[] position = new int[]{dx, dy};
         player.setPosition(position);
     }
 
-    public void changeHealth(int dh) {
+    public void changeHealth(Player player, int dh) {
         int health = player.getHealth() + dh;
         health = Math.max(0, Math.min(health, player.getMaxHealth()));
         player.setHealth(health);
     }
 
-    public void changeHunger(int dh) {
+    public void changeHunger(Player player, int dh) {
         int hunger = player.getHunger() + dh;
         hunger = Math.max(0, Math.min(hunger, player.getMaxHunger()));
         player.setHunger(hunger);
     }
 
-    public void changeHydration(int dh) {
+    public void changeHydration(Player player, int dh) {
         int hydration = player.getHydration() + dh;
         hydration = Math.max(0, Math.min(hydration, player.getMaxHydration()));
         player.setHydration(hydration);
     }
 
-    public void changeSanity(int ds) {
+    public void changeSanity(Player player, int ds) {
         int sanity = player.getSanity() + ds;
         sanity = Math.max(0, Math.min(sanity, player.getMaxSanity()));
         player.setSanity(sanity);
     }
 
-    public void changeExperience(int de) {
+    public void changeExperience(Player player, int de) {
         int experience = player.getExperience() + de;
         while (experience >= player.getMaxExperience()) {
-            levelUp();
+            experience -= player.getMaxExperience();
+            levelUp(player);
         }
         if (experience < 0) {
             experience = 0;
@@ -138,11 +161,11 @@ public class PlayerUseCase {
         player.setExperience(experience);
     }
 
-    public void changeAttack(int da) {
+    public void changeAttack(Player player, int da) {
         player.setAttack(player.getAttack() + da);
     }
 
-    public void changeDefense(int dd) {
+    public void changeDefense(Player player, int dd) {
         player.setDefense(player.getDefense() + dd);
     }
 
@@ -150,19 +173,18 @@ public class PlayerUseCase {
         this.RaceData = ReadCSV.read("Data/Race.csv");
     }
 
-
-    private void levelUp() {
+    private void levelUp(Player player) {
         player.setHealth(player.getHealth() + player.getLevelUpHealth());
         player.setMaxHealth(player.getMaxHealth() + player.getLevelUpHealth());
         player.setHunger(player.getHunger() + player.getLevelUpHunger());
         player.setMaxHunger(player.getMaxHunger() + player.getLevelUpHunger());
         player.setHydration(player.getHydration() + player.getLevelUpHydration());
         player.setMaxHydration(player.getMaxHydration() + player.getLevelUpHydration());
+        player.setAttributePoint(player.getAttributePoint() + player.getLevelUpAttributePoints());
 
         player.setExperience(player.getExperience() - player.getMaxExperience());
         player.setLevel(player.getLevel() + 1);
         player.setMaxExperience(10 * player.getLevel() * player.getLevel());
-        player.setAttributePoint(player.getAttributePoint() + player.getLevelUpAttributePoints());
     }
 
     public void gainItem(Player player, int itemId, int number) {
@@ -211,16 +233,43 @@ public class PlayerUseCase {
             player.setItemInBag(items);
         }
 
+        Item itemToRemove = null;
         for (Item item : items) {
             if (item.getId() == itemId) {
                 if (item.getQuantity() <= number) {
-                    items.remove(item);
+                    itemToRemove = item;
+                } else{
+                    item.setQuantity(item.getQuantity() - number);
+                    updateItemNumberChange(item);
+                    updateWeight(player);
+                }
+            }
+        }
+        items.remove(itemToRemove);
+        updateWeight(player);
+    }
+    public void removeItem(Item item, int number) {
+        ArrayList<Item> items = player.getItemInBag();
+
+        if (items == null) {
+            items = new ArrayList<>();
+            player.setItemInBag(items);
+        }
+        Item itemToRemove = null;
+        for (Item Item : items) {
+            if (Item == item) {
+                if (item.getQuantity() <= number) {
+                    itemToRemove = item;
                 } else{
                     item.setQuantity(item.getQuantity() - number);
                     updateItemNumberChange(item);
                 }
             }
         }
+        items.remove(itemToRemove);
+    }
+    public void removeByIndex(int index, int number) {
+        removeItem(sortedItems.get(index), number);
     }
     public void gainItems(Player player,int[] itemIds, int[] numbers) {
         for(int i = 0; i < itemIds.length; i++) {
@@ -247,6 +296,7 @@ public class PlayerUseCase {
 
         // Skill does not exist, add new skill
         player.getSkills().add(skillUseCase.newSkill(skillId));
+        updateCurrentSkill(player);
     }
     public void removeSkill(Player player, int skillId) {
         ArrayList<Skill> skills = player.getSkills();
@@ -261,6 +311,7 @@ public class PlayerUseCase {
                 return;
             }
         }
+        updateCurrentSkill(player);
     }
     public void gainSkills(Player player, int[] skillIds) {
         for(int skillId : skillIds) {
@@ -274,9 +325,11 @@ public class PlayerUseCase {
     }
     public void gainBuff(Player player, int buffId ,int stack) {
         buffUseCase.characterGainBuff(buffId,stack,player,player);
+        updateCurrentBuff(player);
     }
     public void removeBuff(Player player, int buffId , int stack) {
         buffUseCase.characterRemoveBuff(buffId,stack,player);
+        updateCurrentBuff(player);
     }
     public void gainBuffs(Player player, int[] buffIds, int[] stacks) {
         for(int i = 0; i <buffIds.length; i++) {
@@ -306,6 +359,70 @@ public class PlayerUseCase {
         for (int i = 0; i < equipmentNumber; i++) {
             forgeEquipment(player, equipmentId);
         }
+    }
+    public void unEquipEquipment(Player player, Equipment equipment) {
+        if (equipment == null){
+            return;
+        }
+
+        equipment.setEquipped(false);
+        switch(equipment.getEquipmentType()){
+            case WEAPON -> {player.setWeapon(null);}
+            case ARMOR -> player.setArmor(null);
+            case TOOL -> player.setTool(null);
+            case BAG -> player.setBag(null);
+            case AMULET -> {
+                for (int i = 0; i < player.getAmulet().length; i++){
+                    if (player.getAmulet()[i] == equipment){
+                        player.setSingleAmulet(null,i);
+                        break;
+                    }
+                }
+            }
+        }
+        updatePlayer();
+    }
+    public void equipEquipment(Player player, Equipment equipment) {
+        if (equipment == null){
+            return;
+        }
+
+        equipment.setEquipped(true);
+        switch(equipment.getEquipmentType()){
+            case WEAPON -> {
+                unEquipEquipment(player, player.getWeapon());
+                player.setWeapon(equipment);
+            }
+            case ARMOR -> {
+                unEquipEquipment(player, player.getArmor());
+                player.setArmor(equipment);
+            }
+            case TOOL -> {
+                unEquipEquipment(player, player.getTool());
+                player.setTool(equipment);
+            }
+            case BAG -> {
+                unEquipEquipment(player, player.getBag());
+                player.setBag(equipment);
+            }
+            case AMULET -> {
+                for (int i = 0; i < player.getAmulet().length; i++){
+                    if (player.getAmulet()[i] == null){
+                        player.setSingleAmulet(equipment,i);
+                        break;
+                    }
+                }
+            }
+        }
+        updatePlayer();
+    }
+    public void equipByIndex(Player player, int index){
+        Equipment equipment = (Equipment) sortedItems.get(index);
+        equipEquipment(player, equipment);
+    }
+    public void unEquipByIndex(Player player, int index){
+        Equipment equipment = (Equipment) sortedItems.get(index);
+        unEquipEquipment(player, equipment);
     }
 
     /**
@@ -477,12 +594,17 @@ public class PlayerUseCase {
                 throw new IllegalArgumentException("sort by option not supported");
         }
         sortedItems = itemsToShow;
-        String[][] itemInfo = new String[4][itemsToShow.size()];
+        String[][] itemInfo = new String[6][itemsToShow.size()];
         for (int i = 0; i < itemsToShow.size(); i++) {
             itemInfo[0][i] = String.valueOf(itemsToShow.get(i).getId());
             itemInfo[1][i] = itemsToShow.get(i).getName();
             itemInfo[2][i] = String.valueOf(itemsToShow.get(i).getQuantity());
             itemInfo[3][i] = String.valueOf(itemsToShow.get(i).getRarity());
+            if (itemsToShow.get(i).getItemType() == ItemType.EQUIPMENT){
+                itemInfo[4][i] = String.valueOf(((Equipment)itemsToShow.get(i)).getEquipped());
+            } else{
+                itemInfo[4][i] = String.valueOf(false);
+            }
         }
         this.sortedItemInfo = itemInfo;
         return itemInfo;
@@ -539,6 +661,19 @@ public class PlayerUseCase {
         }
         System.out.println("Total buffs: " + buffs.size());
     }
+    public void currentSkillTest(Player player) {
+        ArrayList<Skill> skills = player.getCurrentSkills();
+
+        // Display the item count and details for debugging
+        if (skills != null && !skills.isEmpty()) {
+            for (Skill skill : skills) {
+                System.out.println("ID: " + skill.getId() + ", Name: " + skill.getName() + ", Cooldown: " + skill.getCooldown());
+            }
+        } else {
+            System.out.println("No Skills in the skill list.");
+        }
+        System.out.println("Total skills: " + skills.size());
+    }
 
     private int[] determineHarvestItem(int[] min, int[] max){
         int[] items = new int[min.length];
@@ -554,7 +689,6 @@ public class PlayerUseCase {
         item.setDust(item.getQuantity() * item.getSingleDust());
         item.setPrice(item.getQuantity() * item.getSinglePrice());
     }
-
     private void updateWeight(Player player){
         float Weight = 0;
         for (Item item : player.getItemInBag()) {
@@ -562,30 +696,98 @@ public class PlayerUseCase {
         }
         player.setWeight(Weight);
     }
-
-
-    public void updatePlayer(Player player){
-        int currentAttack = player.getAttack();
-        int currentDefense = player.getDefense();
-        int currentLifeSteal = player.getLifeSteal();
-        int currentDamageReduction = player.getDamageReduction();
-        ArrayList<Skill> currentSkills = player.getSkills();
-        ArrayList<Buff> currentBuffs = player.getBuffs();
-
-        player.setCurrentAttack(currentAttack);
-        player.setCurrentDefense(currentDefense);
-        player.setCurrentLifeSteal(currentLifeSteal);
-        player.setCurrentDamageReduction(currentDamageReduction);
+    private void updateCurrentSkill(Player player){
+        ArrayList<Skill> currentSkills = new ArrayList<>();
+        currentSkills.addAll(player.getSkills());
+        currentSkills.addAll(getEquipmentSkills(player));
         player.setCurrentSkills(currentSkills);
+    }
+    private void updateCurrentBuff(Player player){
+        ArrayList<Buff> currentBuffs = new ArrayList<>();
+        currentBuffs.addAll(player.getBuffs());
+        currentBuffs.addAll(getEquipmentBuffs(player));
         player.setCurrentBuffs(currentBuffs);
+    }
+    private void updateCurrentAttack(Player player){
+        player.setCurrentAttack(characterStatsCalculation.CalculateAttack());
+    }
+    private void updateCurrentDefence(Player player){
+        player.setCurrentDefense(characterStatsCalculation.CalculateDefense());
+    }
+    private void updateCurrentLifeSteal(Player player){
+        player.setCurrentLifeSteal(characterStatsCalculation.CalculateLifeSteal());
+    }
+    private void updateCurrentDamageReduction(Player player){
+        player.setCurrentDamageReduction(characterStatsCalculation.CalculateDamageReduction());
+    }
+    private void updateCurrentMaxHealth(Player player){
+        player.setCurrentMaxHealth(characterStatsCalculation.CalculateMaxHealth());
+    }
+
+    public void updatePlayer(){
+        characterStatsCalculation.setCharacter(player);
+        updateCurrentSkill(player);
+        updateCurrentBuff(player);
+        updateCurrentAttack(player);
+        updateCurrentDefence(player);
+        updateCurrentLifeSteal(player);
+        updateCurrentDamageReduction(player);
+        updateCurrentMaxHealth(player);
         updateWeight(player);
     }
 
+    public ArrayList<Skill> getEquipmentSkills(Player player){
+        ArrayList<Skill> skills = new ArrayList<>();
+        if (player.getWeapon() != null){
+            skills.addAll(player.getWeapon().getSkills());
+        }
+        if (player.getArmor() != null){
+            skills.addAll(player.getArmor().getSkills());
+        }
+        if (player.getTool() != null){
+            skills.addAll(player.getTool().getSkills());
+        }
+        if (player.getBag() != null){
+            skills.addAll(player.getBag().getSkills());
+        }
+        for (Equipment amulet : player.getAmulet()){
+            if (amulet != null){
+                skills.addAll(amulet.getSkills());
+            }
+        }
+        return skills;
+    }
+    public ArrayList<Buff> getEquipmentBuffs(Player player){
+        ArrayList<Buff> buffs = new ArrayList<>();
+        if (player.getWeapon() != null){
+            buffs.addAll(player.getWeapon().getBuffs());
+        }
+        if (player.getArmor() != null){
+            buffs.addAll(player.getArmor().getBuffs());
+        }
+        if (player.getTool() != null){
+            buffs.addAll(player.getTool().getBuffs());
+        }
+        if (player.getBag() != null){
+            buffs.addAll(player.getBag().getBuffs());
+        }
+        for (Equipment amulet : player.getAmulet()){
+            if (amulet != null){
+                buffs.addAll(amulet.getBuffs());
+            }
+        }
+        return buffs;
+    }
     public ArrayList<Item> getSortedItems() {
         return sortedItems;
     }
-
     public String[][] getSortedItemInfo() {
         return sortedItemInfo;
+    }
+    public Item getItemByIndex(int index){
+        return sortedItems.get(index);
+    }
+    public int getIndexByItem(Item item){
+        return sortedItems.indexOf(item);
     }
 }

@@ -1,10 +1,9 @@
-package UI.GameScreenPanels.Bag;
+package UI.GameScreenPanels.Bag.BagPanel;
 
 import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultScrollPane;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class InformationPanel extends JPanel {
@@ -12,8 +11,11 @@ public class InformationPanel extends JPanel {
     private GameScreen gameScreen;
     private CardLayout cardLayout;
     private StatsPanel statsPanel;
-    private JScrollPane skillPanel;
-    private JScrollPane buffPanel;
+    private SkillPanel skillPanel;
+    private BuffPanel buffPanel;
+    private JScrollPane skillScrollPane;
+    private JScrollPane buffScrollPane;
+    private EquipmentPanel equipmentPanel;
 
     public InformationPanel(BagPanel bagPanel){
         this.gameScreen = bagPanel.getGameScreen();
@@ -21,17 +23,21 @@ public class InformationPanel extends JPanel {
         cardLayout = new CardLayout();
         setLayout(cardLayout);
         setPreferredSize(new Dimension(300, 103));
-        setBorder(new MatteBorder(0, 2, 0, 2, Color.BLACK));
+        //setBorder(new MatteBorder(0, 2, 0, 2, Color.BLACK));
 
         statsPanel = new StatsPanel(this);
+        skillPanel = new SkillPanel(gameScreen);
+        buffPanel = new BuffPanel(gameScreen);
+        equipmentPanel = new EquipmentPanel();
 
         // Wrap BuffPanel and SkillPanel in a JScrollPane
-        buffPanel = new DefaultScrollPane(new BuffPanel(gameScreen));
-        skillPanel = new DefaultScrollPane(new SkillPanel(gameScreen));
+        skillScrollPane = new DefaultScrollPane(skillPanel);
+        buffScrollPane = new DefaultScrollPane(buffPanel);
 
         add(statsPanel, "StatsPanel");
-        add(skillPanel, "SkillPanel");
-        add(buffPanel, "BuffPanel"); // Add the JScrollPane instead of the BuffPanel directly
+        add(skillScrollPane, "SkillPanel");
+        add(buffScrollPane, "BuffPanel"); // Add the JScrollPane instead of the BuffPanel directly
+        add(equipmentPanel, "EquipmentPanel");
 
         //switchToScreen("BuffPanel");
     }
@@ -45,10 +51,12 @@ public class InformationPanel extends JPanel {
             if (comp.isVisible()) {
                 if (comp == statsPanel) {
                     return "StatsPanel";
-                } else if (comp == skillPanel) {
+                } else if (comp == skillScrollPane) {
                     return "SkillPanel";
-                } else if (comp == buffPanel) { // Check for the scroll pane
+                } else if (comp == buffScrollPane) { // Check for the scroll pane
                     return "BuffPanel";
+                } else if (comp == equipmentPanel) {
+                    return "EquipmentPanel";
                 }
             }
         }
@@ -59,5 +67,17 @@ public class InformationPanel extends JPanel {
     }
     public BagPanel getBagPanel() {
         return bagPanel;
+    }
+    public EquipmentPanel getEquipmentPanel() {
+        return equipmentPanel;
+    }
+    public StatsPanel getStatsPanel() {
+        return statsPanel;
+    }
+    public SkillPanel getSkillPanel() {
+        return skillPanel;
+    }
+    public BuffPanel getBuffPanel() {
+        return buffPanel;
     }
 }

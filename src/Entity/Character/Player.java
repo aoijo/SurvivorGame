@@ -36,7 +36,11 @@ public class Player extends Character {
     private boolean noHydration;
 
     private ArrayList<Item> itemInBag;
-    private Equipment[] equipments;
+    private Equipment weapon;
+    private Equipment armor;
+    private Equipment tool;
+    private Equipment bag;
+    private Equipment[] Amulet;
 
     public Player(Color color, int raceId) {
         super(1);
@@ -229,12 +233,15 @@ public class Player extends Character {
         this.itemInBag = itemInBag;
     }
 
-    public Equipment[] getEquipments() {
-        return equipments;
+    public Equipment[] getAmulet() {
+        return Amulet;
     }
 
-    public void setEquipments(Equipment[] equipments) {
-        this.equipments = equipments;
+    public void setAmulet(Equipment[] equipments) {
+        this.Amulet = equipments;
+    }
+    public void setSingleAmulet(Equipment equipment, int index) {
+        this.Amulet[index] = equipment;
     }
 
     public int getRaceId() {
@@ -251,5 +258,37 @@ public class Player extends Character {
 
     public void setForgetExperience(int forgetExperience) {
         ForgetExperience = forgetExperience;
+    }
+
+    public Equipment getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Equipment weapon) {
+        this.weapon = weapon;
+    }
+
+    public Equipment getArmor() {
+        return armor;
+    }
+
+    public void setArmor(Equipment armor) {
+        this.armor = armor;
+    }
+
+    public Equipment getTool() {
+        return tool;
+    }
+
+    public void setTool(Equipment tool) {
+        this.tool = tool;
+    }
+
+    public Equipment getBag() {
+        return bag;
+    }
+
+    public void setBag(Equipment bag) {
+        this.bag = bag;
     }
 }

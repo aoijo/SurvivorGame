@@ -2,7 +2,7 @@ package UseCase.Map;
 
 import Entity.World.Map;
 import Enums.MapTile.TileType;
-import UseCase.TileUseCase;
+import UseCase.World.TileUseCase;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package UI.GameScreenPanels.Bag;
+package UI.GameScreenPanels.Bag.BagPanel;
 
 import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultButton;
@@ -37,17 +37,16 @@ public class StatsPanel extends JPanel {
         JPanel attributePanel = createGeneralPanel("Attribute Pt.", "", gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getAttributePoint());
 
         constraints.gridy = 0;
+        constraints.weightx = 1;
         add(createRow(colorPanel, speedPanel), constraints);
         constraints.gridy++;
         add(createRow(attackPanel, defensePanel), constraints);
         constraints.gridy++;
         add(createRow(lifeStealPanel, damageReductionPanel), constraints);
         constraints.gridy++;
-        add(createRow(currencyPanel, attributePanel), constraints);
-        constraints.gridy++;
-        constraints.weighty = 1;
-        add(new JPanel(), constraints);
-        constraints.weighty = 0;
+        JPanel lastRow = createRow(currencyPanel, attributePanel);
+        lastRow.setBorder(null);
+        add(lastRow, constraints);
     }
 
     private JPanel createRow(JPanel panel1, JPanel panel2) {
@@ -86,6 +85,8 @@ public class StatsPanel extends JPanel {
                     informationPanel.getBagPanel().getSwitchTopPanel().updateSwitchTopPanel();
                     informationPanel.getBagPanel().getSwitchBottomPanel().updateSortingButtonColor(newColor);
                     informationPanel.getBagPanel().getSwitchBottomPanel().repaint();
+                    informationPanel.getBagPanel().getDetailPanel().getItemQuantityPanel().setSwitchButtonColor(newColor);
+                    informationPanel.getBagPanel().getDetailPanel().getItemQuantityPanel().updateItemQuantityPanel();
                 }
             }
         });
@@ -134,7 +135,7 @@ public class StatsPanel extends JPanel {
                             break;
                     }
                 }
-                gameScreen.getUseCaseManager().getPlayerUseCase().updatePlayer(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer());
+                gameScreen.getUseCaseManager().getPlayerUseCase().updatePlayer();
                 updateStatsPanel();
             }
         });

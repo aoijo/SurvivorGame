@@ -12,6 +12,7 @@ public class Equipment extends Item {
     private int lifeSteal;
     private int maxHealth;
     private int maxWeight;
+    private int speed;
     private int damageReduction;
 
     private int durability;
@@ -19,6 +20,7 @@ public class Equipment extends Item {
     private int maxDurability;
     private ArrayList<Skill> skills;
     private ArrayList<Buff> buffs;
+    private boolean isEquipped;
 
     private EquipmentType equipmentType;
 
@@ -120,5 +122,21 @@ public class Equipment extends Item {
 
     public void setCurrentMaxDurability(int currentMaxDurability) {
         this.currentMaxDurability = currentMaxDurability;
+    }
+
+    public Boolean getEquipped() {
+        return isEquipped;
+    }
+
+    public void setEquipped(Boolean equipped) {
+        isEquipped = equipped;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

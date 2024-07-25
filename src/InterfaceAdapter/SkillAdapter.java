@@ -1,7 +1,7 @@
 package InterfaceAdapter;
 
 import Enums.Rarity;
-import UseCase.PlayerUseCase;
+import UseCase.Character.PlayerUseCase;
 
 public class SkillAdapter {
     private PlayerUseCase playerUseCase;
@@ -14,8 +14,8 @@ public class SkillAdapter {
         return playerUseCase.getPlayer().getSkills().get(index).getId();
     }
 
-    public String getPlayerSkillNameByIndex(int index) {
-        return playerUseCase.getPlayer().getSkills().get(index).getName();
+    public String getPlayerCurrentSkillNameByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentSkills().get(index).getName();
     }
 
     public String getPlayerSkillDescriptionByIndex(int index) {
@@ -26,12 +26,12 @@ public class SkillAdapter {
         return playerUseCase.getPlayer().getSkills().get(index).getPowerLevel();
     }
 
-    public int getPlayerSkillCooldownByIndex(int index) {
-        return playerUseCase.getPlayer().getSkills().get(index).getCooldown();
+    public int getPlayerCurrentSkillCooldownByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentSkills().get(index).getCooldown();
     }
 
-    public float getPlayerSkillWorldCooldownByIndex(int index) {
-        return playerUseCase.getPlayer().getSkills().get(index).getWorldCooldown();
+    public float getPlayerCurrentSkillWorldCooldownByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentSkills().get(index).getWorldCooldown();
     }
 
     public int getPlayerSkillMaxCooldownByIndex(int index) {
@@ -58,7 +58,7 @@ public class SkillAdapter {
         return playerUseCase.getPlayer().getSkills().get(index).getRaceRequirement();
     }
 
-    public Rarity getPlayerSkillRarityByIndex(int index) {
-        return playerUseCase.getPlayer().getSkills().get(index).getRarity();
+    public Rarity getPlayerCurrentSkillRarityByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentSkills().get(index).getRarity();
     }
 }

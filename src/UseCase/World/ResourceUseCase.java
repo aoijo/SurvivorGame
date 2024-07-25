@@ -1,4 +1,4 @@
-package UseCase;
+package UseCase.World;
 
 import Entity.World.Resource;
 import Utils.ReadCSV;

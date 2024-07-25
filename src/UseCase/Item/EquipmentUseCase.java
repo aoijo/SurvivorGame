@@ -120,7 +120,7 @@ public class EquipmentUseCase {
             }
             case "Protector" -> {
                 gainBuff(equipment, 10, 500);
-                gainBuff(equipment, 14, 50);
+                gainBuff(equipment, 15, 50);
             }
             case "Sturdy" -> {
                 equipment.setDurability(equipment.getDurability() * 5);
@@ -128,11 +128,11 @@ public class EquipmentUseCase {
             }
             case "Madness" -> {
                 gainSkill(equipment, 8);
-                gainBuff(equipment, 37, 15);
+                gainBuff(equipment, 40, 15);
             }
             case "Immune" -> {
-                gainBuff(equipment, 17, 100);
-                gainBuff(equipment, 34, 1);
+                gainBuff(equipment, 18, 100);
+                gainBuff(equipment, 37, 1);
             }
         }
     }
@@ -204,11 +204,10 @@ public class EquipmentUseCase {
         equipment.setMaxHealth(Integer.parseInt(equipData[9]));
         equipment.setLifeSteal(Integer.parseInt(equipData[10]));
         equipment.setDamageReduction(Integer.parseInt(equipData[11]));
-        equipment.setMaxWeight(Integer.parseInt(equipData[12]));
-        equipment.setMaxDurability(Integer.parseInt(equipData[13]));
-        gainSkills(equipment, ReadCSV.readIntList(equipData[14]));
-        gainBuffs(equipment, ReadCSV.readIntList(equipData[15]), ReadCSV.readIntList(equipData[16]));
-        equipment.setEquipmentType(determineEquipmentType(Integer.parseInt(equipData[17])));
+        equipment.setSpeed(Integer.parseInt(equipData[12]));
+        equipment.setMaxWeight(Integer.parseInt(equipData[13]));
+        equipment.setMaxDurability(Integer.parseInt(equipData[14]));
+        equipment.setEquipmentType(determineEquipmentType(Integer.parseInt(equipData[18])));
 
         equipment.setPrice(equipment.getSinglePrice());
         equipment.setWeight(equipment.getSingleWeight());
@@ -216,6 +215,9 @@ public class EquipmentUseCase {
         equipment.setDurability(equipment.getMaxDurability());
         equipment.setRarity(Rarity.COMMON);
         equipment.setItemType(ItemType.EQUIPMENT);
+
+        gainSkills(equipment, ReadCSV.readIntList(equipData[15]));
+        gainBuffs(equipment, ReadCSV.readIntList(equipData[16]), ReadCSV.readIntList(equipData[17]));
         return equipment;
     }
 
@@ -238,6 +240,7 @@ public class EquipmentUseCase {
     }
 
     private void gainBuffs(Equipment equipment, int[] buffIds, int[] buffStacks) {
+        //System.out.println(equipment.getName());
         for (int i = 0; i < buffIds.length; i++) {
             gainBuff(equipment, buffIds[i], buffStacks[i]);
         }
@@ -249,7 +252,9 @@ public class EquipmentUseCase {
             skills = new ArrayList<>();
             equipment.setSkills(skills);
         }
-
+        if (skillId <= 0){
+            return;
+        }
         for (Skill skill : skills) {
             if (skill.getId() == skillId) {
                 return; // Skill already exists, no need to add

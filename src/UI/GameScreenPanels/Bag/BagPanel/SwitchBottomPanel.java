@@ -1,4 +1,4 @@
-package UI.GameScreenPanels.Bag;
+package UI.GameScreenPanels.Bag.BagPanel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -14,7 +14,7 @@ public class SwitchBottomPanel extends JPanel {
     private ItemPanel itemPanel;
     private BagPanel bagPanel;
     private Color sortingButtonColor;
-    private Dimension panelDimension = new Dimension(300,34);
+    private Dimension panelDimension = new Dimension(300,33);
     private JComboBox itemTypeSelection;
     private JComboBox itemSortingDependency;
     private DefaultToggleButton sortingDirection;
@@ -27,7 +27,7 @@ public class SwitchBottomPanel extends JPanel {
         setPreferredSize(panelDimension);
         setMaximumSize(panelDimension);
         setMinimumSize(panelDimension);
-        setBorder(new MatteBorder(2, 2, 2, 2, Color.black));
+        setBorder(new MatteBorder(2, 0, 2, 0, Color.black));
 
         String[] itemTypes = new String[]{"All", "Equipment", "Material", "Consumable", "Key", "Quest"};
         String[] SortingDependencies = new String[]{"Name", "Time", "Weight", "Rarity"};

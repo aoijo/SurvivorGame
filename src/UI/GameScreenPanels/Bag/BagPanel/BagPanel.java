@@ -1,10 +1,10 @@
-package UI.GameScreenPanels.Bag;
+package UI.GameScreenPanels.Bag.BagPanel;
 
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultScrollPane;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class BagPanel extends JPanel {
@@ -15,20 +15,33 @@ public class BagPanel extends JPanel {
     private SwitchBottomPanel switchBottomPanel;
     private ItemPanel itemPanel;
     private JScrollPane itemScrollPane;
+    private DetailPanel detailPanel;
 
     public BagPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        this.itemPanel = new ItemPanel(gameScreen);
         this.informationPanel = new InformationPanel(this);
         this.switchTopPanel = new SwitchTopPanel(informationPanel);
-        this.itemPanel = new ItemPanel(gameScreen);
         this.itemScrollPane = new DefaultScrollPane(itemPanel);
         this.switchBottomPanel = new SwitchBottomPanel(this);
+        this.detailPanel = new DetailPanel(gameScreen);
+        itemPanel.setDetailPanel(detailPanel);
+        informationPanel.getSkillPanel().setDetailPanel(detailPanel);
+        informationPanel.getBuffPanel().setDetailPanel(detailPanel);
+        informationPanel.getEquipmentPanel().setPlayerPresenter(gameScreen.getAdapterManager().getPlayerPresenter());
+        informationPanel.getEquipmentPanel().setDetailPanel(detailPanel);
+        detailPanel.setItemPanel(itemPanel);
+        detailPanel.getUsagePanel().setEquipmentPanel(informationPanel.getEquipmentPanel());
+        detailPanel.getUsagePanel().setStatsPanel(informationPanel.getStatsPanel());
+        detailPanel.getUsagePanel().setBuffPanel(informationPanel.getBuffPanel());
+        detailPanel.getUsagePanel().setSkillPanel(informationPanel.getSkillPanel());
 
-        itemScrollPane.setPreferredSize(new Dimension(300,300));
-        itemScrollPane.setBorder(new MatteBorder(0, 2, 2, 2, Color.BLACK));
+        itemScrollPane.setMinimumSize(new Dimension(300, 420));
+
+        //itemScrollPane.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLACK));
 
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(300, 800));
+        setPreferredSize(new Dimension(300, 600));
         constraints = new GridBagConstraints();
 
         constraints.insets = new Insets(0, 5, 0, 5);
@@ -45,23 +58,31 @@ public class BagPanel extends JPanel {
         add(switchBottomPanel, constraints);
 
         constraints.gridy++;
-        constraints.fill = GridBagConstraints.BOTH;
-        //constraints.weighty = 1.0; // Allow the itemScrollPane to take up remaining vertical space
+        constraints.weighty = 1;
         add(itemScrollPane, constraints);
     }
+
     public SwitchTopPanel getSwitchTopPanel() {
         return switchTopPanel;
     }
+
     public InformationPanel getInformationPanel() {
         return informationPanel;
     }
+
     public SwitchBottomPanel getSwitchBottomPanel() {
         return switchBottomPanel;
     }
+
     public ItemPanel getItemPanel() {
         return itemPanel;
     }
+
     public GameScreen getGameScreen() {
         return gameScreen;
+    }
+
+    public DetailPanel getDetailPanel() {
+        return detailPanel;
     }
 }

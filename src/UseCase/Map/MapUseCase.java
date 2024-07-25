@@ -4,7 +4,7 @@ import Entity.World.Map;
 import Entity.World.Tile;
 import Enums.MapTile.MapType;
 import Enums.MapTile.TileType;
-import UseCase.TileUseCase;
+import UseCase.World.TileUseCase;
 
 public class MapUseCase {
     private Map map;

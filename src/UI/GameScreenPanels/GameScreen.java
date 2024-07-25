@@ -33,6 +33,9 @@ public class GameScreen extends JPanel {
         this.statusPanel = new StatusPanel(this);
         this.logPanel = new LogPanel(this);
         this.tilePanel = new TilePanel(this);
+        centrePanel.getDetailPanel().getUsagePanel().setLogPanel(logPanel);
+        centrePanel.getDetailPanel().getUsagePanel().setStatusPanel(statusPanel);
+        tilePanel.setItemPanel(centrePanel.getBagPanel().getItemPanel());
 
         setLayout(new BorderLayout());
 

@@ -2,7 +2,7 @@ package InterfaceAdapter;
 
 import Enums.Month.Month;
 import Enums.Month.Season;
-import UseCase.TimeUseCase;
+import UseCase.World.TimeUseCase;
 
 public class TimeAdapter {
     private TimeUseCase timeUseCase;

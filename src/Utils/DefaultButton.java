@@ -58,7 +58,7 @@ public class DefaultButton extends JButton {
     }
 
     public DefaultButton(String text) {
-        this(text, new Font("Courier New", Font.PLAIN, 12), 3, Color.black, Color.LIGHT_GRAY, Color.black);
+        this(text,new Font("Arial", Font.BOLD, 10), 3, Color.black, Color.LIGHT_GRAY, Color.black);
     }
 
     public DefaultButton(String text, Font font) {
