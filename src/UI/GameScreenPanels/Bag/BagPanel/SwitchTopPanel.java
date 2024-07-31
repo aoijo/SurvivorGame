@@ -1,5 +1,7 @@
 package UI.GameScreenPanels.Bag.BagPanel;
 
+import Utils.SwitchButton;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;

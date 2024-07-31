@@ -22,20 +22,24 @@ public class UseCaseManager {
     private TimeUseCase timeUseCase;
     private SkillUseCase skillUseCase;
     private EnemyUseCase enemyUseCase;
+    private CombatUseCase combatUseCase;
+    private SingleSkillUseCase singleSkillUseCase;
     private CharacterStatsCalculation characterStatsCalculation;
 
     public UseCaseManager() {
         characterStatsCalculation = new CharacterStatsCalculation();
         mapUseCase = new MapUseCase();
         buffUseCase = new BuffUseCase();
+        singleSkillUseCase = new SingleSkillUseCase(buffUseCase);
+        skillUseCase = new SkillUseCase(singleSkillUseCase);
         resourceUseCase = new ResourceUseCase();
-        timeUseCase = new TimeUseCase();
-        skillUseCase = new SkillUseCase();
         equipmentUseCase = new EquipmentUseCase(skillUseCase,buffUseCase);
         itemUseCase = new ItemUseCase(equipmentUseCase);
-        enemyUseCase = new EnemyUseCase(skillUseCase);
-        tileUseCase = new TileUseCase(resourceUseCase, enemyUseCase);
+        enemyUseCase = new EnemyUseCase(skillUseCase,buffUseCase,characterStatsCalculation);
+        tileUseCase = new TileUseCase(resourceUseCase, enemyUseCase,mapUseCase);
         playerUseCase = new PlayerUseCase(tileUseCase,itemUseCase,timeUseCase,skillUseCase,buffUseCase,characterStatsCalculation);
+        combatUseCase = new CombatUseCase(playerUseCase,enemyUseCase,skillUseCase,buffUseCase,itemUseCase,tileUseCase);
+        timeUseCase = new TimeUseCase(buffUseCase, skillUseCase, playerUseCase);
     }
 
     public ItemUseCase getItemUseCase() {
@@ -116,5 +120,13 @@ public class UseCaseManager {
 
     public void setEquipmentUseCase(EquipmentUseCase equipmentUseCase) {
         this.equipmentUseCase = equipmentUseCase;
+    }
+
+    public CombatUseCase getCombatUseCase() {
+        return combatUseCase;
+    }
+
+    public void setCombatUseCase(CombatUseCase combatUseCase) {
+        this.combatUseCase = combatUseCase;
     }
 }

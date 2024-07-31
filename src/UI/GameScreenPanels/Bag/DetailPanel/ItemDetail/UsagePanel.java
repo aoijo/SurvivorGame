@@ -1,4 +1,4 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.ItemDetail;
 
 import Enums.Item.EquipmentType;
 import Enums.Item.ItemType;
@@ -6,6 +6,7 @@ import InterfaceAdapter.ItemAdapter;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.PlayerAdapter.PlayerPresenter;
 import UI.GameScreenPanels.Bag.BagPanel.*;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 import UI.GameScreenPanels.StatusPanel;
 import UI.GameScreenPanels.World.LogPanel;
 import Utils.DefaultButton;
@@ -78,7 +79,7 @@ public class UsagePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (itemAdapter.getItemTypeByIndex(currentItemIndex) == ItemType.EQUIPMENT &&
                 itemAdapter.getEquippedByIndex(currentItemIndex)){
-                    logPanel.addCannotDropEquippedLog();
+                    logPanel.addStringLog("Cannot drop equipped item!");
                 } else{
                     itemUseCount = detailPanel.getItemUseCount();
                     if (itemUseCount >= itemAdapter.getQuantityByIndex(currentItemIndex) &&
@@ -104,10 +105,12 @@ public class UsagePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(playerPresenter.getPlayerLevel() < itemAdapter.getLevelRequirementByIndex(currentItemIndex)){
-                    logPanel.addCannotEquipLog();
-                } else if(playerPresenter.getPlayerAmuletCount() == 4 &&
+                    logPanel.addStringLog("Cannot be equipped due to level requirement!");
+                }else if(playerPresenter.getPlayerInCombat()){
+                    logPanel.addStringLog("Cannot be equipped during combat!");
+                }else if(playerPresenter.getPlayerAmuletCount() == 4 &&
                         itemAdapter.getEquipmentTypeByIndex(currentItemIndex) == EquipmentType.AMULET){
-                    logPanel.addFullAmuletLog();
+                    logPanel.addStringLog("Already have full amulet!");
                 }else {
                     playerController.equipByIndex(currentItemIndex);
                     playerPresenter.getPlayerUseCase().updatePlayer();

@@ -1,7 +1,7 @@
 package UI;
 
 import Entity.Character.Enemy;
-import UI.CombatPanel.CombatScreen;
+import UI.CombatPanel.CombatPanel;
 import UI.GameScreenPanels.GameScreen;
 import Utils.GraphicsUtils;
 
@@ -13,7 +13,6 @@ public class GamePanel {
     private JPanel mainPanel;
     private CardLayout cardLayout;
     private GameScreen gameScreen;
-    private CombatScreen combatScreen;
     private TitleScreen titleScreen;
     private SettingScreen settingScreen;
     private CreateCharScreen createCharScreen;
@@ -32,18 +31,12 @@ public class GamePanel {
         titleScreen = new TitleScreen(this);
         settingScreen = new SettingScreen(this);
         createCharScreen = new CreateCharScreen(this);
-        //
-        Enemy testEnemy = this.getGameScreen().getUseCaseManager().getEnemyUseCase().newEnemy(1,false,false);
-        //
-        combatScreen = new CombatScreen(this.getGameScreen().getUseCaseManager().getPlayerUseCase().getPlayer(),testEnemy);
-
 
         // Add different screens to mainPanel
         mainPanel.add(titleScreen, "TitleScreen");
         mainPanel.add(gameScreen, "GameScreen");
         mainPanel.add(settingScreen, "SettingScreen");
         mainPanel.add(createCharScreen, "CreateCharScreen");
-        mainPanel.add(combatScreen, "CombatScreen");
 
         // Add mainPanel to frame
         frame.add(mainPanel);
@@ -58,9 +51,6 @@ public class GamePanel {
     }
     public GameScreen getGameScreen() {
         return gameScreen;
-    }
-    public CombatScreen getCombatScreen() {
-        return combatScreen;
     }
     public TitleScreen getTitleScreen() {
         return titleScreen;

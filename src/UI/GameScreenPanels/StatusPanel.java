@@ -17,13 +17,16 @@ public class StatusPanel extends JPanel {
     private MapPresenter mapPresenter;
     private TimeAdapter timeAdapter;
     private GridBagConstraints constraints;
+    private CardLayout buttonCardLayout;
 
     private JLabel timeLabel;
     private JLabel locationLabel;
     private JLabel seasonLabel;
     private JLabel nameLabel;
     private JPanel dayPanel;
-    private DefaultToggleButton bagButton;
+    private JPanel buttonSwitchPanel;
+    private DefaultToggleButton characterButton;
+    private DefaultToggleButton combatButton;
 
     private JPanel healthPanel;
     private JPanel weightPanel;
@@ -45,6 +48,7 @@ public class StatusPanel extends JPanel {
         constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 0, 5, 0);
         constraints.fill = GridBagConstraints.BOTH;
+        buttonCardLayout = new CardLayout();
 
         Font textFont = new Font("Arial", Font.PLAIN, 14);
         Font timeFont = new Font("Arial", Font.PLAIN, 14);
@@ -64,23 +68,22 @@ public class StatusPanel extends JPanel {
 
         // Row 2
         constraints.gridy++;
+        constraints.gridwidth = 1;
         locationLabel = createLocationLabel(locationFont);
         JPanel row2 = labelContainer(locationLabel);
-        row2.setPreferredSize(new Dimension(200, 30));
-        row2.setBorder(new MatteBorder(2, 0, 0, 0, Color.BLACK));
+        row2.setBorder(new MatteBorder(2, 0, 2, 0, Color.BLACK));
         add(row2, constraints);
 
         // Row 3
-        constraints.gridy++;
+        constraints.gridx++;
         nameLabel = createNameLabel(nameFont);
         JPanel row3 = labelContainer(nameLabel);
-        row3.setPreferredSize(new Dimension(200, 30));
         row3.setBorder(new MatteBorder(2, 0, 2, 0, Color.BLACK));
         add(row3, constraints);
 
         // Row 4
         constraints.gridy++;
-        constraints.gridwidth = 1;
+        constraints.gridx--;
         constraints.gridheight = 2;
         seasonLabel = createSeasonLabel(seasonAndDayFont);
         dayPanel = createDayLabel(seasonAndDayFont);
@@ -132,10 +135,14 @@ public class StatusPanel extends JPanel {
         // Add bag button at the bottom just above the miniMap
         constraints.gridy++;
         constraints.weighty = 0;
-        bagButton = createBagButton();
-        JPanel bagRow = new JPanel(new FlowLayout());
-        bagRow.add(bagButton);
-        add(bagRow, constraints);
+        characterButton = createCharacterButton();
+        combatButton = createCombatButton();
+        JPanel buttonRow = new JPanel(new FlowLayout());
+        buttonSwitchPanel = new JPanel(buttonCardLayout);
+        buttonSwitchPanel.add(characterButton,"MapButton");
+        buttonSwitchPanel.add(combatButton,"CombatButton");
+        buttonRow.add(buttonSwitchPanel);
+        add(buttonRow, constraints);
 
         // Initialize values
         playerPresenter.getPlayerUseCase().updatePlayer();
@@ -151,15 +158,22 @@ public class StatusPanel extends JPanel {
         return panel;
     }
 
-    private DefaultToggleButton createBagButton() {
-        DefaultToggleButton bagButton = new DefaultToggleButton("Map", "Bag", playerPresenter.getPlayerColor());
+    public void switchButton(String buttonName){
+        buttonCardLayout.show(buttonSwitchPanel, buttonName);
+    }
+
+    private DefaultToggleButton createCharacterButton() {
+        DefaultToggleButton bagButton = new DefaultToggleButton("Map", "Character", playerPresenter.getPlayerColor());
         bagButton.setPreferredSize(new Dimension(100, 30));
+        bagButton.setMaximumSize(new Dimension(100, 30));
         bagButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (bagButton.isSelected()) {
                     gameScreen.getCentrePanel().switchToScreen("CharacterPanel");
                     gameScreen.getCentrePanel().getBagPanel().getItemPanel().updateItemPanel();
+                    gameScreen.getCentrePanel().getDetailPanel().update();
+                    gameScreen.getCentrePanel().getBagPanel().getInformationPanel().update();
                     gameScreen.setFocusable(false);
                 } else {
                     gameScreen.getCentrePanel().switchToScreen("MapPanel");
@@ -169,6 +183,25 @@ public class StatusPanel extends JPanel {
             }
         });
         return bagButton;
+    }
+    private DefaultToggleButton createCombatButton(){
+        DefaultToggleButton combatButton = new DefaultToggleButton("Combat", "Character", playerPresenter.getPlayerColor());
+        combatButton.setPreferredSize(new Dimension(100, 30));
+        combatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (combatButton.isSelected()) {
+                    gameScreen.getCentrePanel().switchToScreen("CharacterPanel");
+                    gameScreen.getCentrePanel().getBagPanel().getItemPanel().updateItemPanel();
+                    gameScreen.getCentrePanel().getDetailPanel().update();
+                    gameScreen.getCentrePanel().getBagPanel().getInformationPanel().update();
+                    gameScreen.setFocusable(false);
+                } else {
+                    gameScreen.getCentrePanel().switchToScreen("CombatPanel");
+                }
+            }
+        });
+        return combatButton;
     }
 
     private JPanel createRowPanel(JComponent... components) {
@@ -258,8 +291,15 @@ public class StatusPanel extends JPanel {
         forgeExpPanel.setText("" + playerPresenter.getForgeEXP());
         updateValuePanel(expPanel, playerPresenter.getExperience(), playerPresenter.getMaxExperience());
         updateValuePanel(sanityPanel, playerPresenter.getSanity(), playerPresenter.getMaxSanity());
-        bagButton.setSelectedColor(playerPresenter.getPlayerColor());
-        bagButton.repaint();
+        if(playerPresenter.getPlayerInCombat()){
+            switchButton("CombatButton");
+            combatButton.setSelectedColor(playerPresenter.getPlayerColor());
+            combatButton.repaint();
+        }else{
+            switchButton("CharacterButton");
+            characterButton.setSelectedColor(playerPresenter.getPlayerColor());
+            characterButton.repaint();
+        }
     }
 
     private String getTimeString() {
@@ -300,5 +340,8 @@ public class StatusPanel extends JPanel {
         JLabel maxValueLabel = (JLabel) panel.getComponent(2);
         valueLabel.setText(String.valueOf(value));
         maxValueLabel.setText(String.valueOf(maxValue));
+    }
+    public DefaultToggleButton getCombatButton() {
+        return combatButton;
     }
 }

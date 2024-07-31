@@ -6,6 +6,7 @@ import UI.GameScreenPanels.GameScreen;
 import Utils.DefaultButton;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,6 @@ public class BuffPanel extends JPanel {
     private GameScreen gameScreen;
     private BuffAdapter buffAdapter;
     private DetailPanel detailPanel;
-    private GridBagConstraints constraints;
 
     private Font buffButtonFont = new Font("Arial", Font.PLAIN, 10);
     private Dimension buttonSize = new Dimension(135, 20);
@@ -22,16 +22,13 @@ public class BuffPanel extends JPanel {
     public BuffPanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         this.buffAdapter = gameScreen.getAdapterManager().getBuffAdapter();
-        setLayout(new GridBagLayout());
-        constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5, 5, 0, 5); // Padding between elements
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(5, 10, 5, 10)); // Add padding around the panel
         updateBuffPanel();
     }
 
     public void updateBuffPanel() {
         removeAll(); // Remove all existing components before updating
-        //System.out.println(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentBuffs().size());
 
         if (gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentBuffs() == null) {
             return;
@@ -39,31 +36,20 @@ public class BuffPanel extends JPanel {
 
         int maxIndex = gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getCurrentBuffs().size();
 
-        for (int i = 0; i < (maxIndex + 1) / 2; i++) { // Use (maxIndex + 1) / 2 to handle odd numbers correctly
-            JPanel rowPanel = new JPanel();
-            rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
-
-            int currentIndex = i * 2;
-            rowPanel.add(BuffButton(currentIndex));
-            rowPanel.add(Box.createRigidArea(new Dimension(5, 0))); // Add space between buttons
-
-            if (currentIndex + 1 < maxIndex) {
-                rowPanel.add(BuffButton(currentIndex + 1));
-            } else {
-                rowPanel.add(Box.createRigidArea(buttonSize)); // Add empty space if odd number of buffs
-            }
-
-            constraints.gridy = i;
-            add(rowPanel, constraints);
+        JPanel gridPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+        for (int i = 0; i < maxIndex; i++) {
+            gridPanel.add(BuffButton(i));
         }
 
-        constraints.gridy++;
-        constraints.weighty = 1;
-        add(new JPanel(), constraints);
-        constraints.weighty = 0;
+        // If the number of buffs is odd, add an empty panel to fill the grid
+        if (maxIndex % 2 != 0) {
+            gridPanel.add(Box.createRigidArea(buttonSize));
+        }
 
-        revalidate(); // Revalidate the layout
-        repaint(); // Repaint the panel
+        add(gridPanel, BorderLayout.NORTH);
+
+        revalidate();
+        repaint();
     }
 
     private JButton BuffButton(int buffIndex) {

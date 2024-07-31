@@ -1,6 +1,7 @@
 package InterfaceAdapter;
 
 import Enums.Rarity;
+import Enums.SkillType;
 import UseCase.Character.PlayerUseCase;
 
 public class SkillAdapter {
@@ -60,5 +61,14 @@ public class SkillAdapter {
 
     public Rarity getPlayerCurrentSkillRarityByIndex(int index) {
         return playerUseCase.getPlayer().getCurrentSkills().get(index).getRarity();
+    }
+    public boolean getPlayerCurrentSkillIsActiveByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentSkills().get(index).isActive();
+    }
+    public SkillType[] getPlayerCurrentSkillTypeByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentSkills().get(index).getSkillType();
+    }
+    public int getPlayerCurrentSkillDurabilityByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentSkills().get(index).getDurability();
     }
 }

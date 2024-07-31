@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import Entity.Item.Equipment;
 import Entity.Item.Item;
+import Enums.MapTile.MapType;
 import Enums.RaceType;
 
 public class Player extends Character {
     private RaceType race;
     private int raceId;
     private int[] position;
+    private MapType currentMap;
     private Color color;
 
     private int hunger;
@@ -338,5 +340,13 @@ public class Player extends Character {
 
     public void setCurrentMaxWeight(float currentMaxWeight) {
         this.currentMaxWeight = currentMaxWeight;
+    }
+
+    public MapType getCurrentMap() {
+        return currentMap;
+    }
+
+    public void setCurrentMap(MapType currentMap) {
+        this.currentMap = currentMap;
     }
 }

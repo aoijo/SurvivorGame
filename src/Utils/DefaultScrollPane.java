@@ -8,7 +8,7 @@ import java.awt.event.MouseWheelListener;
 
 public class DefaultScrollPane extends JScrollPane {
 
-    public DefaultScrollPane(JPanel view) {
+    public DefaultScrollPane(JComponent view) {
         super(view);
 
         // Apply custom scroll bar UI
@@ -25,8 +25,12 @@ public class DefaultScrollPane extends JScrollPane {
         setCorner(JScrollPane.LOWER_LEFT_CORNER, null);
         setCorner(JScrollPane.LOWER_RIGHT_CORNER, null);
 
+        // Set background to transparent
+        setOpaque(false);
+        view.setOpaque(false);
+
         setWheelScrollingEnabled(true);
-        setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         // Add custom mouse wheel listener to override scroll speed

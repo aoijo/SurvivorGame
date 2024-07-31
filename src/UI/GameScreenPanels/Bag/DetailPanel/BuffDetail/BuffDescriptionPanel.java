@@ -1,6 +1,7 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.BuffDetail;
 
 import InterfaceAdapter.BuffAdapter;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,14 +58,50 @@ public class BuffDescriptionPanel extends JPanel {
             stackPanel.add(new JLabel("  Current buff stack: " + stack + "/ " + maxStack));
         }
 
+        JPanel timeRemainingPanel = new JPanel(layout);
+        float timeRemain = buffAdapter.getBuffTimeLeftByIndex(currentBuffIndex);
+
+        if (timeRemain == Float.POSITIVE_INFINITY) {
+            timeRemainingPanel.add(new JLabel("Time remaining: ∞"));
+        } else {
+            int dayCount = (int) (timeRemain / (24 * 60));
+            timeRemain -= dayCount * 24 * 60;
+            int hourCount = (int) (timeRemain / 60);
+            timeRemain -= hourCount * 60;
+            int minuteCount = (int) timeRemain;
+            String timeString = String.format("  Time remain: %d day, %2d hr, %2d min", dayCount, hourCount, minuteCount);
+            timeRemainingPanel.add(new JLabel(timeString));
+        }
+        JPanel turnRemainingPanel = new JPanel(layout);
+        int turnRemain = buffAdapter.getBuffTurnLeftByIndex(currentBuffIndex);
+        turnRemainingPanel.add(new JLabel("  Turn Remaining: " + turnRemain));
+
         buffStatsPanel.add(buffTypePanel);
         buffStatsPanel.add(stackPanel);
+        buffStatsPanel.add(timeRemainingPanel);
+        if (turnRemain != Integer.MIN_VALUE) {
+            buffStatsPanel.add(turnRemainingPanel);
+        }
         return buffStatsPanel;
     }
+    private JLabel createNothingPanel(){
+        JLabel textArea = new JLabel("There is nothing here!");
+        textArea.setFont(new Font("Arial", Font.ITALIC, 15));
+        textArea.setForeground(Color.LIGHT_GRAY);
+        textArea.setBackground(null);
+        textArea.setPreferredSize(new Dimension(260, 100));
+        textArea.setMaximumSize(new Dimension(260, Integer.MAX_VALUE));
+        textArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding to the top, left, bottom, and right
+        return textArea;
+    }
     public void update() {
-        currentBuffIndex = buffNamePanel.getCurrentBuffIndex();
         removeAll();
-        add(createDescriptionContent(), BorderLayout.NORTH);
+        if (buffAdapter.checkBuffExist()){
+            currentBuffIndex = buffNamePanel.getCurrentBuffIndex();
+            add(createDescriptionContent(), BorderLayout.NORTH);
+        }else{
+            add(createNothingPanel(), BorderLayout.NORTH);
+        }
         revalidate();
         repaint();
     }

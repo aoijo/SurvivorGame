@@ -19,6 +19,7 @@ public class AdapterManager {
     private ItemAdapter itemAdapter;
     private SkillAdapter skillAdapter;
     private BuffAdapter buffAdapter;
+    private CombatAdapter combatAdapter;
     private long mapSeed = 12345L;
 
     public AdapterManager(UseCaseManager useCaseManager) {
@@ -32,6 +33,7 @@ public class AdapterManager {
         itemAdapter = new ItemAdapter(useCaseManager);
         skillAdapter = new SkillAdapter(useCaseManager);
         buffAdapter = new BuffAdapter(useCaseManager);
+        combatAdapter = new CombatAdapter(useCaseManager);
     }
     public UseCaseManager getUseCaseManager() {
         return useCaseManager;
@@ -98,5 +100,13 @@ public class AdapterManager {
 
     public BuffAdapter getBuffAdapter() {
         return buffAdapter;
+    }
+
+    public CombatAdapter getCombatAdapter() {
+        return combatAdapter;
+    }
+
+    public void setCombatAdapter(CombatAdapter combatAdapter) {
+        this.combatAdapter = combatAdapter;
     }
 }

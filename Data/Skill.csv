@@ -1,9 +1,10 @@
-id,name ,description,isGeneral,isCombat,power level,Cooldown,world cooldown,Usage,race requirement,rartiy
-1,Wait,Do nothing this turn,0,1,0,0,0,-1,0,1
-2,Attack,"Basic attack, deal damage equal to 1X of current attack",0,1,1,0,0,-1,0,1
-3,Restore,Restore 2X attack health,1,1,2,0,0,-1,0,2
-4,Slow Restore,Restore health to full,1,0,0,0,1,-1,0,2
-5,Heavy Slam,Deal 1.5X attack damage,0,1,1.5,1,0,-1,0,2
-6,Blood Slash,"Deal 1X attack attack damage, For every 10 max health, deal 1 extra damage",0,1,2,0,0,-1,1,2
-7,Goblin Slam,"Deal 1.5X attack damage, 10% chance of applying ""Skip turn"" to enemy",0,1,1.75,0,0,-1,2,2
-8,Corrupt,Deal 2X attack damage to uncorrupted character,0,1,2,0,0,-1,0,2
+id,name ,description,isGeneral,isCombat,power level,Cooldown,world cooldown,Usage,race requirement,rartiy,isActive,skill type
+1,Wait,Do nothing this turn,0,1,0,0,0,-1,0,1,1,9
+2,Attack,"Basic attack, deal damage equal to 1X of current attack",0,1,1,0,0,-1,0,3,1,1
+3,Restore,Restore 2X attack health,1,1,2,0,0,-1,0,2,1,2
+4,Slow Restore,Restore health to full,1,0,0,0,1,-1,0,2,1,2
+5,Heavy Slam,Deal 1.5X attack damage,0,1,1.5,1,0,-1,0,2,1,1
+6,Blood Slash,"Deal 1X attack attack damage, For every 10 max health, deal 1 extra damage",0,1,2,0,0,-1,1,2,1,1
+7,Goblin Slam,"Deal 1.5X attack damage, 10% chance of applying ""Skip turn"" to enemy",0,1,1.75,0,0,-1,2,2,1,1 3
+8,Corrupt,Deal 2X attack damage to uncorrupted character,0,1,2,0,0,-1,0,2,1,1
+9,Escape,"Try to escape fomr battle, possibility depend on level and speed",0,1,-2,0,0,-1,0,1,1,8

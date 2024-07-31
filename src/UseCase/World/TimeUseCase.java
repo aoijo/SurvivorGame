@@ -3,16 +3,21 @@ package UseCase.World;
 import Entity.World.Time;
 import Enums.Month.Season;
 import Enums.Month.Month;
+import UseCase.BuffUseCase;
+import UseCase.Character.PlayerUseCase;
+import UseCase.SkillUseCase;
 
 public class TimeUseCase {
     private Time time;
+    private BuffUseCase buffUseCase;
+    private SkillUseCase skillUseCase;
+    private PlayerUseCase playerUseCase;
 
-    public TimeUseCase(Time time) {
-        this.time = time;
-    }
-
-    public TimeUseCase() {
+    public TimeUseCase(BuffUseCase buffUseCase, SkillUseCase skillUseCase,PlayerUseCase playerUseCase) {
         this.time = new Time();
+        this.buffUseCase = buffUseCase;
+        this.skillUseCase = skillUseCase;
+        this.playerUseCase = playerUseCase;
         initialize(time);
     }
 
@@ -62,6 +67,11 @@ public class TimeUseCase {
         time.setDay(newDay);
         time.setMonth(newMonth);
         time.setYear(newYear);
+
+        buffUseCase.buffTimePass(playerUseCase.getPlayer(),minutes);
+        skillUseCase.skillPassTime(playerUseCase.getPlayer(),minutes);
+
+        playerUseCase.updatePlayer();
     }
 
     private int getDaysInMonth(int month, int year) {

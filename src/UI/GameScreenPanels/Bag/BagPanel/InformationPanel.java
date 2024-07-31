@@ -80,4 +80,10 @@ public class InformationPanel extends JPanel {
     public BuffPanel getBuffPanel() {
         return buffPanel;
     }
+    public void update(){
+        statsPanel.updateStatsPanel();
+        skillPanel.updateSkillPanel();
+        buffPanel.updateBuffPanel();
+        equipmentPanel.updateEquipmentPanel();
+    }
 }

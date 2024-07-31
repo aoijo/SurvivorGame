@@ -1,4 +1,4 @@
-package UI.GameScreenPanels.Bag.BagPanel;
+package Utils;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;

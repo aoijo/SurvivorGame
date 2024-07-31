@@ -193,6 +193,9 @@ public class PlayerPresenter {
     public int getSortedItemCount(){
         return playerUseCase.getSortedItems().size();
     }
+    public boolean getPlayerInCombat(){
+        return playerUseCase.getPlayer().isInCombat();
+    }
     public PlayerController getPlayerController() {
         return playerController;
     }

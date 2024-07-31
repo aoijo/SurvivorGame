@@ -1,6 +1,7 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.SkillDetail;
 
 import InterfaceAdapter.SkillAdapter;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,11 +48,15 @@ public class SkillDescriptionPanel extends JPanel {
         skillStatsPanel.setLayout(new BoxLayout(skillStatsPanel, BoxLayout.Y_AXIS));
         LayoutManager layout = new FlowLayout(FlowLayout.LEFT);
 
-        JPanel isGeneral = new JPanel(layout);
-        if (skillAdapter.isPlayerSkillGeneralByIndex(currentSkillIndex)) {
-            isGeneral.add(new JLabel("-- Can be used outside of Combat"));
+        JPanel isUsable = new JPanel(layout);
+        if(!skillAdapter.getPlayerCurrentSkillIsActiveByIndex(currentSkillIndex)) {
+            isUsable.add(new JLabel("-- Passive skill"));
         }else{
-            isGeneral.add(new JLabel("-- Cannot be used outside of Combat"));
+            if (skillAdapter.isPlayerSkillGeneralByIndex(currentSkillIndex)) {
+                isUsable.add(new JLabel("-- Can be used outside of Combat"));
+            }else{
+                isUsable.add(new JLabel("-- Cannot be used outside of Combat"));
+            }
         }
 
         JPanel isCombat = new JPanel(layout);
@@ -61,18 +66,27 @@ public class SkillDescriptionPanel extends JPanel {
             isCombat.add(new JLabel("-- Cannot be used during of Combat"));
         }
 
+        JPanel durabilityPanel = new JPanel(layout);
+        int durability = skillAdapter.getPlayerCurrentSkillDurabilityByIndex(currentSkillIndex);
+        if(durability == Integer.MAX_VALUE) {
+            durabilityPanel.add(new JLabel("Durability left: ∞"));
+        }else{
+            durabilityPanel.add(new JLabel("Durability left: " + durability));
+        }
+
         JPanel coolDown = new JPanel(layout);
         int currentCoolDown = skillAdapter.getPlayerCurrentSkillCooldownByIndex(currentSkillIndex);
         int maxCoolDown = skillAdapter.getPlayerSkillMaxCooldownByIndex(currentSkillIndex);
-        coolDown.add(new JLabel("Ready in "+ currentCoolDown + "/" + maxCoolDown + "turns"));
+        coolDown.add(new JLabel("Ready in "+ currentCoolDown + "/" + maxCoolDown + " turns"));
 
         JPanel WorldCoolDown = new JPanel(layout);
         float worldCoolDown = skillAdapter.getPlayerCurrentSkillWorldCooldownByIndex(currentCoolDown);
         float maxWorldCoolDown = skillAdapter.getPlayerSkillMaxWorldCooldownByIndex(currentCoolDown);
-        WorldCoolDown.add(new JLabel("Ready in "+ worldCoolDown + "/" + maxWorldCoolDown + "days"));
+        WorldCoolDown.add(new JLabel("Ready in "+ worldCoolDown + "/" + maxWorldCoolDown + " days"));
 
-        skillStatsPanel.add(isGeneral);
+        skillStatsPanel.add(isUsable);
         skillStatsPanel.add(isCombat);
+        skillStatsPanel.add(durabilityPanel);
         skillStatsPanel.add(coolDown);
         skillStatsPanel.add(WorldCoolDown);
         return skillStatsPanel;

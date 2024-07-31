@@ -1,9 +1,12 @@
 package UI.GameScreenPanels.World;
 
+import Enums.Rarity;
+import InterfaceAdapter.CombatAdapter;
 import InterfaceAdapter.PlayerAdapter.PlayerController;
 import InterfaceAdapter.TileAdapter;
 import UI.AdapterManager;
 import UI.GameScreenPanels.Bag.BagPanel.ItemPanel;
+import UI.GameScreenPanels.CentrePanel;
 import UI.GameScreenPanels.GameScreen;
 import UI.GameScreenPanels.StatusPanel;
 import Utils.DefaultButton;
@@ -17,20 +20,27 @@ import java.awt.event.ActionListener;
 public class TilePanel extends JPanel {
     private TileAdapter tileAdapter;
     private PlayerController playerController;
+
     private StatusPanel statusPanel;
     private LogPanel logPanel;
     private ItemPanel itemPanel;
+    private CentrePanel centrePanel;
+
     private int[] playerPosition;
+
     private Font titleFont = new Font("Arial", Font.BOLD, 15);
     private Font buttonFont = new Font("Arial", Font.BOLD, 10);
+    private Dimension buttonDimension = new Dimension(140, 20);
     private GridBagConstraints constraints;
 
     public TilePanel(GameScreen gameScreen) {
-        this.statusPanel = gameScreen.getStatusPanel();
-        this.logPanel = gameScreen.getLogPanel();
         this.tileAdapter = gameScreen.getAdapterManager().getTileAdapter();
         this.playerController = gameScreen.getAdapterManager().getPlayerController();
+
         this.playerPosition = playerController.getPlayerPosition();
+
+        this.statusPanel = gameScreen.getStatusPanel();
+        this.logPanel = gameScreen.getLogPanel();
 
         setLayout(new GridBagLayout());
         constraints = new GridBagConstraints();
@@ -41,13 +51,14 @@ public class TilePanel extends JPanel {
     }
 
     public void updateTilePanel() {
+        statusPanel.updateStatusPanel();
+
         removeButtons();
         addTitle("Resources");
         addResourceButtons();
         addTitle("Enemies");
         addEnemyButtons();
-        pushToTop(); // Remove this line
-        statusPanel.updateStatusPanel();
+        pushToTop();
         repaint();
     }
 
@@ -68,15 +79,21 @@ public class TilePanel extends JPanel {
         String buttonText = resourceName + String.format("(%d)", resourceCount);
         JButton resourceButton = new DefaultButton(buttonText, buttonFont);
 
+        resourceButton.setPreferredSize(buttonDimension);
+        resourceButton.setMinimumSize(buttonDimension);
+        resourceButton.setMaximumSize(buttonDimension);
+
         resourceButton.setPreferredSize(new Dimension(140, 30));
         resourceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playerController.getPlayerUseCase().harvestResource(
-                        tileAdapter.getMapUseCase().getTile(playerPosition[0], playerPosition[1]), resourceName);
-                updateTilePanel();
-                itemPanel.updateItemPanel();
-                logPanel.addHarvestLog(resourceName);
+                if (!playerController.getPlayerUseCase().getPlayer().isInCombat()){
+                    playerController.getPlayerUseCase().harvestResource(
+                            tileAdapter.getMapUseCase().getTile(playerPosition[0], playerPosition[1]), resourceName);
+                    updateTilePanel();
+                    itemPanel.updateItemPanel();
+                    logPanel.addHarvestLog(resourceName);
+                }
             }
         });
         return resourceButton;
@@ -101,15 +118,26 @@ public class TilePanel extends JPanel {
         }
     }
 
-    private JButton createEnemyButton(String enemyName) {
-        JButton enemyButton = new DefaultButton(enemyName, buttonFont);
+    private DefaultButton createEnemyButton(String enemyName, int enemyLevel, Rarity enemyRarity) {
+        DefaultButton enemyButton;
 
-        enemyButton.setPreferredSize(new Dimension(140, 30));
+        if (enemyRarity == Rarity.COMMON) {
+            enemyButton = new DefaultButton("LV" + enemyLevel + " " + enemyName);
+        } else{
+            enemyButton = new DefaultButton("LV" + enemyLevel + " " +enemyName +" (" +enemyRarity + ")", enemyRarity);
+        }
+
+        enemyButton.setPreferredSize(buttonDimension);
+        enemyButton.setMinimumSize(buttonDimension);
+        enemyButton.setMaximumSize(buttonDimension);
+
         enemyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    System.out.println("Started battle with " + enemyName);
-                updateTilePanel();
+                if (!playerController.getPlayerUseCase().getPlayer().isInCombat()){
+                    centrePanel.startCombat(enemyName);
+                    statusPanel.updateStatusPanel();
+                }
             }
         });
         return enemyButton;
@@ -117,10 +145,12 @@ public class TilePanel extends JPanel {
 
     private void addEnemyButtons() {
         String[] enemyNames = tileAdapter.getEnemyNames(playerPosition);
+        int[] enemyLevels = tileAdapter.getEnemyLevels(playerPosition);
+        Rarity[] enemyRarities = tileAdapter.getEnemyRarities(playerPosition);
 
-        for (String enemyName : enemyNames) {
+        for (int i = 0; i < enemyNames.length; i++) {
             constraints.gridy++;
-            add(createEnemyButton(enemyName), constraints);
+            add(createEnemyButton(enemyNames[i], enemyLevels[i], enemyRarities[i]), constraints);
         }
         if (enemyNames.length == 0) {
             constraints.gridy++;
@@ -164,5 +194,9 @@ public class TilePanel extends JPanel {
 
     public void setItemPanel(ItemPanel itemPanel) {
         this.itemPanel = itemPanel;
+    }
+
+    public void setCentrePanel(CentrePanel centrePanel) {
+        this.centrePanel = centrePanel;
     }
 }

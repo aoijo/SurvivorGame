@@ -11,7 +11,7 @@ public class BuffAdapter {
     }
 
     public int getBuffIdByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).getId();
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getId();
     }
 
     public String getCurrentBuffNameByIndex(int index) {
@@ -19,11 +19,11 @@ public class BuffAdapter {
     }
 
     public String getBuffDescriptionByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).getDescription();
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getDescription();
     }
 
     public BuffType getBuffTypeByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).getType();
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getType();
     }
 
     public int getCurrentBuffStackByIndex(int index) {
@@ -31,14 +31,23 @@ public class BuffAdapter {
     }
 
     public int getBuffMaxStackByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).getMaxStack();
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getMaxStack();
     }
 
     public boolean isBuffCombatByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).isCombat();
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).isCombat();
     }
 
     public boolean isBuffActiveByIndex(int index) {
-        return playerUseCase.getPlayer().getBuffs().get(index).isActive();
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).isActive();
+    }
+    public float getBuffTimeLeftByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getTimeRemain();
+    }
+    public boolean checkBuffExist() {
+        return !playerUseCase.getPlayer().getCurrentBuffs().isEmpty();
+    }
+    public int getBuffTurnLeftByIndex(int index) {
+        return playerUseCase.getPlayer().getCurrentBuffs().get(index).getTurnRemain();
     }
 }

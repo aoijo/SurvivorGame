@@ -15,7 +15,6 @@ public class Enemy extends Character {
     private int[] maxSkillCooldown;
     private int[] currentSkillCooldown;
 
-
     private boolean isBoss;
     private boolean isCursed;
 

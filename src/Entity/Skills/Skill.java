@@ -2,6 +2,7 @@ package Entity.Skills;
 
 import Entity.Character.Character;
 import Enums.Rarity;
+import Enums.SkillType;
 
 public class Skill {
     private int id;
@@ -19,15 +20,14 @@ public class Skill {
 
     private boolean isGeneral; // Check if the skill be used outside of combat
     private boolean isCombat; // Check if the skill can be used in combat
+    private boolean isActive;
     private int[] raceRequirement;
     private Rarity rarity;
+    private SkillType[] skillType;
+    private int durability;
 
     public Skill(int id){
         this.id = id;
-    }
-
-    public void activate(){
-        System.out.println("Activating Skill " + id);
     }
 
     public int getId() {
@@ -148,5 +148,29 @@ public class Skill {
 
     public void setRarity(Rarity rarity) {
         this.rarity = rarity;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public SkillType[] getSkillType() {
+        return skillType;
+    }
+
+    public void setSkillType(SkillType[] skillType) {
+        this.skillType = skillType;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
     }
 }

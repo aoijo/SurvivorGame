@@ -41,6 +41,10 @@ public class LogPanel extends JPanel {
         repaint();
     }
 
+    public void addStringLog(String log) {
+        SwingUtilities.invokeLater(() -> addLog(log));
+    }
+
     public void addHarvestLog(String resourceName) {
         int hour = this.timeAdapter.getHour();
         int minute = this.timeAdapter.getMinute();
@@ -57,26 +61,6 @@ public class LogPanel extends JPanel {
         int y = this.playerController.getPlayerPosition()[1];
         String moveLog = String.format("[%02d:%02d] Moved to position[%d,%d]", hour, minute, x, y);
         SwingUtilities.invokeLater(() -> addLog(moveLog));
-    }
-
-    public void addOverWeightLog() {
-        String overWeightLog = "Too heavy! Cannot Move!";
-        SwingUtilities.invokeLater(() -> addLog(overWeightLog));
-    }
-
-    public void addCannotEquipLog() {
-        String cannotEquipLog = "Cannot be equipped due to level requirement!";
-        SwingUtilities.invokeLater(() -> addLog(cannotEquipLog));
-    }
-
-    public void addCannotDropEquippedLog(){
-        String CannotDropEquippedLog = "Cannot drop equipped item!";
-        SwingUtilities.invokeLater(() -> addLog(CannotDropEquippedLog));
-    }
-
-    public void addFullAmuletLog(){
-        String fullAmuletLog = "Already have full amulet!";
-        SwingUtilities.invokeLater(() -> addLog(fullAmuletLog));
     }
 
     public void addPickUpLog(String itemName, int quantity) {

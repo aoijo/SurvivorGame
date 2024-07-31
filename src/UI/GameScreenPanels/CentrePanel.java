@@ -1,6 +1,7 @@
 package UI.GameScreenPanels;
 
-import UI.CombatPanel.CombatScreen;
+import InterfaceAdapter.CombatAdapter;
+import UI.CombatPanel.CombatPanel;
 import UI.GameScreenPanels.Bag.BagPanel.BagPanel;
 import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 import UI.GameScreenPanels.World.MapPanel;
@@ -15,20 +16,26 @@ public class CentrePanel extends JPanel {
     private MapPanel mapPanel;
     private BagPanel bagPanel;
     private DetailPanel detailPanel;
-    private CombatScreen combatScreen;
+    private JPanel characterPanel;
+    private CombatPanel combatPanel;
+
+    private CombatAdapter combatAdapter;
 
     public CentrePanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        cardLayout = new CardLayout();
-        this.setLayout(cardLayout);
+        this.cardLayout = new CardLayout();
         this.mapPanel = new MapPanel(gameScreen.getAdapterManager(),10,50,12);
         this.bagPanel = new BagPanel(gameScreen);
         this.detailPanel = bagPanel.getDetailPanel();
-        JPanel CharacterPanel = new JPanel(new BorderLayout());
-        CharacterPanel.add(bagPanel, BorderLayout.WEST);
-        CharacterPanel.add(detailPanel, BorderLayout.CENTER);
+        this.combatAdapter = gameScreen.getAdapterManager().getCombatAdapter();
+
+        characterPanel = new JPanel(new BorderLayout());
+        characterPanel.add(bagPanel, BorderLayout.WEST);
+        characterPanel.add(detailPanel, BorderLayout.CENTER);
+
+        setLayout(cardLayout);
         add(mapPanel,"MapPanel");
-        add(CharacterPanel,"CharacterPanel");
+        add(characterPanel,"CharacterPanel");
         setBorder(new MatteBorder(0, 2, 0, 2, Color.BLACK));
 
         //switchToScreen("CharacterPanel");
@@ -42,6 +49,12 @@ public class CentrePanel extends JPanel {
             bagPanel.getItemPanel().updateItemPanel();
         }
     }
+    public void startCombat(String enemyName){
+        combatAdapter.startCombat(enemyName);
+        combatPanel = new CombatPanel(gameScreen.getAdapterManager(),gameScreen);
+        add(combatPanel,"CombatPanel");
+        switchToScreen("CombatPanel");
+    }
 
     public MapPanel getMapPanel() {
         return mapPanel;
@@ -51,5 +64,13 @@ public class CentrePanel extends JPanel {
     }
     public DetailPanel getDetailPanel() {
         return detailPanel;
+    }
+
+    public CombatPanel getCombatPanel() {
+        return combatPanel;
+    }
+
+    public void setCombatPanel(CombatPanel combatPanel) {
+        this.combatPanel = combatPanel;
     }
 }

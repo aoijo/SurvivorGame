@@ -54,12 +54,11 @@ public class ItemUseCase {
                 case QUEST:
                     return initializeQuest(itemId);
                 default:
-                    System.out.println("Invalid item type");
+                    throw new IllegalArgumentException("Invalid item type" + itemType);
             }
         } else {
-            System.out.println("Item type is null");
+            throw new IllegalArgumentException("null item type");
         }
-        return null;
     }
 
 
@@ -75,8 +74,7 @@ public class ItemUseCase {
         } else if (itemId < 5000){
             return ItemType.QUEST;
         }
-        System.out.println("Invalid itemId: " + itemId);
-        return null;
+        throw new IllegalArgumentException("Invalid itemId" + itemId);
     }
 
     private Rarity determineRarity(int rarityId){
@@ -87,9 +85,8 @@ public class ItemUseCase {
             case 4: return Rarity.LEGENDARY;
             case 5: return Rarity.MYTHICAL;
             case 6: return Rarity.UNIQUE;
-            default: System.out.println("Invalid rarityId");
+            default: throw new IllegalArgumentException("Invalid rarityId" + rarityId);
         }
-        return null;
     }
 
     private RaceType[] determineRaceType(int[] raceTypeId){
@@ -168,5 +165,19 @@ public class ItemUseCase {
 
     public void setEquipmentUseCase(EquipmentUseCase equipmentUseCase) {
         this.equipmentUseCase = equipmentUseCase;
+    }
+    public String getItemNameById(int itemId){
+        if (itemId < 1000){
+            return equipmentUseCase.getEquipmentData()[itemId][1];
+        } else if (itemId < 2000){
+            return materialData[itemId - 1000][1];
+        } else if (itemId < 3000){
+            return consumableData[itemId - 2000][1];
+        } else if (itemId < 4000){
+            return keyData[itemId - 3000][1];
+        } else if (itemId < 5000){
+            return questData[itemId - 4000][1];
+        }
+        throw new IllegalArgumentException("Invalid itemId" + itemId);
     }
 }

@@ -70,7 +70,7 @@ public class DefaultButton extends JButton {
     }
 
     public DefaultButton(String text, Rarity rarity) {
-        this(text, new Font("Courier New", Font.PLAIN, 10), 3,
+        this(text, new Font("Arial", Font.BOLD, 10), 3,
                 getColorByRarity(rarity), Color.LIGHT_GRAY, Color.BLACK);
     }
 

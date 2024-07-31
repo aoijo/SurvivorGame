@@ -14,6 +14,8 @@ public class Buff {
     private Character target;
     private int stack;
     private int maxStack;
+    private float timeRemain;
+    private int turnRemain;
 
     private boolean isCombat; // Check if the buff works in combat
     private boolean isActive;
@@ -103,5 +105,21 @@ public class Buff {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public float getTimeRemain() {
+        return timeRemain;
+    }
+
+    public void setTimeRemain(float timeRemain) {
+        this.timeRemain = timeRemain;
+    }
+
+    public int getTurnRemain() {
+        return turnRemain;
+    }
+
+    public void setTurnRemain(int turnRemain) {
+        this.turnRemain = turnRemain;
     }
 }

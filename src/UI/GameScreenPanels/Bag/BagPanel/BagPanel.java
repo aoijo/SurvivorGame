@@ -14,7 +14,7 @@ public class BagPanel extends JPanel {
     private InformationPanel informationPanel;
     private SwitchBottomPanel switchBottomPanel;
     private ItemPanel itemPanel;
-    private JScrollPane itemScrollPane;
+    private JPanel itemContainer;
     private DetailPanel detailPanel;
 
     public BagPanel(GameScreen gameScreen) {
@@ -22,8 +22,8 @@ public class BagPanel extends JPanel {
         this.itemPanel = new ItemPanel(gameScreen);
         this.informationPanel = new InformationPanel(this);
         this.switchTopPanel = new SwitchTopPanel(informationPanel);
-        this.itemScrollPane = new DefaultScrollPane(itemPanel);
         this.switchBottomPanel = new SwitchBottomPanel(this);
+        this.itemContainer =new JPanel(new CardLayout());
         this.detailPanel = new DetailPanel(gameScreen);
         itemPanel.setDetailPanel(detailPanel);
         informationPanel.getSkillPanel().setDetailPanel(detailPanel);
@@ -36,7 +36,7 @@ public class BagPanel extends JPanel {
         detailPanel.getUsagePanel().setBuffPanel(informationPanel.getBuffPanel());
         detailPanel.getUsagePanel().setSkillPanel(informationPanel.getSkillPanel());
 
-        itemScrollPane.setMinimumSize(new Dimension(300, 420));
+        itemContainer.add(new DefaultScrollPane(itemPanel));
 
         //itemScrollPane.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLACK));
 
@@ -47,7 +47,7 @@ public class BagPanel extends JPanel {
         constraints.insets = new Insets(0, 5, 0, 5);
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.fill = GridBagConstraints.BOTH;
 
         add(switchTopPanel, constraints);
 
@@ -59,7 +59,7 @@ public class BagPanel extends JPanel {
 
         constraints.gridy++;
         constraints.weighty = 1;
-        add(itemScrollPane, constraints);
+        add(itemContainer, constraints);
     }
 
     public SwitchTopPanel getSwitchTopPanel() {

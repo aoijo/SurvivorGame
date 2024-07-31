@@ -1,6 +1,7 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.ItemDetail;
 
-import UI.GameScreenPanels.Bag.BagPanel.SwitchButton;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
+import Utils.SwitchButton;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;

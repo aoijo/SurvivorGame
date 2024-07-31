@@ -5,6 +5,7 @@ import Entity.World.Resource;
 import Entity.World.Tile;
 import Enums.MapTile.TileType;
 import UseCase.Character.EnemyUseCase;
+import UseCase.Map.MapUseCase;
 import Utils.GraphicsUtils;
 import Utils.ReadCSV;
 
@@ -15,11 +16,13 @@ public class TileUseCase {
     private String[][] TileData;
     private ResourceUseCase resourceUseCase;
     private EnemyUseCase enemyUseCase;
+    private MapUseCase mapUseCase;
     private Random random = new Random();
 
-    public TileUseCase(ResourceUseCase resourceUseCase, EnemyUseCase enemyUseCase) {
+    public TileUseCase(ResourceUseCase resourceUseCase, EnemyUseCase enemyUseCase, MapUseCase mapUseCase) {
         this.enemyUseCase = enemyUseCase;
         this.resourceUseCase = resourceUseCase;
+        this.mapUseCase = mapUseCase;
         loadTileData();
     }
 
@@ -81,6 +84,9 @@ public class TileUseCase {
             }
         }
         tile.setCurrentEnemy(currentEnemy);
+    }
+    public void respawnNormalEnemy(int[] playerPosition){
+        respawnNormalEnemy(mapUseCase.getTile(playerPosition[0], playerPosition[1]));
     }
 
     public void addEnemy(Tile tile, int Id, boolean isBoss, Boolean isCursed){
@@ -200,5 +206,15 @@ public class TileUseCase {
     private int initialResourceCount(int maxCount){
         float halfCount = ((float) maxCount) / 2;
         return random.nextBoolean() ? (int)halfCount : (int) Math.ceil(halfCount);
+    }
+
+    public Enemy getEnemyByName(int[] playerPosition, String enemyName){
+        ArrayList<Enemy> enemies = mapUseCase.getTile(playerPosition[0],playerPosition[1]).getCurrentEnemy();
+        for (Enemy enemy : enemies){
+            if(enemy.getName().equals(enemyName)){
+                return enemy;
+            }
+        }
+        return null;
     }
 }

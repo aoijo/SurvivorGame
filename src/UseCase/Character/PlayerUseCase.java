@@ -8,6 +8,7 @@ import Entity.Skills.Skill;
 import Entity.World.Resource;
 import Entity.World.Tile;
 import Enums.Item.ItemType;
+import Enums.MapTile.MapType;
 import Enums.Rarity;
 import UseCase.BuffUseCase;
 import UseCase.Item.EquipmentUseCase;
@@ -25,6 +26,7 @@ import java.util.List;
 public class PlayerUseCase {
     private Player player;
     private String[][] RaceData;
+    private Random random;
 
     private ItemUseCase itemUseCase;
     private EquipmentUseCase equipmentUseCase;
@@ -46,21 +48,31 @@ public class PlayerUseCase {
         this.skillUseCase = skillUseCase;
         this.buffUseCase = buffUseCase;
         this.characterStatsCalculation = characterStatsCalculation;
+        this.random = new Random();
         loadRaceData();
+
     }
+
+    // For testing
     private void additionalInitialize(Player player) {
         player.setForgeExperience(1000000);
-        changeExperience(player,1000);
-        changeExperience(player,1000);
-        forgeEquipments(player,1,50);
-        forgeEquipments(player,10,50);
-        forgeEquipments(player,21,50);
+        player.setMaxWeight(10000);
+        changeExperience(player,10000);
+        //changeExperience(player,1000);
+        //forgeEquipments(player,1,50);
+        //forgeEquipments(player,10,50);
+        //forgeEquipments(player,21,50);
         forgeEquipment(player,44);
         forgeEquipment(player,45);
+        player.setPosition(new int[]{8,8});
         //gainItems(player, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001}, new int[]{1,2,3,4,5,6,7,8,9,10,1001,1002,1003,1004,2001,2002,2003,2004,3001,4001});
-        //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
+        //gainBuffs(player,new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}, new float[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
         //gainBuff(player,1,0);
-        //gainBuff(player,1,12);
+        gainBuff(player,1,12,0,1);
+        //gainBuff(player,2,12,2);
+        //gainBuff(player,3,12,3);
+        //removeBuff(player,player.getBuffs().get(0),6);
+        //removeBuff(player,player.getBuffs().get(1),16);
         //skillTest(player);
         //buffTest(player);
         //player.setAttributePoint(3);
@@ -69,6 +81,7 @@ public class PlayerUseCase {
 
     private void initialize(Player player, int raceId) {
         String[] raceData = this.RaceData[raceId];
+        player.setCurrentMap(MapType.ISLAND);
         player.setDescription(raceData[2]);
         player.setMaxHealth(Integer.parseInt(raceData[3]));
         player.setMaxHunger(Integer.parseInt(raceData[4]));
@@ -96,7 +109,6 @@ public class PlayerUseCase {
         player.setCurrentMaxSanity(player.getMaxSanity());
         player.setCurrentMaxWeight(player.getMaxWeight());
         player.setCurrentSpeed(player.getSpeed());
-        player.setPosition(new int[]{0,0});
         player.setAmulet(new Equipment[4]);
         player.setInCombat(false);
 
@@ -106,8 +118,12 @@ public class PlayerUseCase {
         player.setCurrentSkills(new ArrayList<>());
 
         gainItems(player,ReadCSV.readIntList(raceData[18]),ReadCSV.readIntList(raceData[19]));
-        gainSkills(player,new int[]{1,2});
-        gainSkills(player,ReadCSV.readIntList(raceData[20]));
+        gainSkills(player,new int[]{1,2,9}, new int[]{Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE});
+        int[] durability = new int[ReadCSV.readIntList(raceData[20]).length];
+        Arrays.fill(durability,Integer.MAX_VALUE);
+        gainSkills(player,ReadCSV.readIntList(raceData[20]), durability);
+
+        player.setPosition(generateRandomLocation(player));
 
         additionalInitialize(player);
     }
@@ -122,22 +138,18 @@ public class PlayerUseCase {
     public void setPlayer(Player player) {
         this.player = player;
     }
-
     public Player getPlayer() {
         return player;
     }
-
     public void setPlayerPosition(Player player, int dx, int dy) {
         int[] position = new int[]{dx, dy};
         player.setPosition(position);
     }
-
     public void changeHealth(Player player, int dh) {
         int health = player.getHealth() + dh;
-        health = Math.max(0, Math.min(health, player.getMaxHealth()));
+        health = Math.max(0, Math.min(health, player.getCurrentMaxHealth()));
         player.setHealth(health);
     }
-
     public void changeHunger(Player player, int dh) {
         int hunger = player.getHunger() + dh;
         hunger = Math.max(0, Math.min(hunger, player.getMaxHunger()));
@@ -146,7 +158,7 @@ public class PlayerUseCase {
 
     public void changeHydration(Player player, int dh) {
         int hydration = player.getHydration() + dh;
-        hydration = Math.max(0, Math.min(hydration, player.getMaxHydration()));
+        hydration = Math.max(0, Math.min(hydration, player.getCurrentMaxHydration()));
         player.setHydration(hydration);
     }
 
@@ -192,6 +204,12 @@ public class PlayerUseCase {
         player.setExperience(player.getExperience() - player.getMaxExperience());
         player.setLevel(player.getLevel() + 1);
         player.setMaxExperience(10 * player.getLevel() * player.getLevel());
+    }
+
+    private int[] generateRandomLocation(Player player){
+        if (Objects.requireNonNull(player.getCurrentMap()) == MapType.ISLAND) {
+            return new int[]{random.nextInt(32), random.nextInt(32)};
+        }else{return new int[2];}
     }
 
     public void gainItem(Player player, int itemId, int number) {
@@ -279,16 +297,22 @@ public class PlayerUseCase {
         removeItem(sortedItems.get(index), number);
     }
     public void gainItems(Player player,int[] itemIds, int[] numbers) {
+        if (itemIds.length == 0) {
+            return;
+        }
         for(int i = 0; i < itemIds.length; i++) {
             gainItem(player,itemIds[i], numbers[i]);
         }
     }
     public void removeItems(int[] itemIds, int[] numbers) {
+        if (itemIds.length == 0) {
+            return;
+        }
         for(int i = 0; i < itemIds.length; i++) {
             removeItem(itemIds[i], numbers[i]);
         }
     }
-    public void gainSkill(Player player, int skillId) {
+    public void gainSkill(Player player, int skillId, int durability) {
         ArrayList<Skill> skills = player.getSkills();
         if (skills == null) {
             skills = new ArrayList<>();
@@ -302,7 +326,7 @@ public class PlayerUseCase {
         }
 
         // Skill does not exist, add new skill
-        player.getSkills().add(skillUseCase.newSkill(skillId));
+        player.getSkills().add(skillUseCase.newSkill(skillId, durability));
         updateCurrentSkill(player);
     }
     public void removeSkill(Player player, int skillId) {
@@ -320,30 +344,43 @@ public class PlayerUseCase {
         }
         updateCurrentSkill(player);
     }
-    public void gainSkills(Player player, int[] skillIds) {
-        for(int skillId : skillIds) {
-            gainSkill(player, skillId);
+    public void gainSkills(Player player, int[] skillIds, int[] durability) {
+        if (skillIds.length == 0) {
+            return;
+        }
+        for (int i = 0; i < skillIds.length; i++) {
+            gainSkill(player, skillIds[i],durability[i]);
         }
     }
     public void removeSkills(Player players, int[] skillIds) {
+        if (skillIds.length == 0) {
+            return;
+        }
         for(int skillId : skillIds) {
             removeSkill(players, skillId);
         }
     }
-    public void gainBuff(Player player, int buffId ,int stack) {
-        buffUseCase.characterGainBuff(buffId,stack,player,player);
+    public void gainBuff(Player player, int buffId ,int stack, float timeRemain, int affectTurns) {
+
+        buffUseCase.characterGainBuff(buffId,stack,player,player,timeRemain,affectTurns);
         updateCurrentBuff(player);
     }
-    public void removeBuff(Player player, int buffId , int stack) {
-        buffUseCase.characterRemoveBuff(buffId,stack,player);
+    public void removeBuff(Player player, Buff buff , int stack) {
+        buffUseCase.characterRemoveBuff(buff,stack,player);
         updateCurrentBuff(player);
     }
-    public void gainBuffs(Player player, int[] buffIds, int[] stacks) {
+    public void gainBuffs(Player player, int[] buffIds, int[] stacks, float[] timeRemains, int[] affectTurns) {
+        if (buffIds.length == 0) {
+            return;
+        }
         for(int i = 0; i <buffIds.length; i++) {
-            gainBuff(player,buffIds[i],stacks[i]);
+            gainBuff(player,buffIds[i],stacks[i],timeRemains[i],affectTurns[i]);
         }
     }
-    public void removeBuffs(Player player, int[] buffIds, int[] stacks) {
+    public void removeBuffs(Player player, Buff[] buffIds, int[] stacks) {
+        if (buffIds.length == 0) {
+            return;
+        }
         for(int i = 0; i <buffIds.length; i++) {
             removeBuff(player,buffIds[i],stacks[i]);
         }
@@ -474,7 +511,6 @@ public class PlayerUseCase {
 
         return newItems;
     }
-
     /**
      * Sorts a list of items by their weight.
      *
@@ -496,7 +532,6 @@ public class PlayerUseCase {
 
         return newItems;
     }
-
     /**
      * Sorts a list of items by their rarity and then by their name.
      *
@@ -537,7 +572,6 @@ public class PlayerUseCase {
 
         return sortedItems;
     }
-
     public ArrayList<Item> getItemByType(ArrayList<Item> items, ItemType itemType, boolean isAscend){
         if (items == null) {
             return new ArrayList<>();
@@ -559,7 +593,6 @@ public class PlayerUseCase {
         }
         return newItems;
     }
-
     /**
      * Retrieves sorted item information based on the given parameters.
      *
@@ -626,61 +659,6 @@ public class PlayerUseCase {
             }
         }
     }
-
-    public void bagTest(Player player) {
-        ArrayList<Item> items = player.getItemInBag();
-
-        // Display the item count and details for debugging
-        if (items != null && !items.isEmpty()) {
-            for (Item item : items) {
-                System.out.println("ID: " + item.getId() + ", Name: " + item.getName() + ", Weight: " + item.getWeight() +
-                        ", Quantity: " + item.getQuantity());
-            }
-        } else {
-            System.out.println("No items in the bag.");
-        }
-    }
-    public void skillTest(Player player) {
-        ArrayList<Skill> skills = player.getSkills();
-
-        // Display the item count and details for debugging
-        if (skills != null && !skills.isEmpty()) {
-            for (Skill skill : skills) {
-                System.out.println("ID: " + skill.getId() + ", Name: " + skill.getName() + ", Cooldown: " + skill.getCooldown());
-            }
-        } else {
-            System.out.println("No Skills in the skill list.");
-        }
-        System.out.println("Total skills: " + skills.size());
-    }
-    public void buffTest(Player player) {
-        ArrayList<Buff> buffs = player.getBuffs();
-
-        // Display the item count and details for debugging
-        if (buffs != null && !buffs.isEmpty()) {
-            for (Buff buff : buffs) {
-                System.out.println("ID: " + buff.getId() + ", Name: " + buff.getName() +
-                        ", Stack: " + buff.getStack());
-            }
-        } else {
-            System.out.println("No buffs in the buff list.");
-        }
-        System.out.println("Total buffs: " + buffs.size());
-    }
-    public void currentSkillTest(Player player) {
-        ArrayList<Skill> skills = player.getCurrentSkills();
-
-        // Display the item count and details for debugging
-        if (skills != null && !skills.isEmpty()) {
-            for (Skill skill : skills) {
-                System.out.println("ID: " + skill.getId() + ", Name: " + skill.getName() + ", Cooldown: " + skill.getCooldown());
-            }
-        } else {
-            System.out.println("No Skills in the skill list.");
-        }
-        System.out.println("Total skills: " + skills.size());
-    }
-
     private int[] determineHarvestItem(int[] min, int[] max){
         int[] items = new int[min.length];
         for(int i = 0; i < min.length; i++) {
@@ -741,7 +719,6 @@ public class PlayerUseCase {
     private void updateCurrentMaxWeight(Player player){
         player.setCurrentMaxWeight(characterStatsCalculation.CalculateWeight());
     }
-
     public void updatePlayer(){
         characterStatsCalculation.setCharacter(player);
         updateCurrentSkill(player);
@@ -811,5 +788,59 @@ public class PlayerUseCase {
     }
     public int getIndexByItem(Item item){
         return sortedItems.indexOf(item);
+    }
+
+    public void bagTest(Player player) {
+        ArrayList<Item> items = player.getItemInBag();
+
+        // Display the item count and details for debugging
+        if (items != null && !items.isEmpty()) {
+            for (Item item : items) {
+                System.out.println("ID: " + item.getId() + ", Name: " + item.getName() + ", Weight: " + item.getWeight() +
+                        ", Quantity: " + item.getQuantity());
+            }
+        } else {
+            System.out.println("No items in the bag.");
+        }
+    }
+    public void skillTest(Player player) {
+        ArrayList<Skill> skills = player.getSkills();
+
+        // Display the item count and details for debugging
+        if (skills != null && !skills.isEmpty()) {
+            for (Skill skill : skills) {
+                System.out.println("ID: " + skill.getId() + ", Name: " + skill.getName() + ", Cooldown: " + skill.getCooldown());
+            }
+        } else {
+            System.out.println("No Skills in the skill list.");
+        }
+        System.out.println("Total skills: " + skills.size());
+    }
+    public void buffTest(Player player) {
+        ArrayList<Buff> buffs = player.getBuffs();
+
+        // Display the item count and details for debugging
+        if (buffs != null && !buffs.isEmpty()) {
+            for (Buff buff : buffs) {
+                System.out.println("ID: " + buff.getId() + ", Name: " + buff.getName() +
+                        ", Stack: " + buff.getStack());
+            }
+        } else {
+            System.out.println("No buffs in the buff list.");
+        }
+        System.out.println("Total buffs: " + buffs.size());
+    }
+    public void currentSkillTest(Player player) {
+        ArrayList<Skill> skills = player.getCurrentSkills();
+
+        // Display the item count and details for debugging
+        if (skills != null && !skills.isEmpty()) {
+            for (Skill skill : skills) {
+                System.out.println("ID: " + skill.getId() + ", Name: " + skill.getName() + ", Cooldown: " + skill.getCooldown());
+            }
+        } else {
+            System.out.println("No Skills in the skill list.");
+        }
+        System.out.println("Total skills: " + skills.size());
     }
 }

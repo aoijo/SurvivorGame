@@ -1,7 +1,9 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.ItemDetail;
 
 import Enums.Item.ItemType;
 import InterfaceAdapter.ItemAdapter;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;

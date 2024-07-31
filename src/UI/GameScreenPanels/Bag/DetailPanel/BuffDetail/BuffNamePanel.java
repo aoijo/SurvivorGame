@@ -1,6 +1,7 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.BuffDetail;
 
 import InterfaceAdapter.BuffAdapter;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -21,8 +22,13 @@ public class BuffNamePanel extends JPanel {
         setBorder(new MatteBorder(0, 0, 2, 0, Color.BLACK));
     }
     private JLabel createNameLabel() {
-        String name = buffAdapter.getCurrentBuffNameByIndex(currentBuffIndex);
-        JLabel nameLabel = new JLabel(name);
+        JLabel nameLabel = new JLabel();
+        if (buffAdapter.checkBuffExist()){
+            String name = buffAdapter.getCurrentBuffNameByIndex(currentBuffIndex);
+            nameLabel.setText(name);
+        }else{
+            nameLabel.setText("nothing");
+        }
         nameLabel.setFont(nameFont);
         return nameLabel;
     }

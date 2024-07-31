@@ -1,22 +1,30 @@
 package UseCase.Character;
 
+import Entity.Buff;
 import Entity.Character.Enemy;
+import Entity.Character.Player;
 import Entity.Skills.Skill;
 import Enums.EnemyType;
 import Enums.Rarity;
+import UseCase.BuffUseCase;
 import UseCase.SkillUseCase;
 import Utils.ReadCSV;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class EnemyUseCase {
     private String[][] EnemyData;
     private SkillUseCase skillUseCase;
+    private BuffUseCase buffUseCase;
+    private CharacterStatsCalculation characterStatsCalculation;
     private Random rand = new Random();
 
-    public EnemyUseCase(SkillUseCase skillUseCase){
+    public EnemyUseCase(SkillUseCase skillUseCase, BuffUseCase buffUseCase, CharacterStatsCalculation characterStatsCalculation){
         this.skillUseCase = skillUseCase;
+        this.buffUseCase = buffUseCase;
+        this.characterStatsCalculation =characterStatsCalculation;
         loadEnemyData();
     }
 
@@ -107,15 +115,86 @@ public class EnemyUseCase {
         enemy.setCurrentDamageReduction(enemy.getDamageReduction());
         enemy.setCurrentSpeed(enemy.getSpeed());
 
-        ArrayList<Skill> skills = new ArrayList<>();
-        for (int id : enemy.getSkillId()){
-            skills.add(skillUseCase.newSkill(id));
+        gainSkills(enemy,new int[]{1,2,9},new int[]{Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE});
+        int[] durability = new int[enemy.getSkillId().length];
+        Arrays.fill(durability,-1);
+        if (enemy.getSkillId().length != 0){
+            gainSkills(enemy,enemy.getSkillId(),durability);
         }
 
-        enemy.setSkills(skills);
-        enemy.setCurrentSkills(skills);
-        enemy.setCurrentSkillCooldown(new int[skills.size()]);
+        enemy.setCurrentSkills(enemy.getSkills());
+        enemy.setCurrentSkillCooldown(new int[enemy.getSkills().size()]);
         enemy.setBuffs(new ArrayList<>());
         enemy.setCurrentBuffs(new ArrayList<>());
+    }
+    public void gainSkill(Enemy enemy, int skillId, int durability) {
+        ArrayList<Skill> skills = enemy.getSkills();
+        if (skills == null) {
+            skills = new ArrayList<>();
+            enemy.setSkills(skills);
+        }
+
+        for (Skill skill : skills) {
+            if (skill.getId() == skillId) {
+                return; // Skill already exists, no need to add
+            }
+        }
+
+        // Skill does not exist, add new skill
+        enemy.getSkills().add(skillUseCase.newSkill(skillId, durability));
+        updateCurrentSkill(enemy);
+    }
+    public void gainSkills(Enemy enemy, int[] skillIds, int[] durability) {
+        if (skillIds.length == 0) {
+            return;
+        }
+        for (int i = 0; i < skillIds.length; i++) {
+            gainSkill(enemy, skillIds[i],durability[i]);
+        }
+    }
+    public void gainBuff(Enemy enemy, int buffId ,int stack, float timeRemain, int affectTurns) {
+
+        buffUseCase.characterGainBuff(buffId,stack,enemy,enemy,timeRemain,affectTurns);
+        updateCurrentBuff(enemy);
+    }
+    private void updateCurrentAttack(Enemy enemy){
+        enemy.setCurrentAttack(characterStatsCalculation.CalculateAttack());
+    }
+    private void updateCurrentDefense(Enemy enemy){
+        enemy.setCurrentDefense(characterStatsCalculation.CalculateDefense());
+    }
+    private void updateCurrentLifeSteal(Enemy enemy){
+        enemy.setCurrentLifeSteal(characterStatsCalculation.CalculateLifeSteal());
+    }
+    private void updateCurrentDamageReduction(Enemy enemy){
+        enemy.setCurrentDamageReduction(characterStatsCalculation.CalculateDamageReduction());
+    }
+    private void updateCurrentMaxHealth(Enemy enemy){
+        enemy.setCurrentMaxHealth(characterStatsCalculation.CalculateMaxHealth());
+        //System.out.println(enemy.getCurrentMaxHealth());
+    }
+    private void updateCurrentSpeed(Enemy enemy){
+        enemy.setCurrentSpeed(characterStatsCalculation.CalculateSpeed());
+    }
+    private void updateCurrentSkill(Enemy enemy){
+        ArrayList<Skill> currentSkills = new ArrayList<>();
+        currentSkills.addAll(enemy.getSkills());
+        enemy.setCurrentSkills(currentSkills);
+    }
+    private void updateCurrentBuff(Enemy enemy){
+        ArrayList<Buff> currentBuffs = new ArrayList<>();
+        currentBuffs.addAll(enemy.getBuffs());
+        enemy.setCurrentBuffs(currentBuffs);
+    }
+    public void updateEnemy(Enemy enemy){
+        characterStatsCalculation.setCharacter(enemy);
+        updateCurrentAttack(enemy);
+        updateCurrentDefense(enemy);
+        updateCurrentSpeed(enemy);
+        updateCurrentLifeSteal(enemy);
+        updateCurrentDamageReduction(enemy);
+        updateCurrentMaxHealth(enemy);
+        updateCurrentSkill(enemy);
+        updateCurrentBuff(enemy);
     }
 }

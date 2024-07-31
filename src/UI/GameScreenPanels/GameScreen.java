@@ -35,6 +35,7 @@ public class GameScreen extends JPanel {
         this.tilePanel = new TilePanel(this);
         centrePanel.getDetailPanel().getUsagePanel().setLogPanel(logPanel);
         centrePanel.getDetailPanel().getUsagePanel().setStatusPanel(statusPanel);
+        tilePanel.setCentrePanel(centrePanel);
         tilePanel.setItemPanel(centrePanel.getBagPanel().getItemPanel());
 
         setLayout(new BorderLayout());
@@ -86,7 +87,7 @@ public class GameScreen extends JPanel {
                         }
                     }
                 } else {
-                    logPanel.addOverWeightLog();
+                    logPanel.addStringLog("Too heavy! Cannot Move!");
                 }
             }
         });

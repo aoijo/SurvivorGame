@@ -1,11 +1,13 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.None;
+
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class NoneDescriptionPanel extends JPanel {
     private DetailPanel detailPanel;
-    private Font textFont = new Font("Arial", Font.PLAIN, 13);
+    private Font textFont = new Font("Arial", Font.ITALIC, 15);
 
     public NoneDescriptionPanel(DetailPanel detailPanel) {
         this.detailPanel = detailPanel;
@@ -22,7 +24,7 @@ public class NoneDescriptionPanel extends JPanel {
     private JLabel createTextArea() {
         JLabel textArea = new JLabel("There is nothing here!");
         textArea.setFont(textFont);
-        textArea.setForeground(Color.DARK_GRAY);
+        textArea.setForeground(Color.LIGHT_GRAY);
         textArea.setBackground(null);
         textArea.setPreferredSize(new Dimension(260, 100));
         textArea.setMaximumSize(new Dimension(260, Integer.MAX_VALUE));

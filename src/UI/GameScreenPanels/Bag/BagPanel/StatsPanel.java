@@ -75,18 +75,22 @@ public class StatsPanel extends JPanel {
         colorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(null, "Choose a color for player", colorButton.getBackground());
-                if (newColor != null) {
-                    colorButton.setBackground(newColor);
-                    // Update the player's color here
-                    gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setColor(newColor);
-                    gameScreen.getStatusPanel().updateStatusPanel();
-                    informationPanel.getBagPanel().getSwitchTopPanel().setSwitchButtonColor(newColor);
-                    informationPanel.getBagPanel().getSwitchTopPanel().updateSwitchTopPanel();
-                    informationPanel.getBagPanel().getSwitchBottomPanel().updateSortingButtonColor(newColor);
-                    informationPanel.getBagPanel().getSwitchBottomPanel().repaint();
-                    informationPanel.getBagPanel().getDetailPanel().getItemQuantityPanel().setSwitchButtonColor(newColor);
-                    informationPanel.getBagPanel().getDetailPanel().getItemQuantityPanel().updateItemQuantityPanel();
+                if (!gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().isInCombat()) {
+                    Color newColor = JColorChooser.showDialog(null, "Choose a color for player", colorButton.getBackground());
+                    if (newColor != null) {
+                        colorButton.setBackground(newColor);
+                        // Update the player's color here
+                        gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setColor(newColor);
+                        gameScreen.getStatusPanel().updateStatusPanel();
+                        informationPanel.getBagPanel().getSwitchTopPanel().setSwitchButtonColor(newColor);
+                        informationPanel.getBagPanel().getSwitchTopPanel().updateSwitchTopPanel();
+                        informationPanel.getBagPanel().getSwitchBottomPanel().updateSortingButtonColor(newColor);
+                        informationPanel.getBagPanel().getSwitchBottomPanel().repaint();
+                        informationPanel.getBagPanel().getDetailPanel().getItemQuantityPanel().setSwitchButtonColor(newColor);
+                        informationPanel.getBagPanel().getDetailPanel().getItemQuantityPanel().updateItemQuantityPanel();
+                    }
+                }else{
+                    gameScreen.getLogPanel().addStringLog("Cannot change Color during combat");
                 }
             }
         });
@@ -121,22 +125,26 @@ public class StatsPanel extends JPanel {
         attributeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (attributePoint > 0) {
-                    gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setAttributePoint(attributePoint - 1);
-                    switch (name) {
-                        case "Speed":
-                            gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setSpeed(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSpeed() + 1);
-                            break;
-                        case "Attack":
-                            gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setAttack(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getAttack() + 1);
-                            break;
-                        case "Defense":
-                            gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setDefense(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getDefense() + 1);
-                            break;
+                if (!gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().isInCombat()) {
+                    if (attributePoint > 0) {
+                        gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setAttributePoint(attributePoint - 1);
+                        switch (name) {
+                            case "Speed":
+                                gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setSpeed(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getSpeed() + 1);
+                                break;
+                            case "Attack":
+                                gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setAttack(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getAttack() + 1);
+                                break;
+                            case "Defense":
+                                gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().setDefense(gameScreen.getUseCaseManager().getPlayerUseCase().getPlayer().getDefense() + 1);
+                                break;
+                        }
                     }
+                    gameScreen.getUseCaseManager().getPlayerUseCase().updatePlayer();
+                    updateStatsPanel();
+                }else{
+                    gameScreen.getLogPanel().addStringLog("Cannot change Attribute during combat");
                 }
-                gameScreen.getUseCaseManager().getPlayerUseCase().updatePlayer();
-                updateStatsPanel();
             }
         });
         attributePanel.add(attributeLabel);

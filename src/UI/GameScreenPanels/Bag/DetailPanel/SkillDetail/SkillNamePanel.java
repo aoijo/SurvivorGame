@@ -1,6 +1,7 @@
-package UI.GameScreenPanels.Bag.DetailPanel;
+package UI.GameScreenPanels.Bag.DetailPanel.SkillDetail;
 
 import InterfaceAdapter.SkillAdapter;
+import UI.GameScreenPanels.Bag.DetailPanel.DetailPanel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;

@@ -11,6 +11,7 @@ import UseCase.SkillUseCase;
 import Utils.ReadCSV;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class EquipmentUseCase {
@@ -105,7 +106,7 @@ public class EquipmentUseCase {
 
         switch (mythicalBuffName) {
             case "Healing" -> {
-                gainSkill(equipment, 3);
+                gainSkill(equipment, 3,-1);
             }
             case "Berserk" -> {
                 gainBuff(equipment, 9, 100);
@@ -127,7 +128,7 @@ public class EquipmentUseCase {
                 equipment.setMaxDurability(equipment.getMaxDurability() * 5);
             }
             case "Madness" -> {
-                gainSkill(equipment, 8);
+                gainSkill(equipment, 8,-1);
                 gainBuff(equipment, 40, 15);
             }
             case "Immune" -> {
@@ -216,7 +217,9 @@ public class EquipmentUseCase {
         equipment.setRarity(Rarity.COMMON);
         equipment.setItemType(ItemType.EQUIPMENT);
 
-        gainSkills(equipment, ReadCSV.readIntList(equipData[15]));
+        int[] durability = new int[ReadCSV.readIntList(equipData[15]).length];
+        Arrays.fill(durability,Integer.MAX_VALUE);
+        gainSkills(equipment, ReadCSV.readIntList(equipData[15]), durability);
         gainBuffs(equipment, ReadCSV.readIntList(equipData[16]), ReadCSV.readIntList(equipData[17]));
         return equipment;
     }
@@ -236,17 +239,20 @@ public class EquipmentUseCase {
     }
 
     private void gainBuff(Equipment equipment, int buffId, int buffStack) {
-        buffUseCase.equipmentGainBuff(buffId, buffStack, equipment);
+        buffUseCase.equipmentGainBuff(buffId, buffStack, equipment,Float.POSITIVE_INFINITY, Integer.MAX_VALUE);
     }
 
     private void gainBuffs(Equipment equipment, int[] buffIds, int[] buffStacks) {
+        if (buffIds.length == 0) {
+            return;
+        }
         //System.out.println(equipment.getName());
         for (int i = 0; i < buffIds.length; i++) {
             gainBuff(equipment, buffIds[i], buffStacks[i]);
         }
     }
 
-    private void gainSkill(Equipment equipment, int skillId) {
+    private void gainSkill(Equipment equipment, int skillId, int durability) {
         ArrayList<Skill> skills = equipment.getSkills();
         if (skills == null) {
             skills = new ArrayList<>();
@@ -262,12 +268,15 @@ public class EquipmentUseCase {
         }
 
         // Skill does not exist, add new skill
-        skills.add(skillUseCase.newSkill(skillId));
+        skills.add(skillUseCase.newSkill(skillId, durability));
     }
 
-    private void gainSkills(Equipment equipment, int[] skillIds) {
-        for (int skillId : skillIds) {
-            gainSkill(equipment, skillId);
+    private void gainSkills(Equipment equipment, int[] skillIds, int[] durability) {
+        if (skillIds.length == 0) {
+            return;
+        }
+        for (int i = 0; i < skillIds.length; i++) {
+            gainSkill(equipment, skillIds[i],durability[i]);
         }
     }
 
@@ -277,5 +286,8 @@ public class EquipmentUseCase {
 
     public void setBuffUseCase(BuffUseCase buffUseCase) {
         this.buffUseCase = buffUseCase;
+    }
+    public String[][] getEquipmentData() {
+        return equipmentData;
     }
 }

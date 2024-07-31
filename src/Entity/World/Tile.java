@@ -2,6 +2,8 @@ package Entity.World;
 
 import Entity.Character.Enemy;
 import Enums.MapTile.TileType;
+import Enums.Rarity;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -207,5 +209,21 @@ public class Tile {
             currentEnemyName[i] = currentEnemy.get(i).getName();
         }
         return currentEnemyName;
+    }
+
+    public Rarity[] getCurrenEnemyRarity(){
+        Rarity[] currentEnemyRarity = new Rarity[currentEnemy.size()];
+        for (int i = 0; i < currentEnemy.size(); i++){
+            currentEnemyRarity[i] = currentEnemy.get(i).getRarity();
+        }
+        return currentEnemyRarity;
+    }
+
+    public int[] getCurrentEnemyLevel(){
+        int[] currentEnemyLevel = new int[currentEnemy.size()];
+        for (int i = 0; i < currentEnemy.size(); i++){
+            currentEnemyLevel[i] = currentEnemy.get(i).getLevel();
+        }
+        return currentEnemyLevel;
     }
 }
